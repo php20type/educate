@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('instagram')->nullable();
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_verify')->default(false);
+            $table->boolean('is_active')->default(false);
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();

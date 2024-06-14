@@ -23,8 +23,9 @@ class User extends Authenticatable
         'phone',
         'instagram',
         'email',
-        'is_admin'
-        // 'password',
+        'is_admin',
+        'is_verify',
+        'is_active',
     ];
 
     /**

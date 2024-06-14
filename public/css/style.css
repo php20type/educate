@@ -247,6 +247,7 @@ title {
     width: 10%;
     background-color: #ffffff;
     color: #000000;
+        padding: 10px 15px;
 }
 
 /* Dashboard page CSS start  */
@@ -348,7 +349,11 @@ title {
     display: flex;
     align-items: center;
 }
-
+.sidebar-nav .list-inline li a button {
+    border: none;
+    background: transparent;
+    color: #ffffff;
+}
 .sidebar-nav .list-inline .dropdown-menu .dropdown-item.active {
     background-color: transparent;
 }
@@ -482,6 +487,7 @@ title {
     font-size: 14px;
     line-height: 20px;
     font-weight: 400;
+        border: none;
 }
 .table-responsive .table thead th {
     border: none;
@@ -739,12 +745,64 @@ title {
     justify-content: center;
 }
 .program-edit .edit-btn.add-new {
-    top: 50%;
+    top: 21%;
     transform: translateX(-50%);
 }
 .table-responsive .table thead th .form-check {
     margin-bottom: 0px;
     min-height: auto;
+}
+.profile-section .profile-form .save-btn .btn {
+        padding: 14px 24px;
+        margin-right: 10px;
+}
+.table-responsive .dataTables_wrapper .dataTables_filter input {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+        background-color: #0c1018;
+        color: #ffffff;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        font-size: 1rem;
+        position: relative;
+        padding-left: 40px;
+}
+div.dataTables_wrapper div.dataTables_filter label {
+    position: relative;
+}
+div.dataTables_wrapper div.dataTables_filter label::after {
+    content: '\f002';
+        position: absolute;
+        top: 37%;
+        transform: translateY(-50%);
+        left: 20px;
+        font-family: "Font Awesome 6 Pro";
+        font-size: 16px;
+        color: #ffffff;
+}
+table.dataTable>thead .sorting:before,
+table.dataTable>thead .sorting:after,
+table.dataTable>thead .sorting_asc:before,
+table.dataTable>thead .sorting_asc:after,
+table.dataTable>thead .sorting_desc:before,
+table.dataTable>thead .sorting_desc:after,
+table.dataTable>thead .sorting_asc_disabled:before,
+table.dataTable>thead .sorting_asc_disabled:after,
+table.dataTable>thead .sorting_desc_disabled:before,
+table.dataTable>thead .sorting_desc_disabled:after {
+    bottom: 1.5em;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+     margin-left: 0;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button .page-link {
+    background-color: #0C1018;
+    color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.active>.page-link {
+background: #0d6efd;
 }
 
 /* == Responsive CSS start == */
@@ -1004,3 +1062,6 @@ title {
         flex-basis: 160px;
     }
 }
+.invalid-feedback {
+    display: block;
+}    

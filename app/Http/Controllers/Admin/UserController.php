@@ -18,4 +18,32 @@ class UserController extends Controller
     {
         return view('admin.user.checkout');
     }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.user.edit', compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone_number' => $request->phone_number,
+            'is_active' => $request->status,
+            // 'plan' => $request->plan,
+        ]);
+
+        return redirect()->route('user.edit', $user->id)->with('success', 'User updated successfully.');
+    }
+    public function updateStatus(Request $request)
+    {
+        $user = User::findOrFail($request->id);
+        $user->is_active = $request->input('is_active');
+        $user->save();
+        return response()->json(['message' => 'User status updated successfully']);
+    }
+
 }

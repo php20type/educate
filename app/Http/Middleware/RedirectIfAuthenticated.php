@@ -21,16 +21,14 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                $user = Auth::guard($guard)->user(); // Get the user from the specific guard
-                if ($user->is_admin == 1) {
-                    return redirect()->route('user.profile.index'); // Use route helper
+                $user = Auth::guard($guard)->user();
+                if ($user->is_admin == 0) {
+                    return redirect()->route('admin.dashboard');
                 } else {
-                    return redirect()->route('student.profile.index'); // Use route helper
+                    return redirect()->route('student.dashboard');
                 }
             }
         }
-
-
 
         return $next($request);
     }

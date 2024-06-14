@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Session;
+use App\Models\User;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -25,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -39,53 +43,35 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        dd(1);
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required|min:6'
-        ]);
+        // $request->validate([
+        //     'email' => 'required|email',
+        // ]);
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user = Auth::user();
-            if (request()->getHttpHost() === 'admin.topsidefacilities.test') {
-                if ($user->is_admin) {
-                    // Admin user
-                    $token = md5(uniqid());
-                    $user->update(['token' => $token]);
-
-                    return redirect()->route('admin.customer.index');
-                } else {
-                    return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors([
-                        'error' => 'Invalid email or password. Please try again.',
-                    ]);
-                }
-            } else {
-
-                if ($user->is_admin) {
-                    return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors([
-                        'error' => 'Invalid email or password. Please try again.',
-                    ]);
-                } else {
-                    // Regular user
-                    if ($user->approve_at !== null && $user->is_approve == 1) {
-                        $token = md5(uniqid());
-                        $user->update(['token' => $token]);
-                        return redirect()->route('user.property.index');
-                    } else if ($user->email_verified_at == null) {
-                        return redirect('/verify-page');
-                    } else if ($user->approve_at !== null && $user->is_approve == 0) {
-                        return redirect('/disapprove-page');
-                    } else {
-                        return redirect('/thank-you');
-                    }
-                }
-            }
-
-        } else {
-            // Login attempt failed
-            return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors([
-                'error' => 'Invalid email or password. Please try again.',
-            ]);
+        $otp = $request->digit1 . $request->digit2 . $request->digit3 . $request->digit4 . $request->digit5 . $request->digit6;
+        $otpData = Session::get('otp');
+        if ($otpData != $otp) {
+            return redirect()->back()->withInput()->withErrors(['email' => 'Invalid OTP']);
         }
+
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            $remember = $request->has('remember');
+            Auth::login($user, $remember);
+            
+            // Redirect based on user role
+            if ($user->is_admin) {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('student.dashboard');
+            }
+        } else {
+            return redirect()->back()->withErrors(['email' => 'User not found']);
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/login');
     }
 }

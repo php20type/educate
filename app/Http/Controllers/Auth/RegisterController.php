@@ -145,10 +145,7 @@ class RegisterController extends Controller
 
     public function postStep2(Request $request)
     {
-        // Retrieve step 1 data from session
         $registrationData = Session::get('registration');
-
-        // Validate the request for step 2
 
         $request->validate([
             'first_name' => 'required',
@@ -159,11 +156,10 @@ class RegisterController extends Controller
         $otp = $request->digit1 . $request->digit2 . $request->digit3 . $request->digit4 . $request->digit5 . $request->digit6;
         $otpData = Session::get('otp');
         if ($otpData != $otp) {
-            return redirect()->back()->withErrors(['otp' => 'Invalid OTP']);
+            return redirect()->back()->withInput()->withErrors(['otp' => 'Invalid OTP']);
         }
 
         // Complete registration process
-        // For example, create a new user record in the database
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,

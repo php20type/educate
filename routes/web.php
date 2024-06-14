@@ -1,9 +1,14 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ProgramController;
+use App\Http\Controllers\Admin\CourseController;
+use App\Http\Controllers\Admin\ChapterController;
+
 
 
 /*
@@ -35,10 +40,20 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::post('/send-otp', [RegisterController::class, 'sendOTP'])->name('send.otp');
+Route::post('/updateStatus', [UserController::class, 'updateStatus'])->name('updateStatus');
 
-// Protected routes that require thentication
+// Protected routes that require athentication
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/user', [UserController::class, 'index'])->name('user.profile.index');
-    Route::get('/student', [UserController::class, 'index'])->name('student.profile.index');
+
+    Route::get('/user', [UserController::class, 'index'])->name('admin.dashboard');
+    Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::get('/student', [UserController::class, 'index'])->name('student.dashboard');
+
+    Route::resource('programs', ProgramController::class)->names('programs');
+    Route::resource('courses', CourseController::class)->names('courses');
+    Route::get('courses/create/{program}', [CourseController::class, 'create'])->name('courses.create');
+    Route::resource('chapters', ChapterController::class)->names('chapters');
+    Route::get('chapters/create/{course}', [ChapterController::class, 'create'])->name('chapters.create');
 
 });
