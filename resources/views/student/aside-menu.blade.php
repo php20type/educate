@@ -7,9 +7,9 @@
     </div>
     <div class="profile-header">
         <a href="#"><img src="{{ asset('img/home/profile.svg') }}" alt="user" /></a>
-        <h4>John Deo</h4>
-        <p>master@magicfp.com</p>
-        <p>Student ID: 80682</p>
+        <h4>{{ auth()->user()->first_name }}{{ auth()->user()->last_name }}</h4>
+        <p>{{ auth()->user()->email }}</p>
+        <p>Student ID : {{ auth()->user()->id }}</p>
     </div>
     <nav class="sidebar-nav">
         <ul class="list-inline">
@@ -32,7 +32,7 @@
                 </a>
             </li>
             <li class="mb-2">
-                <a href="#">
+                <a href="{{ route('student.programs.index') }}">
                     <svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_8_819)">
                         <path d="M146.9 39.5C146.9 16.5 130.7 0.100024 107.7 0.100024C84.8 2.44156e-05 62 2.44156e-05 39.2 0.100024C16.3 0.100024 0.1 16.3 0 39.1C0 50.4 0 61.8 0 73.1C0 84.6 0 96 0 107.5C0.1 130.5 16.4 146.8 39.3 146.8C62 146.8 84.7 146.8 107.4 146.8C130.3 146.8 146.8 130.3 146.8 107.5C146.9 84.9 146.9 62.2 146.9 39.5ZM114.9 107.6C114.9 112.8 112.8 114.8 107.7 114.9C84.9 114.9 62.1 114.9 39.3 114.9C34.2 114.9 32 112.7 32 107.7C32 84.9 32 62.1 32 39.3C32 34.2 34.3 32 39.3 32C62.1 32 84.9 32 107.7 32C112.8 32 114.9 34.2 115 39.3C115 50.8 115 62.2 115 73.7C114.9 85 114.9 96.3 114.9 107.6Z" fill="black"/>

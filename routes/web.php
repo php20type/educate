@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\ChapterController;
 use App\Http\Controllers\Student\ProfileController;
-
+use App\Http\Controllers\Student\StudentProgramController;
 
 
 /*
@@ -50,13 +50,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
 
-    Route::get('/student', [ProfileController::class, 'index'])->name('student.dashboard');
-    Route::get('/student/{id}/edit', [ProfileController::class, 'edit'])->name('student.edit');
+
 
     Route::resource('programs', ProgramController::class)->names('programs');
     Route::resource('courses', CourseController::class)->names('courses');
     Route::get('courses/create/{program}', [CourseController::class, 'create'])->name('courses.create');
     Route::resource('chapters', ChapterController::class)->names('chapters');
     Route::get('chapters/create/{course}', [ChapterController::class, 'create'])->name('chapters.create');
+
+    Route::get('/student', [ProfileController::class, 'index'])->name('student.dashboard');
+    Route::get('/student/{id}/edit', [ProfileController::class, 'edit'])->name('student.edit');
+    Route::resource('/student/programs', StudentProgramController::class)->names('student.programs');
 
 });

@@ -58,13 +58,13 @@
                      </div>
                      <div class="bottom-icons">
                          <div class="icons-box">
-                            <img src="img/home/icon1.png" alt="" />
+                            <img src="{{ asset('img/home/icon1.png') }}" alt="" />
                          </div>
                          <div class="icons-box">
-                            <img src="img/home/icon2.png" alt="" />
+                            <img src="{{ asset('img/home/icon2.png') }}" alt="" />
                          </div>
                          <div class="icons-box">
-                            <img src="img/home/icon3.png" alt="" />
+                            <img src="{{ asset('img/home/icon3.png') }}" alt="" />
                          </div>
                      </div>
                 </div>
@@ -81,7 +81,7 @@
                 <div class="dashboard-box">
                     <h5 class="sec-title">Resume where you left off</h5>
                      <div class="digital-don">
-                         <img class="comminty-image" src="img/home/digital-icon.png" alt="" />
+                         <img class="comminty-image" src="{{ asset('img/home/digital-icon.png') }}" alt="" />
                      </div>
                 </div>
             </div>

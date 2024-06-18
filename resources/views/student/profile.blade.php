@@ -58,7 +58,7 @@
                         <div class="name-details">
                             <h4>{{ auth()->user()->first_name }}{{ auth()->user()->last_name }}</h4>
                             <p>{{ auth()->user()->email }}</p>
-                            <p>{{ auth()->user()->id }}</p>
+                            <p>Student ID : {{ auth()->user()->id }}</p>
                         </div>
                     </div>
                 </div>

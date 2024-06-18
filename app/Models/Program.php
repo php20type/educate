@@ -15,4 +15,9 @@ class Program extends Model
     {
         return $this->hasMany(Course::class);
     }
+
+    public function programs()
+    {
+        return $this->belongsToMany(Program::class, 'user_programs');
+    }
 }
