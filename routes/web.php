@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\ChapterController;
+use App\Http\Controllers\Student\ProfileController;
 
 
 
@@ -48,7 +49,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/user', [UserController::class, 'index'])->name('admin.dashboard');
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::get('/student', [UserController::class, 'index'])->name('student.dashboard');
+
+    Route::get('/student', [ProfileController::class, 'index'])->name('student.dashboard');
+    Route::get('/student/{id}/edit', [ProfileController::class, 'edit'])->name('student.edit');
 
     Route::resource('programs', ProgramController::class)->names('programs');
     Route::resource('courses', CourseController::class)->names('courses');

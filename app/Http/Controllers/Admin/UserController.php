@@ -14,10 +14,6 @@ class UserController extends Controller
         return view('admin.user.list', compact('users'));
 
     }
-    public function index2()
-    {
-        return view('admin.user.checkout');
-    }
 
     public function edit($id)
     {
