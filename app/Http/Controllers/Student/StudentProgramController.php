@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Program;
 
 class StudentProgramController extends Controller
 {
@@ -13,7 +13,9 @@ class StudentProgramController extends Controller
      */
     public function index()
     {
-        return view('student.program.index');
+        $user = auth()->user();
+        $programs = $user ? $user->getProgramsForLoggedInUser() : collect();
+        return view('student.program.index', compact('programs'));
     }
 
     /**

@@ -1,7 +1,14 @@
 @extends('layouts.app')
 
 @section('page-style')
-
+<style>
+.description{
+    color:black;
+}
+.title{
+    color:black;
+}
+</style>
 @endsection
 
 @section('content')
@@ -39,71 +46,20 @@
     <!-- programs section start -->
     <div class="programs-section">
         <div class="row">
+            @foreach($programs as $program)
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="program-box">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#ChapterModal"><img src="{{ asset('img/home/1.png') }}" alt="" /></a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#CourseModal" 
+                    data-image="{{ asset('storage/'.$program->image) }}" 
+                    data-title="{{ $program->name }}" 
+                    data-description="{{ $program->description }}"
+                    data-courses="{{ json_encode($program->courses) }}">
+                        <img src="{{ asset('storage/'.$program->image) }}" alt="" />
+                    </a>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ asset('img/home/2.png') }}" alt="" /></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ asset('img/home/3.png') }}" alt="" /></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ asset('img/home/4.png') }}" alt="" /></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ asset('img/home/5.png') }}" alt="" /></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ asset('img/home/6.png') }}" alt="" /></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ asset('img/home/7.png') }}" alt="" /></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ ('img/home/8.png') }}" alt="" /></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ ('img/home/9.png') }}" alt="" /></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ ('img/home/10.png') }}" alt="" /></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ ('img/home/11.png') }}" alt="" /></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ ('img/home/12.png') }}" alt="" /></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="program-box">
-                    <a href="#"><img src="{{ ('img/home/13.png') }}" alt="" /></a>
-                </div>
-            </div>
+
+            @endforeach
         </div>
     </div>
     <!-- programs section start -->
@@ -111,43 +67,63 @@
 </div>
 
 <!-- exampleModal start -->
- <div class="modal fade" id="ChapterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal fade" id="CourseModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header border-0">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="modal-body">
-            <div class="chapter-sec">
-                 <img class="mb-4" src="{{ ('img/home/1003953.png') }}" alt="" />
-                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus ac ex nec ultricies. Aliquam egestas tortor sit amet dui ullamcorper, vitae ornare leo lobortis. Fusce pretium mi urna, sed eleifend dui euismod vel. Fusce faucibus metus lorem. Maecenas lectus dui, scelerisque at lorem a, tempus facilisis purus. Sed varius consectetur arcu et ullamcorper.</p>
+            <div class="course-sec">
+                 <img class="mb-4" src="" alt="" />
+                 <p class="title"></p>
+                 <p class="description"></p>
             </div>
             <div class="phases-sec">
                 <p>Phases:</p>  
                 <div class="phases-image">
                     <div class="row">
-                        <div class="col-md-3 col-6">
-                            <a href="#"><img src="{{ ('img/home/103956.png') }}" /></a>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <a href="#"><img src="{{ ('img/home/103956.png') }}" /></a>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <a href="#"><img src="{{ ('img/home/103956.png') }}" /></a>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <a href="#"><img src="{{ ('img/home/103956.png') }}" /></a>
-                        </div>
+                        <!-- Courses will be dynamically added here -->
                     </div>
-                   
                 </div>
             </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- exampleModal end -->
-  @endsection
-@section('page-script')
+<!-- exampleModal end -->
 
+
+@endsection
+@section('page-script')
+<script>
+   $(document).ready(function() {
+        $('#CourseModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var image = button.data('image'); // Extract info from data-* attributes
+            var title = button.data('title');
+            var description = button.data('description');
+            var courses = button.data('courses');
+
+            // Update the modal's content.
+            var modal = $(this);
+            modal.find('.modal-body .course-sec img').attr('src', image);
+            modal.find('.modal-body .course-sec .title').text(title);
+            modal.find('.modal-body .course-sec .description').text(description);
+
+            // Clear existing courses
+            var phasesImageDiv = modal.find('.modal-body .phases-image .row');
+            phasesImageDiv.empty();
+
+            // Add new courses
+            courses.forEach(function(course) {
+                var courseHtml = `
+                    <div class="col-md-3 col-6">
+                        <a href="#"><img src="{{ asset('storage/') }}/${course.image}" /></a>
+                    </div>`;
+                phasesImageDiv.append(courseHtml);
+            });
+        });
+    });
+</script>
 @endsection

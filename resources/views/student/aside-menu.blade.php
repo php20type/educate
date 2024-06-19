@@ -13,8 +13,8 @@
     </div>
     <nav class="sidebar-nav">
         <ul class="list-inline">
-            <li class="mb-2 active">
-                <a href="#">
+            <li class="mb-2 {{ request()->routeIs('student.dashboard') || request()->routeIs('student.edit') ? 'active' : '' }}">
+                <a href="{{ route('student.dashboard') }}">
                     <svg width="409" height="354" viewBox="0 0 409 354" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_8_825)">
                         <path d="M395.8 80.2C335.1 54.3 274.4 28.3 213.8 2.19999C207.4 -0.600014 201.5 -0.700014 195 2.09999C138 26.7 80.9 51.1 23.8 75.6C18.3 78 12.8 80.2 7.49998 83.1C1.69998 86.3 -0.800022 93 0.499978 99.5C1.89998 106.6 6.99998 110 13.1 112.6C73.6 138.3 134.1 164 194.5 190C201.4 193 207.5 192.9 214.4 190C274.6 164.2 334.8 138.5 395.1 113C401.7 110.2 406.8 106.4 408.9 99.3V93.7C406.8 86.9 402.2 82.9 395.8 80.2ZM323.8 108.3C285.1 124.8 246.4 141.3 207.6 157.7C205.9 158.4 203.4 158.7 201.7 158C154.4 138 107.1 117.8 59.8 97.6C59.1 97.3 58.4 96.9 57 96.3C71.8 90 85.8 83.9 99.9 77.9C133.6 63.4 167.3 49 201 34.5C203.4 33.5 205.3 33.4 207.7 34.4C254.4 54.5 301.2 74.5 347.9 94.6C349 95.1 350 95.6 351.7 96.4C342 100.5 332.9 104.4 323.8 108.3Z" fill="black"/>
@@ -31,7 +31,7 @@
                     Dashboard                     
                 </a>
             </li>
-            <li class="mb-2">
+            <li class="mb-2 {{ request()->routeIs('student.programs.*') ? 'active' : '' }}">
                 <a href="{{ route('student.programs.index') }}">
                     <svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_8_819)">

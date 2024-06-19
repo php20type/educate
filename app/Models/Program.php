@@ -20,4 +20,9 @@ class Program extends Model
     {
         return $this->belongsToMany(Program::class, 'user_programs');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_programs');
+    }
 }

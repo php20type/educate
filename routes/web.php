@@ -50,8 +50,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
 
-
-
     Route::resource('programs', ProgramController::class)->names('programs');
     Route::resource('courses', CourseController::class)->names('courses');
     Route::get('courses/create/{program}', [CourseController::class, 'create'])->name('courses.create');

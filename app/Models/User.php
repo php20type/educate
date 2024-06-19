@@ -52,4 +52,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'user_programs');
     }
+
+    public function programs()
+    {
+        return $this->belongsToMany(Program::class, 'user_programs');
+    }
+
+    public function getProgramsForLoggedInUser()
+    {
+        return $this->programs()->with('courses')->get();
+    }
 }
