@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->programs()->with('courses')->get();
     }
+
+    public function chapterProgress()
+    {
+        return $this->hasMany(ChapterProgress::class);
+    }
 }

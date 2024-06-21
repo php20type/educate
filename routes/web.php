@@ -59,5 +59,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/student', [ProfileController::class, 'index'])->name('student.dashboard');
     Route::get('/student/{id}/edit', [ProfileController::class, 'edit'])->name('student.edit');
     Route::resource('/student/programs', StudentProgramController::class)->names('student.programs');
+    Route::get('/phases/{id}', [StudentProgramController::class, 'showPhases'])->name('phases.show');
+    Route::get('/courses/{courseId}/chapters', [StudentProgramController::class, 'getChapters']);
+    Route::post('/chapters/{chapterId}/complete', [StudentProgramController::class, 'markChapterCompleted']);
+    Route::get('/courses/{courseId}/chapters/{chapterId}/next', [StudentProgramController::class, 'getNextChapter']);
+
 
 });

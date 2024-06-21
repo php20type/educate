@@ -31,7 +31,7 @@
                     Dashboard                     
                 </a>
             </li>
-            <li class="mb-2 {{ request()->routeIs('student.programs.*') ? 'active' : '' }}">
+            <li class="mb-2 {{ request()->routeIs('student.programs.*') || request()->routeIs('phases.show') ? 'active' : '' }}">
                 <a href="{{ route('student.programs.index') }}">
                     <svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_8_819)">

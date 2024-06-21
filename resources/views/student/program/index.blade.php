@@ -8,6 +8,37 @@
 .title{
     color:black;
 }
+.slide-arrow{
+			position: absolute;
+			top: 50%;
+			margin-top: -15px;
+		}
+		.prev-arrow{
+			left: -30px;
+			width: 0;
+			height: 0;
+			border-left: 0 solid transparent;
+			border-right: 15px solid #113463;
+			border-top: 10px solid transparent;
+			border-bottom: 10px solid transparent;
+			background: none;
+		}
+		.next-arrow{
+			right: -30px;
+			width: 0;
+			height: 0;
+			border-right: 0 solid transparent;
+			border-left: 15px solid #113463;
+			border-top: 10px solid transparent;
+			border-bottom: 10px solid transparent;
+			background: none;
+		}
+		/** Dev. Slider CSS **/
+		.slick-slide img {
+			display: block;
+			height: auto;
+			width: 100%;
+		}  
 </style>
 @endsection
 
@@ -36,7 +67,7 @@
                 <input type="text" name="" id="" placeholder="Type Here..." class="form-control">
                 <i class="fa-regular fa-magnifying-glass"></i>
             </form>
-            @include('student.header')
+            @include('student.header')  
            </div>
             
         </div>
@@ -71,7 +102,7 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header border-0">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <div class="course-sec">
@@ -82,7 +113,7 @@
             <div class="phases-sec">
                 <p>Phases:</p>  
                 <div class="phases-image">
-                    <div class="row">
+                    <div class="slider lazy">
                         <!-- Courses will be dynamically added here -->
                     </div>
                 </div>
@@ -111,19 +142,61 @@
             modal.find('.modal-body .course-sec .title').text(title);
             modal.find('.modal-body .course-sec .description').text(description);
 
-            // Clear existing courses
-            var phasesImageDiv = modal.find('.modal-body .phases-image .row');
-            phasesImageDiv.empty();
+            // Clear existing chapters
+            var sliderDiv = modal.find('.modal-body .slider');
+            sliderDiv.empty();
 
             // Add new courses
             courses.forEach(function(course) {
                 var courseHtml = `
-                    <div class="col-md-3 col-6">
-                        <a href="#"><img src="{{ asset('storage/') }}/${course.image}" /></a>
+                    <div class="image">
+                        <a href="javascript:void(0)" data-id="${course.id}"><img data-lazy="{{ asset('storage/') }}/${course.image}" data-type="{{ asset('storage/') }}/${course.image}" data-url="{{ asset('storage/') }}/${course.image}" />
                     </div>`;
-                phasesImageDiv.append(courseHtml);
+                sliderDiv.append(courseHtml);
             });
+
+            // Destroy the previous Slick instance if it exists
+            if (sliderDiv.hasClass('slick-initialized')) {
+                sliderDiv.slick('unslick');
+            }
+
+            // Initialize Slick Slider
+            sliderDiv.slick({
+                lazyLoad: 'ondemand',
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                prevArrow: '<button class="slide-arrow prev-arrow"></button>',
+                nextArrow: '<button class="slide-arrow next-arrow"></button>',
+                autoplay: true,
+                autoplaySpeed: 3000, 
+            });
+
+            // Clear existing courses
+            // var phasesImageDiv = modal.find('.modal-body .phases-image .row');
+            // phasesImageDiv.empty();
+
+            // Add new courses
+            // courses.forEach(function(course) {
+            //     var courseHtml = `
+            //         <div class="col-md-3 col-6">
+            //             <a href="#"><img src="{{ asset('storage/') }}/${course.image}" /></a>
+            //         </div>`;
+            //     phasesImageDiv.append(courseHtml);
+            // });
         });
+
+        // Reinitialize the slider each time the modal is shown
+        $('#CourseModal').on('shown.bs.modal', function () {
+            $('.slider').slick('setPosition');
+        });
+
+        // Handle click event on course images
+        $(document).on('click', '.image a', function() {
+            var phaseId = $(this).data('id');
+            var phaseUrl = `/phases/${phaseId}`; // Change this to your actual phase URL pattern
+            window.location.href = phaseUrl;
+        });
+
     });
 </script>
 @endsection
