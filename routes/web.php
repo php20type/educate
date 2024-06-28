@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\ChapterController;
 use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Student\StudentProgramController;
+use App\Http\Controllers\Student\ResourseController;
 
 
 /*
@@ -63,6 +64,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/courses/{courseId}/chapters', [StudentProgramController::class, 'getChapters']);
     Route::post('/chapters/{chapterId}/complete', [StudentProgramController::class, 'markChapterCompleted']);
     Route::get('/courses/{courseId}/chapters/{chapterId}/next', [StudentProgramController::class, 'getNextChapter']);
-
+    Route::post('/student/logout', [StudentProgramController::class, 'logout'])->name('student.logout');
+    Route::get('/resource', [ResourseController::class, 'index'])->name('student.resource');
+    Route::get('/student/search', [ResourseController::class, 'search'])->name('student.search');
 
 });

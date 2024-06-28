@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\Chapter;
+use App\Models\Program;
 use App\Models\ChapterProgress;
+use Auth;
 
 class StudentProgramController extends Controller
 {
@@ -16,7 +18,7 @@ class StudentProgramController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $programs = $user ? $user->getProgramsForLoggedInUser() : collect();
+        $programs = Program::all(); // $user ? $user->getProgramsForLoggedInUser() : collect();
         return view('student.program.index', compact('programs'));
     }
 
@@ -112,6 +114,10 @@ class StudentProgramController extends Controller
         }
     }
 
-
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/login');
+    }
 }
 

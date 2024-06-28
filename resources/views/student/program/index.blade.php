@@ -39,6 +39,12 @@
 			height: auto;
 			width: 100%;
 		}  
+		.fixed-size-image {
+            width: 100%;
+            height: 200px; /* Adjust this value as needed */
+            object-fit: cover; /* Ensures the image covers the area, cropping if necessary */
+            object-position: center; /* Center the image within the container */
+        }
 </style>
 @endsection
 
@@ -148,9 +154,12 @@
 
             // Add new courses
             courses.forEach(function(course) {
+                var imageUrl = course.image ? `{{ asset('storage/') }}/${course.image}` : `{{ asset('img/home/rec1254.png') }}`;
                 var courseHtml = `
-                    <div class="image">
-                        <a href="javascript:void(0)" data-id="${course.id}"><img data-lazy="{{ asset('storage/') }}/${course.image}" data-type="{{ asset('storage/') }}/${course.image}" data-url="{{ asset('storage/') }}/${course.image}" />
+                    <div class="image"> 
+                        <a href="javascript:void(0)" data-id="${course.id}">
+                            <img src="${imageUrl}" class="fixed-size-image" alt="Course Image"/>
+                        </a>
                     </div>`;
                 sliderDiv.append(courseHtml);
             });

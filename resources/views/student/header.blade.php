@@ -10,7 +10,7 @@
                                 </svg>                        
                                 Profile </a></li>
                             <li>
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="POST" action="{{ route('student.logout') }}">
                                     @csrf
                                     <button type="submit" class="dropdown-item">
                                         <svg class="me-2" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
