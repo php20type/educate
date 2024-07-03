@@ -63,6 +63,7 @@ a:hover {
     text-decoration: none;
     outline: none;
 }
+.form-select::placeholder,
 .form-control::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
@@ -102,6 +103,7 @@ title {
 .form-select {
     --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
 }
+
 /* main css start */
 
 .ed-login-section {
@@ -245,6 +247,7 @@ title {
     width: 10%;
     background-color: #ffffff;
     color: #000000;
+        padding: 10px 15px;
 }
 
 /* Dashboard page CSS start  */
@@ -270,6 +273,10 @@ title {
 .app-sidebar .logo-sec img {
     width: 200px;
 }
+.app-sidebar .logo-sec {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 30px;
+}
 .main-content.app-content.full-width {
     margin-left: 0;
     max-width: 100%;
@@ -288,7 +295,6 @@ title {
     object-position: center;
     border-radius: 50%;
 }
-
 .app-sidebar .profile-header h4 {
     font-style: normal;
     font-weight: 500;
@@ -305,9 +311,9 @@ title {
 }
 .app-sidebar .sidebar-nav {
     position: relative;
-    margin-top: 40px;
+    margin-top: 20px;
     overflow-y: auto;
-    height: calc(100vh + -500px);
+    height: calc(100vh + -300px);
 }
 .app-sidebar nav.sidebar-nav.bottom-nav {
     border-top: 1px solid #4c5a743d;
@@ -317,6 +323,7 @@ title {
     width: 240px;
     background: #0c1018;
 }
+
 .app-sidebar nav.sidebar-nav::-webkit-scrollbar {
     width: 4px;
   }
@@ -327,12 +334,13 @@ title {
     background-color: #1F2937;
     outline: 1px solid #1F2937;
   }
+
 .sidebar-nav .list-inline li {
     padding: 20px;
 }
 .sidebar-nav .list-inline li a {
     width: 100%;
-    display: block;
+    display: flex;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -341,7 +349,11 @@ title {
     display: flex;
     align-items: center;
 }
-
+.sidebar-nav .list-inline li a button {
+    border: none;
+    background: transparent;
+    color: #ffffff;
+}
 .sidebar-nav .list-inline .dropdown-menu .dropdown-item.active {
     background-color: transparent;
 }
@@ -384,7 +396,7 @@ title {
     width: 100%;
     max-width: calc(100% + -320px);
     position: relative;
-    padding: 15px;
+    padding: 15px 15px 15px 15px;
     margin: 15px 15px 15px 310px;
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
@@ -403,8 +415,6 @@ title {
     line-height: 16px;
     color: rgba(255, 255, 255, 0.5);
 }
-
-
 .header .header-content {
     display: flex;
     align-items: center;
@@ -453,493 +463,31 @@ title {
 
 /* dashboard page css  */
 
-.main-content.app-content .dashboard-section {
-    margin: 30px 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 25px;
-    -webkit-box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-    -moz-box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-    box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-}
-.dashboard-section .dashboard-box {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 20px;  
-    height: 442px;
-    overflow-y: auto;
-    -webkit-box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-    -moz-box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-    box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-}
-.dashboard-section .dashboard-box::-webkit-scrollbar {
-    width: 4px;
-  }
-  .dashboard-section .dashboard-box::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 4px #1F2937;
-  }
-  .dashboard-section .dashboard-box::-webkit-scrollbar-thumb {
-    background-color: #1F2937;
-    outline: 1px solid #1F2937;
-  }
- .dashboard-box.monkmode,
- .dashboard-box .monkmode-sec .daycount-box {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 34px;
-}
-.dashboard-box .monkmode-sec h5 {
-    font-size: 20px;
-    line-height: 28px;
-    padding-bottom: 15px;
-}
-.monkmode-sec .daycount-box h2 {
-    font-size: 60px;
-    line-height: 60px;
-    font-weight: 500;
-    padding-bottom: 10px;
-}
-.monkmode-sec .daycount-box h4 {
-    font-size: 24px;
-    line-height: 30px;
-    font-weight: 400;
-    padding-bottom: 10px;
-}
-.monkmode-sec .daycount-box p {
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 0.5);
-}
-.dashboard-box.monkmode .bottom-icons {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 16px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.dashboard-box.monkmode .bottom-icons .icons-box {
-    width: 70px;
-    height: 70px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    line-height: 70px;
-    border-radius: 100%;
-    text-align: center;
-}
-.dashboard-section .dashboard-box .comminty-image {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    object-position: center;
-}
-.dashboard-section .dashboard-box .sec-title {
-    font-size: 20px;
-    line-height: 28px;
-    padding-bottom: 15px;
-}
-.dashboard-section .dashboard-box .call-list {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 20px;
-}
-.dashboard-section .dashboard-box .call-list p {
-    font-size: 16px;
-    line-height: 24px;
-    padding-bottom: 15px;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-/* Programs CSS start */
-
-.programs-section {
-    margin: 30px 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 40px;
-}
-.programs-section .program-box img {
-    width: 100%;
-    height: 360px;
-    object-position: center;
-    object-fit: cover;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.programs-section .program-box img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-.modal .modal-content {
-    background-color: rgba(12, 16, 24, 0.80);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-}
-.modal .modal-header .btn-close {
-    position: absolute;
-    width: 34px;
-    height: 34px;
-    border: 1px solid #fff;
-    border-radius: 100%;
-    left: -20px;
-    color: #ffffff;
-    background: #000000;
-}
-.modal .phases-sec p,
-.modal .course-sec p {
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 300;
-    padding-bottom: 15px;
-}
-
-.programs-videos {
-    position: relative;
-    margin: 30px 0;
-}
-.programs-videos .sales-ecosystem,
-.downloads-plug .downloads-box,
-.programs-videos .downloads-plug,
-.programs-videos .program-details {
-    position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 20px;
-    -webkit-box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-    -moz-box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-    box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-}
-.programs-videos .program-details {
-    padding: 25px;
-}
-.program-details .completed-badge a {
-    color: #ffffff;
-}
-.programs-videos .sales-ecosystem .sec-title,
-.program-details .details-content h4 {
-    font-size: 24px;
-    line-height: 32px;
-    font-weight: 500;
-    padding-bottom: 10px;
-}
-.program-details .details-content p {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    color: rgba(255, 255, 255, 0.5);
-}
-.programs-videos .program-image img {
-    width: 100%;
-    height: 660px;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 20px;
-}
-.downloads-plug .sec-title {
-    font-size: 28px;
-    line-height: 36px;
-    font-weight: 500;
-    padding-bottom: 15px;
-}
-
-.downloads-plug .downloads-box h5 {
-    font-size: 18px;
-    line-height: 24px;
-    font-weight: 400;
-    padding-bottom: 10px;
-}
-.ed-pagination .pagination {
-    border: none;
-    background: #0C1018;
-}
-.ed-pagination .pagination .disabled>.page-link,
-.ed-pagination .pagination .page-link.disabled {
-    background: #0C1018;
-}
-.ed-pagination .pagination .page-link { 
-    background: #0C1018;
-    border: none;
-    color: rgba(255, 255, 255, 0.5);
-}
-.ed-pagination .pagination .page-item.active .page-link {
- color: #ffffff;
-}
-.sales-ecosystem .row {
-    align-items: center;
-}
-.sales-ecosystem .sales-content h5 {
-    font-size: 18px;
-    line-height: 24px;
-}
-.sales-ecosystem .check-svg {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-}
-.sales-ecosystem .sales-image a > img {
-    width: 100%;
-    height: 100px;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 15px;
-}
-.programs-videos .back {
-    position: absolute;
-    top: -20px;
-    left: -8px;
-}
-.programs-videos .back i {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 100%;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    background-color: #0C1018;
-    z-index: 1;
-    position: relative;
-}
-
-/* Resources pages CSS start */
-
-.resources-programs {
-    position: relative;
-    margin: 30px 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 25px;
-    -webkit-box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-    -moz-box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-    box-shadow: 10px 0px 30px 0px rgba(0,0,0, 0.3);
-}
-.resources-programs .search-bar .form-control {
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    background-color: #0c1018;
-    color: #ffffff;
-    padding: 10px 16px;
-    padding-left: 40px;
-}
-.resources-programs .search-bar .fa-magnifying-glass {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #ffffff;
-}
-.resources-list .resources-image {
-    padding-bottom: 20px;
-}
-.resources-list .resources-image img {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 20px;
-}
-.resources-programs .back {
-    position: absolute;
-    top: -20px;
-    left: -8px;
-}
-.resources-programs .back i {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 100%;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    background-color: #0C1018;
-    z-index: 1;
-    position: relative;
-}
-.resources-pdf .pdf-image img {
-    width: 100%;
-    height: 360px;
-    object-position: center;
-    object-fit: cover;
-    border-radius: 20px;
-}
-.resources-programs .downloads-box {
-    padding: 35px;
-}
-.resources-programs .downloads-box h5 {
-    font-size: 24px;
-    line-height: 32px;
-    padding-bottom: 15px;
-    width: 75%;
-}
-
-/* profile page CSS start */
-
-.profile-section {
-    position: relative;
-    margin: 30px 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 25px;
-    -webkit-box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
-    box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
-}
-.profile-section .sec-title h4 {
-    font-size: 24px;
-    line-height: 30px;
-    font-weight: 300;
-    padding-bottom: 15px;
-}
-.profile-section .cover-images img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 20px;
-}
-.profile-info .profile-image {
-    margin-top: -100px;
-    margin-left: 40px;
-}
-.profile-info .profile-image img {
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 20px;
-    object-position: center;
-}
-.profile-info .name-details {
-    padding: 30px;
-}
-.profile-info .name-details h4 {
-    font-size: 24px;
-    line-height: 30px;
-    font-weight: 400;
-    padding-bottom: 10px;
-}
-.profile-info .name-details p {
-    font-style: normal;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 24px;
-    color: rgba(255, 255, 255, 0.5);
-}
-.profile-info .save-btn .btn {
-    border-radius: 10px;
-    padding: 12px 20px;
-    color: #ffffff;
-}
-.profile-section .profile-form {
-    margin: 30px 0px 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 25px;
-    -webkit-box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
-    box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
-}
-.iti__flag-box, .iti__country-name {
-    color: #000;
-}
-.profile-form .form-group .form-select,
-.profile-form .form-group .form-control {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: #0c1018;
-    padding: 14px 20px;
-    color: #ffffff;
-    border-radius: 10px;
-}
-.profile-form .form-group .form-select:focus,
-.profile-form .form-group .form-control:focus {
-    box-shadow: none;
-}
-
-/* billing page css start */
-
-.billing-section {
-    position: relative;
-    margin: 30px 0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 25px;
-    -webkit-box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
-    box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
-}
-.billing-section .sales-overiew {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 30px;
-}
-.sales-overiew .time-period {
-    display: flex;
-    align-items: center;
-}
-.sales-overiew .time-period .current {
-    margin: 0 10px;
-}
-.billing-section .sales-overiew .form-select {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: #0c1018;
-    padding: 14px 20px;
-    color: #ffffff;
-    border-radius: 10px;
-}
-.billing-section .customers-statues {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-}
-.billing-section .customers-statues h5 {
-    text-align: center;
-    padding-bottom: 15px;
-    padding-top: 20px;
-}
-.customers-statues .count-number {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 20px 0;
-    margin-top: 20px;
-    text-align: center;
-    position: relative;
-}
-.customers-statues .count-number::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1px;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.2);
-}
-.customers-statues .count-number .border-right {
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-}
-.customers-statues .count-number p {
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 0.5);
-}
-.customers-statues .count-number h4 {
-    font-weight: 600                                                                ;
-    font-size: 30px;                                                                                    
-    line-height: 42px;
-    color: rgba(255, 255, 255, 1);
-}
 
 .table-billing {
+    position: relative;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     padding: 30px;
+    margin: 30px 0;
+}
+.table-billing .table-responsive {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 20px;
 }
 .table-responsive .table thead th,
 .table-responsive .table tbody td {
     padding: 1.4rem 1.4rem;
+    white-space: nowrap;
 }
 .table-responsive .table tbody td {
     background-color: #0c1018;
     font-size: 14px;
     line-height: 20px;
     font-weight: 400;
+        border: none;
 }
 .table-responsive .table thead th {
     border: none;
@@ -968,9 +516,152 @@ title {
 .table-responsive table tbody td .form-check-input:focus {
     box-shadow: none;
 }
+.table-responsive table tbody td .form-check-input:checked {
+    background-color: #0d6efd !important;
+}
+.ed-pagination .pagination {
+    border: none;
+    background: #0C1018;
+}
+.ed-pagination .pagination .disabled>.page-link,
+.ed-pagination .pagination .page-link.disabled {
+    background: #0C1018;
+}
+.ed-pagination .pagination .page-link { 
+    background: #0C1018;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+}
+.ed-pagination .pagination .page-item.active .page-link {
+ color: #ffffff;
+}
+.top-search-bar .search-form .form-control,
+.top-search-bar .search-form .form-select {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background-color: #0c1018;
+    color: #ffffff;
+    padding: 10px 16px;
+}
+.top-search-bar .search-form .form-control {
+    padding-left: 40px;
+}
+.top-search-bar .search-form .fa-magnifying-glass {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ffffff;
+}
+.top-search-bar .filter-sec {
+    text-align: right;
+}
+.top-search-bar .filter-sec .btn {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+.top-search-bar .filter-sec .btn:hover {
+    color: #0d6efd;
+}
+.top-search-bar .filter-sec .btn:hover {
+   background-color: #ffffff;
+}
+.table tbody td .form-check.form-switch .form-check-input {
+    background-color: #1F2937;
+    width: 3rem;
+    height: 1.5rem;
+}
+.table tbody td .form-check.form-switch .form-check-input {
+    --bs-form-switch-bg: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='20' height='20' rx='10' fill='%23B71400'/%3E%3C/svg%3E");
+}
+.table tbody td .form-check.form-switch .form-check-input:checked {
+    --bs-form-switch-bg: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='20' height='20' rx='10' fill='%230066FF'/%3E%3C/svg%3E");
+    background-color: unset !important;
+}
+.table tbody td .action-btn .btn {
+    background: #1F2937;
+    padding: 5px 10px;
+    border: none;
+}
 
-/* Developer CSS start */
 
+/* profile page CSS start */
+
+.profile-section {
+    position: relative;
+    margin: 30px 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    -webkit-box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
+}
+.profile-section .sec-title h4 {
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 300;
+    padding-bottom: 15px;
+}
+.profile-section .cover-images img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.profile-info .profile-image img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 20px;
+    object-position: center;
+}
+.profile-info .name-details {
+    padding: 30px;
+}
+.profile-info .name-details h4 {
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 400;
+    padding-bottom: 10px;
+}
+.profile-info .name-details p {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 0.5);
+}
+.profile-info .save-btn .btn {
+    border-radius: 10px;
+    padding: 12px 40px;
+}
+.profile-section .profile-form {
+    margin: 30px 0px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 25px;
+    -webkit-box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 10px 0px 30px 0px rgba(0, 0, 0, 0.3);
+}
+.iti__flag-box, .iti__country-name {
+    color: #000;
+}
+.profile-form .form-group .form-select,
+.profile-form .form-group .form-control {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: #0c1018;
+    padding: 14px 20px;
+    color: #ffffff;
+    border-radius: 10px;
+}
+.profile-form .form-group .form-select:focus,
+.profile-form .form-group .form-control:focus {
+    box-shadow: none;
+}
 
 .program-edit {
     position: relative;
@@ -1114,61 +805,12 @@ table.dataTable>thead .sorting_desc_disabled:after {
 background: #0d6efd;
 }
 
-.modal-body .course-sec img {
-    width: 100%;
-    height: 480px;
-    object-position: center;
-    object-fit: cover;
-    border-radius: 15px;
-}
-.phases-image .slider .slick-slide {
-    margin: 0 10px;
-}
-.phases-image .slider .slick-slide img {
-    width: 100%;
-    height: 140px;
-    object-position: center;
-    object-fit: cover;
-    border-radius: 15px;
-}
-.phases-image .slider .slick-track {
-    margin-left: 0px;
-}
-.sales-ecosystem select {
-    --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-    display: block;
-    width: 100%;
-    padding: .375rem 2.25rem .375rem .75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: var(--bs-body-color);
-    background-color: var(--bs-body-bg);
-    background-image: var(--bs-form-select-bg-img),var(--bs-form-select-bg-icon,none);
-    background-repeat: no-repeat;
-    background-position: right .75rem center;
-    background-size: 16px 12px;
-    border: var(--bs-border-width) solid var(--bs-border-color);
-    border-radius: var(--bs-border-radius);
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin-bottom: 15px;
-}
-.sales-ecosystem select:focus {
-    box-shadow: none;
-    outline: none;
-}
-
-
-
 /* == Responsive CSS start == */
 
 @media screen and (max-width: 1600px) {
-    .programs-videos .program-image img {
-        width: 100%;
-        height: 520px;
+    .program-edit .image-list .image-box {
+        width: 25%;
+        margin-bottom: 15px;
     }
     .resources-list .resources-image img {
         width: 100%;
@@ -1183,76 +825,34 @@ background: #0d6efd;
         height: 300px;
     }
     .sales-ecosystem .sales-content h5 {
-        font-size: 16px;
-        line-height: 20px;
+        font-size: 18px;
+        line-height: 24px;
     }
 }
 @media screen and (max-width: 1440px) {
-    .header .header-content .sidemenu-toggle h4 {
-        font-size: 20px;
-        line-height: 24px;
-    }
-    .customers-statues .count-number {
-        padding: 14px 0;
-    }
-    .customers-statues .count-number h4 {
-        font-size: 24px;
-        line-height: 30px;
-    }
-    .billing-section .sales-overiew .form-select {
-        padding: 10px 16px;
-    }
-    .sales-ecosystem .sales-image a > img {
-        margin-bottom: 15px;
-    }
-    .sales-ecosystem .row .col-6 {
+    .program-edit .form-group img {
         width: 100%;
+        height: 320px;
     }
-    .downloads-plug .downloads-box h5 {
-        font-size: 16px;
-        line-height: 20px;
-    }
-    .downloads-plug .sec-title {
-        font-size: 20px;
-        line-height: 24px;
-    }
-    .table-billing,
-    .programs-videos .program-details,
-    .programs-section,
-    .main-content.app-content .dashboard-section,
-    .billing-section .sales-overiew,
-    .billing-section {
+    .program-edit,
+    .profile-section {
         padding: 20px;
+    }
+    .profile-info .profile-image img {
+        width: 160px;
+        height: 160px;
     }
     .sidebar-nav .list-inline li a {
         font-size: 14px;
         line-height: 18px;
     }
-    .programs-videos .program-image img {
-        width: 100%;
-        height: 420px;
-    }
-    .dashboard-box.monkmode .bottom-icons .icons-box {
-        width: 60px;
-        height: 60px;
-        line-height: 60px;
-    }
-    .monkmode-sec .daycount-box p {
-        font-size: 14px;
-        line-height: 16px;
-    }
-    .monkmode-sec .daycount-box h4 {
-        font-size: 16px;
-        line-height: 24px;
-    }
-    .monkmode-sec .daycount-box h2 {
-        font-size: 42px;
-        line-height: 42px;
+    .program-edit .image-list .image-box {
+        width: 33.33%;
     }
     .programs-videos .sales-ecosystem .sec-title,
      .program-details .details-content h4 {
         font-size: 20px;
-        line-height: 24px;
+        line-height: 28px;
     }
    
     .sales-ecosystem .sales-content h5 {
@@ -1263,7 +863,7 @@ background: #0d6efd;
         padding: 25px;
     }
     .dashboard-section .dashboard-box {
-        height: 370px;
+        height: 400px;
     }
     .resources-programs .downloads-box h5 {
         font-size: 20px;
@@ -1287,9 +887,7 @@ background: #0d6efd;
         margin: 60px;
         padding: 40px;
     }
-    .resources-programs,
-    .programs-section,
-    .main-content.app-content .dashboard-section {
+    .profile-section .profile-form {
         padding: 20px;
     }
 }
@@ -1300,13 +898,9 @@ background: #0d6efd;
     }
 }
 @media screen and (max-width: 1280px) {
-    .programs-videos .program-image img {
-        width: 100%;
-        height: 360px;
-    }
     .resources-list .resources-image img {
         width: 100%;
-        height: 260px;
+        height: 240px;
     }
     .ed-login-box-sec {
         margin: 40px;
@@ -1319,48 +913,38 @@ background: #0d6efd;
 }
 }
 @media screen and (max-width: 991px) {
-    .ed-login-section::before {
-        display: none;
-    }
-    .ed-login-section .ed-login-form-sec {
-        overflow-y: auto;
-        height: auto;
-        margin-top: 40px;
-    }
-    .table-responsive .table thead th,
-    .table-responsive .table tbody td {
-        padding: 1rem 1rem;
-        white-space: nowrap;
-    }
-    .resources-list .resources-image img {
-        width: 100%;
-        height: 320px;
-    }
-    .sales-ecosystem .row .col-6 {
-        width: 50%;
-    }
-    .sales-ecosystem .row {
-        float: left;
-        width: 50%;
-        margin: 0px;
-    }
-    .programs-videos .sales-ecosystem {
-        width: 100%;
-        display: inline-block;
+    .program-edit,
+    .profile-section {
+        margin: 20px 0;
     }
     .header .header-content .sidemenu-toggle h4 {
         font-size: 18px;
         line-height: 24px;
     }
-    .billing-section .sales-overiew,
-    .programs-videos .downloads-plug,
-    .downloads-plug .downloads-box,
-    .dashboard-section .dashboard-box {
-        margin-bottom: 20px;
+    .table-responsive .table tbody td,
+    .table-responsive .table thead th {
+        white-space: nowrap;
+        padding: 1rem 1rem;
+    }
+    .top-search-bar .search-form .fa-magnifying-glass {
+        top: 40%;
+    }
+    .top-search-bar .search-form .form-select,
+    .top-search-bar .search-form .form-control {
+        margin-bottom: 15px;
+    }
+    .app-sidebar .logo-sec {
+        padding-top: 20px;
+    }
+    .app-sidebar {
+        width: 300px;
+    }
+    .table-billing {
+        padding: 20px;
     }
     .app-sidebar.hidden #close {
         position: absolute;
-        top: 10px;
+        top: 15px;
         right: 15px;
     }
     .app-sidebar.hidden #close i {
@@ -1383,12 +967,7 @@ background: #0d6efd;
         max-width: 100%;
         margin: 0;
         border-radius: 0;
-    }
-    .app-sidebar {
-        width: 300px;
-    }
-    .app-sidebar .logo-sec {
-        padding-top: 20px;
+        padding: 15px;
     }
     .app-sidebar {
         margin-left: -320px;
@@ -1396,87 +975,43 @@ background: #0d6efd;
     .ed-login-section .ed-login-image {
         display: none;
     }
-    
-    .modal .modal-header .btn-close {
-        width: 20px;
-        height: 20px;
-    }
 }
+
 @media screen and (max-width: 767px) {
-    .app-sidebar .profile-header h4 {
-        font-size: 18px;
-        line-height: 28px;
-    }
-    .ed-pagination.pt-5 {
-        padding-top: 1rem !important;
-    }
     .sidebar-nav .list-inline li {
         padding: 16px;
     }
-    .sales-overiew .time-period .current {
-        margin: 0 5px;
-    }
-    .billing-section .sales-overiew .form-select {
-        padding: 10px 16px;
-        font-size: 14px;
-    }
-    .sales-overiew .time-period {
-        margin-bottom: 15px;
-    }
-    .sales-overiew .time-period .current {
-        font-size: 14px;
-        line-height: 20px;
-    }
-    .sales-overiew .sec-title h5 {
-        font-size: 16px;
-        line-height: 24px;
-    }
-    .sales-ecosystem .sales-image a > img {
-        margin-bottom: 10px;
-    }
-    .dashboard-section .dashboard-box {
-        height: auto;
-    }
-    .sales-ecosystem .row .col-6 {
-        width: 100%;
-    }
-}
-@media screen and (max-width: 576px) {
-    .ed-login-box-sec .login img {
-        width: 220px;
-    }
-    .programs-videos .program-image img {
+    .program-edit .image-list .image-box .border-dash, 
+    .program-edit .image-list .image-box img {
         width: 100%;
         height: 300px;
     }
-    .sidemenu-toggle h4.ps-4 {
-        padding-left: 0.6rem !important;
+}
+
+@media screen and (max-width: 576px) {
+   .sidemenu-toggle .d-block.ps-4 {
+      padding-left: 0.6rem !important;
     }
-    .downloads-plug .downloads-box {
-        padding: 10px;
+    .table-responsive .table tbody td,
+    .table-responsive .table thead th {
+        font-size: 14px;
+        line-height: 18px;
     }
+    .top-search-bar .filter-sec .btn {
+        padding: 0.5rem 0.8rem;
+    }
+    
     .form-select,
-    .form-control {
+    .form-control,
+    .btn {
         font-size: 14px;
     }
-    .programs-videos .back i,
-    .resources-programs .back i {
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-    }
-    .ed-login-form .otp-sec .otp-round {
-        gap: 5px;
-    }
-    .resources-list .resources-image img {
+    .program-edit .image-list .image-box .border-dash, .program-edit .image-list .image-box img {
         width: 100%;
-        height: 360px;
+        height: 220px;
     }
-    .phases-sec .phases-image img {
-        padding-bottom: 15px;
-    }
-    .modal .modal-header .btn-close {
-        left: -5px;
+    .program-edit .image-list .image-box {
+        width: 50%;
     }
     .header .header-content .top-header-rightmenu .profile-dropdown {
         flex: 1;
@@ -1506,26 +1041,27 @@ background: #0d6efd;
         padding: 20px;
         border: none;
     }
-    .resources-programs .sec-title,
-    .downloads-plug .sec-title,
-    .programs-videos .sales-ecosystem .sec-title, .program-details .details-content h4 {
-        font-size: 16px;
-        line-height: 26px;
+     .profile-info .name-details {
+        width: 50%;
+        padding: 15px;
     }
-    .downloads-plug .downloads-box h5 {
-        font-size: 14px;
-        line-height: 18px;
-    }
-   
 }
-@media screen and (max-width: 450px){
-.sales-ecosystem .row {
-    float: left;
-    width: 100%;
-}
-}
+
 @media screen and (max-width: 400px){
+    .profile-info .save-btn .btn {
+        padding: 12px 20px;
+    }
+    .profile-info .name-details {
+        width: 100%;
+        padding: 15px 0;
+    }
+    .profile-section .profile-info .d-flex {
+        flex-direction: column;
+    }
     .header .header-content .top-header-rightmenu .search-bar {
         flex-basis: 160px;
     }
 }
+.invalid-feedback {
+    display: block;
+}    

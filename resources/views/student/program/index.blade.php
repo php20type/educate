@@ -2,12 +2,12 @@
 
 @section('page-style')
 <style>
-.description{
+/* .description{
     color:black;
 }
 .title{
     color:black;
-}
+} */
 .slide-arrow{
 			position: absolute;
 			top: 50%;
@@ -108,7 +108,7 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header border-0">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="modal-body">
             <div class="course-sec">
@@ -172,7 +172,7 @@
             // Initialize Slick Slider
             sliderDiv.slick({
                 lazyLoad: 'ondemand',
-                slidesToShow: 2,
+                slidesToShow: 4,
                 slidesToScroll: 1,
                 prevArrow: '<button class="slide-arrow prev-arrow"></button>',
                 nextArrow: '<button class="slide-arrow next-arrow"></button>',
