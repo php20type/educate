@@ -23,9 +23,9 @@
                         </ul>   
                     </li>
                     <li class="list-inline-item">
-                        <a href="#">
+                        {{-- <a href="#">
                             <p><i class="fa-solid fa-gear me-1"></i> </p>
-                        </a>
+                        </a> --}}
                     </li>
                     <li class="list-inline-item">
                         <a href="#">

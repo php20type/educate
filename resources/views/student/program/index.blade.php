@@ -91,7 +91,7 @@
                     data-title="{{ $program->name }}" 
                     data-description="{{ $program->description }}"
                     data-courses="{{ json_encode($program->courses) }}">
-                        <img src="{{ asset('storage/'.$program->image) }}" alt="" />
+                        <img src="{{ asset('storage/'.$program->image) }}" alt="" height="400px" width="300px" />
                     </a>
                 </div>
             </div>
