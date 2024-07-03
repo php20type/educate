@@ -1161,6 +1161,101 @@ background: #0d6efd;
     outline: none;
 }
 
+/* Slide Pagination Css */
+
+.news__arrows {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.news__arrow {
+    width: 24px;
+    height: 24px;
+	cursor: pointer;
+	filter: saturate(0%);
+}
+
+.news__arrow:hover {
+	filter: saturate(100%);
+}
+
+.news__arrow_dir_left {
+	background: url(../img/home/chevron-left.svg)
+		no-repeat;
+}
+
+.news__arrow_dir_right {
+	background: url(../img/home/chevron-right.svg)
+		no-repeat;
+}
+
+.news__arrow_dir_up {
+	background: url(../img/home/chevron-left.svg)
+		no-repeat;
+	transform: rotate(90deg);
+}
+
+.news__arrow_dir_down {
+	background: url(../img/home/chevron-right.svg)
+		no-repeat;
+	transform: rotate(-90deg);
+}
+
+.news__dots {
+	position: relative;
+    width: 120px;
+}
+
+.news__dots-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+}
+
+.news__dots-list li {
+	padding: 2px;
+	font-weight: bold;
+	font-family: arial;
+	font-size: 16px;
+	cursor: pointer;
+	color: rgb(143, 143, 143);
+	transition: .3s all;
+	width: 18px;
+	position: relative;
+	z-index: 0;
+	text-align: center;
+}
+
+.news__dots-list li:not(:last-child) {
+    margin-right: 15px;
+}
+.news__dots-list li:after {
+	content: "";
+	display: block;
+	position: absolute;
+	left: 2px;
+	right: 2px;
+	top: calc(50% - 2px);
+	height: 4px;
+	background-color: grey;
+	opacity: 0;
+	transition: .3s all;
+    display: none;
+}
+.news__dots-list li.slick-active {
+	color: #ffffff;
+}
+
+.news__dots-list li.slick-active:after {
+	opacity: 1;
+}
+
+
 
 
 /* == Responsive CSS start == */

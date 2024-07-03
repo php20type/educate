@@ -171,6 +171,7 @@
                     <div class="slider lazy">
                         <!-- Courses will be dynamically added here -->
                     </div>
+                    <div class="news__arrows"><div class="news__dots"></div></div>
                 </div>
             </div>
         </div>
@@ -188,7 +189,7 @@
         var title = button.data('title');
         var description = button.data('description');
         var courses = button.data('courses');
-
+        
         // Update the modal's content.
         var modal = $(this);
         modal.find('.modal-body .course-sec img').attr('src', image);
@@ -217,15 +218,26 @@
         }
 
         // Initialize Slick Slider
+        // let slider = $('.news__slider');
         sliderDiv.slick({
             lazyLoad: 'ondemand',
             slidesToShow: 4,
-            slidesToScroll: 1,
-            prevArrow: '<button class="slide-arrow prev-arrow"></button>',
-            nextArrow: '<button class="slide-arrow next-arrow"></button>',
+            slidesToScroll: 4,
             autoplay: true,
             autoplaySpeed: 3000, 
-        });
+            appendArrows: $('.news__arrows'),
+            prevArrow: '<div class="news__arrow news__arrow_dir_left"></div>',
+            nextArrow: '<div class="news__arrow news__arrow_dir_right"></div>',
+		    dots: true,
+		    appendDots: $('.news__dots'),
+		    customPaging : function(slider, i) {
+                var thumb = $(slider.$slides[i]).data();
+                return '0' + (i + 1);
+            },
+		 dotsClass: 'news__dots-list',
+    });
+});
+
 
         // Clear existing courses
         // var phasesImageDiv = modal.find('.modal-body .phases-image .row');
@@ -239,7 +251,7 @@
         //         </div>`;
         //     phasesImageDiv.append(courseHtml);
         // });
-    });
+    // });
 
     // Reinitialize the slider each time the modal is shown
     $('#CourseModal').on('shown.bs.modal', function () {
