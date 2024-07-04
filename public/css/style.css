@@ -1630,3 +1630,33 @@ background: #0d6efd;
         flex-basis: 160px;
     }
 }
+
+.resources-programs .downloads-box {
+    margin-bottom: 40px;
+}
+
+.downloads-box.rs-phase-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.downloads-box.rs-phase-box .rs-phase-left-sec h2 {
+    font-size: 28px;
+    line-height: 36px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.downloads-box.rs-phase-box .rs-phase-left-sec p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.downloads-box.rs-phase-box .rs-phase-right-sec h1 {
+    color: #ffffff;
+    font-size: 80px;
+    line-height: 80px;
+    font-weight: 500;
+}

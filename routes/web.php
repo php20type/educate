@@ -66,6 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/courses/{courseId}/chapters/{chapterId}/next', [StudentProgramController::class, 'getNextChapter']);
     Route::post('/student/logout', [StudentProgramController::class, 'logout'])->name('student.logout');
     Route::get('/resource', [ResourseController::class, 'index'])->name('student.resource');
+    Route::get('/resource/{resourceId}/', [ResourseController::class, 'show'])->name('resource.show');
     Route::get('/student/search', [ResourseController::class, 'search'])->name('student.search');
 
 });

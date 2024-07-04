@@ -34,5 +34,12 @@ class ResourseController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        $program = Program::find($id);
+        $course = Course::where('program_id', $id)->get();
+        // $chapters = Chapter::where('title', 'like', "%{$query}%")->get();
+        return view('student.resourse.show', compact('course', 'program'));
+    }
 }
 

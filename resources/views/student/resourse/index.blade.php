@@ -104,11 +104,7 @@
                 @foreach ($programs as $program)
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="program-box">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#CourseModal" 
-                            data-image="{{ asset('storage/'.$program->image) }}" 
-                            data-title="{{ $program->name }}" 
-                            data-description="{{ $program->description }}"
-                            data-courses="{{ json_encode($program->courses) }}">
+                            <a href="{{ route('resource.show', $program->id) }}">
                                 <img src="{{ asset('storage/'.$program->image) }}" alt="" />
                             </a>
                         </div>

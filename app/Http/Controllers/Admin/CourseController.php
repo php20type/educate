@@ -79,17 +79,17 @@ class CourseController extends Controller
     {
         // Validate request data
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
             'program_id' => 'required|exists:programs,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         // Handle image upload
         if ($request->hasFile('image')) {
             // Delete the old image if it exists
             if ($course->image) {
-                $oldImagePath = public_path('images') . '/' . $course->image;
+                $oldImagePath = public_path('course_images') . '/' . $course->image;
                 if (file_exists($oldImagePath)) {
                     unlink($oldImagePath);
                 }
