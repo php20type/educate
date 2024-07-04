@@ -135,7 +135,7 @@
 @endsection
 @section('page-script')
 <script>
-   $(document).ready(function() {
+    $(document).ready(function() {
         $('#CourseModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var image = button.data('image'); // Extract info from data-* attributes
@@ -157,7 +157,7 @@
             courses.forEach(function(course) {
                 var imageUrl = course.image ? `{{ asset('storage/') }}/${course.image}` : `{{ asset('img/home/rec1254.png') }}`;
                 var courseHtml = `
-                    <div class="image"> 
+                    <div class="image">
                         <a href="javascript:void(0)" data-id="${course.id}">
                             <img src="${imageUrl}" class="fixed-size-image" alt="Course Image"/>
                         </a>
@@ -167,42 +167,29 @@
 
             // Destroy the previous Slick instance if it exists
             if (sliderDiv.hasClass('slick-initialized')) {
+                console.log('Slick slider is being unslicked'); // Debug log
                 sliderDiv.slick('unslick');
             }
 
+            console.log('Slick slider is being initialized'); // Debug log
             // Initialize Slick Slider
             sliderDiv.slick({
-            lazyLoad: 'ondemand',
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            autoplay: true,
-            autoplaySpeed: 3000, 
-            appendArrows: $('.news__arrows'),
-            prevArrow: '<div class="news__arrow news__arrow_dir_left"></div>',
-            nextArrow: '<div class="news__arrow news__arrow_dir_right"></div>',
-		    dots: true,
-		    appendDots: $('.news__dots'),
-		    customPaging : function(slider, i) {
-                var thumb = $(slider.$slides[i]).data();
-                return '0' + (i + 1);
-            },
-		 dotsClass: 'news__dots-list',
-    });
-});
+                lazyLoad: 'ondemand',
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                prevArrow: '<button class="slide-arrow prev-arrow"></button>',
+                nextArrow: '<button class="slide-arrow next-arrow"></button>',
+                autoplay: true,
+                autoplaySpeed: 3000,
+            });
+        });
 
-            // Clear existing courses
-            // var phasesImageDiv = modal.find('.modal-body .phases-image .row');
-            // phasesImageDiv.empty();
-
-            // Add new courses
-            // courses.forEach(function(course) {
-            //     var courseHtml = `
-            //         <div class="col-md-3 col-6">
-            //             <a href="#"><img src="{{ asset('storage/') }}/${course.image}" /></a>
-            //         </div>`;
-            //     phasesImageDiv.append(courseHtml);
-            // });
-        // });
+        // Clear the slider contents when the modal is hidden
+        $('#CourseModal').on('hidden.bs.modal', function () {
+            var sliderDiv = $(this).find('.modal-body .slider');
+            console.log('Modal is being hidden',sliderDiv); // Debug log
+            sliderDiv.empty();
+        });
 
         // Reinitialize the slider each time the modal is shown
         $('#CourseModal').on('shown.bs.modal', function () {
@@ -215,7 +202,6 @@
             var phaseUrl = `/phases/${phaseId}`; // Change this to your actual phase URL pattern
             window.location.href = phaseUrl;
         });
-
     });
 </script>
 @endsection

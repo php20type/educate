@@ -49,7 +49,9 @@
                         <iframe id="videoFrame" src="" frameborder="0" style="width: 100%; height: 500px;"></iframe>
                     </div>
                     <div class="details-content">
-                        <div class="completed-badge py-3">
+                         
+                        <div class="completed-badge py-3 d-flex justify-content-between">
+                            <h4 id="phaseTitle">{{ $phase->title }}</h4>
                             <a href="#" class="btn btn-outline-primary px-3 py-2">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="20" height="20" rx="10" fill="#0384FE"/>
@@ -58,7 +60,7 @@
                                 Completed
                             </a>
                         </div>
-                        <h4 id="phaseTitle">{{ $phase->title }}</h4>
+                       
                         <p id="phaseDescription">{{ $phase->description }}
                     </div>
                 </div>

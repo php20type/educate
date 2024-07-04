@@ -616,6 +616,11 @@ title {
 }
 .program-details .completed-badge a {
     color: #ffffff;
+        background: #0d6efd;
+}
+.sales-ecosystem select {
+        background-color: #0c1018 !important;
+      color: #ffffff !important;
 }
 .programs-videos .sales-ecosystem .sec-title,
 .program-details .details-content h4 {
@@ -1259,6 +1264,11 @@ background: #0d6efd;
 
 .news__dots-list li.slick-active:after {
 	opacity: 1;
+}
+
+ video:-webkit-full-page-media  {
+        width: 100%;
+            height: 500px;
 }
 
 
