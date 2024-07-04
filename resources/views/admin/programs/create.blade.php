@@ -64,15 +64,16 @@
     <div class="program-edit">
         <form class="mb-5" id="program-form" action="{{ route('programs.store') }}" method="POST" enctype="multipart/form-data"> 
             @csrf
-            <div class="image-box"> 
+            <div class="image-box position-relative mb-4"> 
                 <img src="{{ asset('img/home/program-image3.png') }}" alt="" id="preview-image" />
-            </div>
-            <div class="edit-btn add-new">
+                <div class="edit-btn add-new">
                 <label class="btn change">
                     <i class="fa-regular fa-plus me-1"></i> Add Image
                     <input type="file" name="image" class="d-none" onchange="previewImage(event)" />
                 </label>
             </div>
+            </div>
+         
             <div class="form-group mb-4">
                 <label class="form-label">Program Name</label>
                 <input name="name" type="text" placeholder="Type here..." class="form-control" required />
