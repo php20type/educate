@@ -307,7 +307,7 @@ title {
     position: relative;
     margin-top: 40px;
     overflow-y: auto;
-    height: calc(100vh + -500px);
+    height: calc(100vh + -250px);
 }
 .app-sidebar nav.sidebar-nav.bottom-nav {
     border-top: 1px solid #4c5a743d;
@@ -316,6 +316,13 @@ title {
     height: auto;
     width: 240px;
     background: #0c1018;
+}
+.app-sidebar nav.sidebar-nav.bottom-nav button {
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
 }
 .app-sidebar nav.sidebar-nav::-webkit-scrollbar {
     width: 4px;
@@ -335,7 +342,7 @@ title {
     display: block;
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 20px;
     color: rgba(255, 255, 255, 0.5);
     display: flex;
@@ -556,7 +563,7 @@ title {
     margin: 30px 0;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
-    padding: 40px;
+    padding: 30px;
 }
 .programs-section .program-box img {
     width: 100%;
@@ -616,7 +623,8 @@ title {
 }
 .program-details .completed-badge a {
     color: #ffffff;
-        background: #0d6efd;
+    background: hsla(167, 97%, 45%, 1);
+    background: linear-gradient(90deg, hsla(209, 99%, 40%, 0.9) 10%, hsla(167, 97%, 45%, 1) 100%);
 }
 .sales-ecosystem select {
         background-color: #0c1018 !important;
@@ -676,13 +684,17 @@ title {
     align-items: center;
 }
 .sales-ecosystem .sales-content h5 {
-    font-size: 18px;
-    line-height: 24px;
+    font-size: 16px;
+    line-height: 20px;
+}
+.sales-ecosystem .sales-content p {
+    font-size: 14px;
+    line-height: 18px;
 }
 .sales-ecosystem .check-svg {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: -3px;
+    right: 0px;
 }
 .sales-ecosystem .sales-image a > img {
     width: 100%;
@@ -762,8 +774,8 @@ title {
 }
 .resources-pdf .pdf-image img {
     width: 100%;
-    height: 360px;
-    object-position: center;
+    height: 500px;
+    object-position: 100% 5%;
     object-fit: cover;
     border-radius: 20px;
 }
@@ -935,6 +947,10 @@ title {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     padding: 30px;
+    margin: 30px 0;
+}
+.table-responsive .table>thead {
+    border-color: #0c1018;
 }
 .table-responsive .table thead th,
 .table-responsive .table tbody td {
@@ -945,6 +961,7 @@ title {
     font-size: 14px;
     line-height: 20px;
     font-weight: 400;
+    border: none;
 }
 .table-responsive .table thead th {
     border: none;
@@ -1127,8 +1144,8 @@ background: #0d6efd;
 
 .modal-body .course-sec img {
     width: 100%;
-    height: 480px;
-    object-position: center;
+    height: 600px;
+    object-position: 100% 5%;
     object-fit: cover;
     border-radius: 15px;
 }
@@ -1271,7 +1288,11 @@ background: #0d6efd;
             height: 500px;
 }
 
-
+video:-webkit-full-page-media {
+    position: relative;
+    width: 100%;
+    height: 600px;
+}
 
 
 /* == Responsive CSS start == */
@@ -1291,11 +1312,11 @@ background: #0d6efd;
     }
     .resources-pdf .pdf-image img {
         width: 100%;
-        height: 300px;
+        height: 420px;
     }
     .sales-ecosystem .sales-content h5 {
-        font-size: 16px;
-        line-height: 20px;
+        font-size: 14px;
+        line-height: 18px;
     }
 }
 @media screen and (max-width: 1440px) {
@@ -1366,10 +1387,6 @@ background: #0d6efd;
         line-height: 24px;
     }
    
-    .sales-ecosystem .sales-content h5 {
-        font-size: 14px;
-        line-height: 18px;
-    }
     .dashboard-box.monkmode, .dashboard-box .monkmode-sec .daycount-box {
         padding: 25px;
     }
@@ -1383,10 +1400,7 @@ background: #0d6efd;
     .resources-programs .downloads-box {
         padding: 25px;
     }
-    .resources-pdf .pdf-image img {
-        width: 100%;
-        height: 260px;
-    }
+   
     .resources-list .resources-image img {
         width: 100%;
         height: 300px;
@@ -1403,8 +1417,16 @@ background: #0d6efd;
     .main-content.app-content .dashboard-section {
         padding: 20px;
     }
+    .main-content.app-content {
+        max-width: calc(100% + -280px);
+        margin: 15px 15px 15px 280px;
+    }
+    .app-sidebar {
+        width: 280px;
+        height: 100%;
+    }
 }
-@media (min-width: 1280px) {
+@media (min-width: 1400px) {
     .programs-section .col-lg-3 {
         flex: 0 0 auto;
         width: 20%;

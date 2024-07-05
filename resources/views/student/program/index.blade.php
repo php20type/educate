@@ -151,38 +151,74 @@
 
             // Clear existing chapters
             var sliderDiv = modal.find('.modal-body .slider');
-            sliderDiv.empty();
-
+            if (sliderDiv.hasClass('slick-initialized')) {
+                console.log('Slick slider is being unslicked'); // Debug log
+                sliderDiv.slick('unslick');
+            }
+            sliderDiv.html('');
             // Add new courses
+            var courseHTML='';
             courses.forEach(function(course) {
                 var imageUrl = course.image ? `{{ asset('storage/') }}/${course.image}` : `{{ asset('img/home/rec1254.png') }}`;
-                var courseHtml = `
+                courseHTML+= `
                     <div class="image">
                         <a href="javascript:void(0)" data-id="${course.id}">
                             <img src="${imageUrl}" class="fixed-size-image" alt="Course Image"/>
                         </a>
                     </div>`;
-                sliderDiv.append(courseHtml);
+                // sliderDiv.append(courseHtml);
             });
+            sliderDiv.html(courseHTML)
 
             // Destroy the previous Slick instance if it exists
-            if (sliderDiv.hasClass('slick-initialized')) {
-                console.log('Slick slider is being unslicked'); // Debug log
-                sliderDiv.slick('unslick');
-            }
 
             console.log('Slick slider is being initialized'); // Debug log
             // Initialize Slick Slider
             sliderDiv.slick({
                 lazyLoad: 'ondemand',
                 slidesToShow: 4,
-                slidesToScroll: 1,
+                slidesToScroll: 4,
                 prevArrow: '<button class="slide-arrow prev-arrow"></button>',
                 nextArrow: '<button class="slide-arrow next-arrow"></button>',
                 autoplay: true,
                 autoplaySpeed: 3000,
-            });
-        });
+                arrows: true,
+                appendArrows: $('.news__arrows'),
+                prevArrow: '<div class="news__arrow news__arrow_dir_left"></div>',
+                nextArrow: '<div class="news__arrow news__arrow_dir_right"></div>',
+                dots: true,
+                appendDots: $('.news__dots'),
+                    customPaging : function(slider, i) {
+            var thumb = $(slider.$slides[i]).data();
+
+            return '0' + (i + 1);
+                    },
+                dotsClass: 'news__dots-list',
+                responsive: [
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3
+                }
+            },
+            {
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 500,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    });
+});
 
         // Clear the slider contents when the modal is hidden
         $('#CourseModal').on('hidden.bs.modal', function () {
@@ -203,5 +239,33 @@
             window.location.href = phaseUrl;
         });
     });
+
+
+
+    // 
+
+    document.addEventListener("DOMContentLoaded", function() {
+    var videoFrame = document.getElementById('videoFrame');
+
+    function resizeVideoFrame() {
+        if (window.innerWidth <= 767) {
+            videoFrame.style.height = '300px';
+        } else if (window.innerWidth <= 1200) {
+            videoFrame.style.height = '400px';
+        } else {
+            videoFrame.style.height = '500px';
+        }
+    }
+
+    // Initial resize
+    resizeVideoFrame();
+
+    // Resize on window resize
+    window.addEventListener('resize', resizeVideoFrame);
+});
+
+
+
+
 </script>
 @endsection
