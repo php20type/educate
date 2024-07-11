@@ -41,5 +41,12 @@ class ResourseController extends Controller
         // $chapters = Chapter::where('title', 'like', "%{$query}%")->get();
         return view('student.resourse.show', compact('course', 'program'));
     }
+
+    public function showPhase($id)
+    {
+        $course = Course::findOrFail($id);
+        $phase = Chapter::where('course_id', $id)->whereNotNull('pdf_url')->get();
+        return view('student.resourse.details', compact('phase', 'course'));
+    }
 }
 

@@ -188,37 +188,37 @@
                 nextArrow: '<div class="news__arrow news__arrow_dir_right"></div>',
                 dots: true,
                 appendDots: $('.news__dots'),
-                    customPaging : function(slider, i) {
-            var thumb = $(slider.$slides[i]).data();
+                customPaging : function(slider, i) {
+                    var thumb = $(slider.$slides[i]).data();
 
-            return '0' + (i + 1);
-                    },
+                    return '0' + (i + 1);
+                },
                 dotsClass: 'news__dots-list',
                 responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3
-                }
-            },
-            {
-                breakpoint: 767,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 500,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    });
-});
+                    {
+                        breakpoint: 1200,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3
+                        }
+                    },
+                    {
+                        breakpoint: 767,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2
+                        }
+                    },
+                    {
+                        breakpoint: 500,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        }
+                    }
+                ]
+            });
+        });
 
         // Clear the slider contents when the modal is hidden
         $('#CourseModal').on('hidden.bs.modal', function () {
@@ -239,10 +239,6 @@
             window.location.href = phaseUrl;
         });
     });
-
-
-
-    // 
 
     document.addEventListener("DOMContentLoaded", function() {
     var videoFrame = document.getElementById('videoFrame');

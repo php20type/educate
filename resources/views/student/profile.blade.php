@@ -53,7 +53,7 @@
                 <div class="col-lg-8">
                     <div class="d-flex">
                         <div class="profile-image">
-                             <img src="{{ asset('img/home/profile.png') }}" alt="" />
+                             <img src="{{ asset('/storage/'.auth()->user()->image) }}" alt="" />
                         </div>
                         <div class="name-details">
                             <h4>{{ auth()->user()->first_name }}{{ auth()->user()->last_name }}</h4>
@@ -123,19 +123,19 @@
                      <div class="col-lg-6 col-md-6">
                           <div class="form-group mb-4">
                                 <label class="form-label w-100">First Name</label>
-                                <input type="text" placeholder="Liam" class="form-control" />
+                                <input type="text" placeholder="Liam" class="form-control" value="{{ $user->first_name }}"/>
                           </div>
                      </div>
                      <div class="col-lg-6 col-md-6">
                         <div class="form-group mb-4">
                               <label class="form-label w-100">Last Name</label>
-                              <input type="text" placeholder="John" class="form-control" />
+                              <input type="text" placeholder="John" class="form-control" value="{{ $user->last_name }}"/>
                         </div>
                    </div>
                    <div class="col-lg-12 col-md-12">
                       <div class="form-group mb-4">
                           <label class="form-label w-100">Email Address</label>
-                          <input type="text" placeholder="master@magicfp.com" class="form-control" />
+                          <input type="text" disabled placeholder="master@magicfp.com" class="form-control" value="{{ $user->email }}"/>
                       </div>
                   </div>
                  <div class="col-lg-12 col-md-12">

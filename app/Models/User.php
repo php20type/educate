@@ -23,6 +23,7 @@ class User extends Authenticatable
         'phone',
         'instagram',
         'email',
+        'image',
         'is_admin',
         'is_verify',
         'is_active',

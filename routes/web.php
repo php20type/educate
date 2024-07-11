@@ -68,5 +68,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/resource', [ResourseController::class, 'index'])->name('student.resource');
     Route::get('/resource/{resourceId}/', [ResourseController::class, 'show'])->name('resource.show');
     Route::get('/student/search', [ResourseController::class, 'search'])->name('student.search');
+    Route::get('/phase/{id}', [ResourseController::class, 'showPhase'])->name('phase.show');
 
 });

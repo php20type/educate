@@ -50,7 +50,7 @@
                    Programs                   
                 </a>
             </li>
-            <li class="mb-2 {{ request()->routeIs('student.resource') ? 'active' : '' }}">
+            <li class="mb-2 {{ request()->routeIs('student.resource') || request()->routeIs('phase.show') || request()->routeIs('phases.show') ? 'active' : '' }}">
                 <a href="{{ route('student.resource') }}">
                     <svg width="292" height="384" viewBox="0 0 292 384" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_8_830)">

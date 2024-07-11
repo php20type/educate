@@ -40,7 +40,7 @@
     <!-- resources programs start -->
     <div class="resources-programs">
         <div class="back">
-            <a href="#" class="text-white"><i class="fa-solid fa-arrow-left"></i></a>
+            <a href="{{ route('student.resource') }}" class="text-white"><i class="fa-solid fa-arrow-left"></i></a>
          </div>
         
         <div class="resources-pdf py-4">
@@ -52,13 +52,15 @@
             @foreach ($course as $cs)
             <div class="col-lg-6 col-md-6">
                 <div class="downloads-box rs-phase-box">
-                    <div class="rs-phase-left-sec">
-                        <h2>{{ $cs->title }}</h2>
-                         <p>{{ $cs->description }}</p>
-                    </div>
-                    <div class="rs-phase-right-sec">
-                        <h1>1</h1>
-                    </div>
+                    <a href="{{ route('phase.show', $cs->id) }}">
+                        <div class="rs-phase-left-sec">
+                            <h2>{{ $cs->title }}</h2>
+                            <p>Phase {{ $loop->iteration }}</p>
+                        </div>
+                        <div class="rs-phase-right-sec">
+                            <h1>{{ $loop->iteration }}</h1>
+                        </div>
+                    </a>
                 </div>
             </div>
             @endforeach

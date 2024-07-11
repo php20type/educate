@@ -46,12 +46,13 @@
             <div class="col-lg-8">
                 <div class="d-flex">
                     <div class="profile-image">
-                         <img src="{{ asset('img/home/profile.png') }}" alt="" />
+                    <img src="{{ asset('/storage/'. $user->image) }}" alt="Profile Image" id="profile-image-preview" />
+
                     </div>
                     <div class="name-details">
                         <h4>{{ $user->first_name }} {{ $user->last_name }}</h4>
                         <p>{{ $user->email }}</p>
-                        <p>Student ID: {{ $user-3>id }}</p>
+                        <p>Student ID: {{ $user->id }}</p>
                     </div>
                 </div>
             </div>
@@ -59,7 +60,7 @@
     </div>  
  
     <div class="profile-form">
-        <form id="" action="{{ route('user.update', $user->id) }}" method="POST">
+        <form id="" action="{{ route('user.update', $user->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
             <div class="row">
@@ -105,6 +106,12 @@
                     </select>
                 </div>
             </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="form-group mb-4">
+                    <label class="form-label w-100">Profile Image</label>
+                    <input type="file" name="image" class="form-control" class="form-control" onchange="previewImage(event)">
+                </div>
+            </div>
             </div>
              <div class="col-lg-12">
                 <div class="save-btn pt-lg-3 pt-2 text-lg-center">
@@ -121,4 +128,16 @@
 <!-- profile section end -->
 
 </div>
+@endsection
+@section('page-script')
+<script>
+   function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('profile-image-preview');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
 @endsection
