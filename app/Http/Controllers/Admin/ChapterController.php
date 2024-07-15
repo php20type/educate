@@ -40,7 +40,7 @@ class ChapterController extends Controller
             'pdf_url' => 'nullable|file|mimes:pdf',
             'affiliate_link' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         // Handle file uploads
@@ -100,8 +100,8 @@ class ChapterController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'course_id' => 'required|exists:courses,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'video_link' => 'nullable|mimes:mp4,mov,ogg,qt|max:20000',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'video_link' => 'nullable|mimes:mp4,mov,ogg,qt',
             'pdf_url' => 'nullable|mimes:pdf|max:10000',
             // 'affiliate_link' => '    nullable|url',
             'description' => 'nullable|string',
