@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('page-style')
-
+<!-- Your custom styles here -->
 @endsection
 
 @section('content')
@@ -56,103 +56,108 @@
                              <img src="{{ asset('/storage/'.auth()->user()->image) }}" alt="" />
                         </div>
                         <div class="name-details">
-                            <h4>{{ auth()->user()->first_name }}{{ auth()->user()->last_name }}</h4>
+                            <h4>{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</h4>
                             <p>{{ auth()->user()->email }}</p>
                             <p>Student ID : {{ auth()->user()->id }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="save-btn pt-5 text-end">
-                         <a href="#" class="btn btn-outline-primary">Save & Continue</a>
-                    </div>
-                </div>
             </div>
         </div>  
         <div class="profile-form mb-4">
-            <form id="" accept="">
+            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
                 <div class="row">
+
+                     <div class="profile-image">
+                        <img src="" alt="" />
+                        <input type="file" name="profile_image" accept="image/*">
+                    </div>
                      <div class="col-lg-4 col-md-6">
                           <div class="form-group mb-4">
                                 <label class="form-label w-100">Country</label>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>United States</option>
-                                    <option value="1">India</option>
-                                    <option value="2">England</option>
-                                    <option value="3">Spain</option>
+                                <select name="country" class="form-select">
+                                    <option selected>{{ auth()->user()->country }}</option>
+                                    <option value="United States">United States</option>
+                                    <option value="India">India</option>
+                                    <option value="England">England</option>
+                                    <option value="Spain">Spain</option>
                                 </select>
                           </div>
                      </div>
                      <div class="col-lg-4 col-md-6">
                         <div class="form-group mb-4">
                               <label class="form-label w-100">City</label>
-                              <select class="form-select" aria-label="Default select example">
-                                  <option selected>Abberton</option>
-                                  <option value="1">India</option>
-                                  <option value="2">England</option>
-                                  <option value="3">Spain</option>
+                              <select name="city" class="form-select">
+                                  <option selected>{{ auth()->user()->city }}</option>
+                                  <option value="Abberton">Abberton</option>
+                                  <option value="Delhi">Delhi</option>
+                                  <option value="London">London</option>
+                                  <option value="Madrid">Madrid</option>
                               </select>
                         </div>
                    </div>
                    <div class="col-lg-4 col-md-6">
                       <div class="form-group mb-4">
                           <label class="form-label w-100">Date of Birth (DD-MM-YYYY)</label>
-                          <input type="number" placeholder="" class="form-control" />
+                          <input type="date" name="date_of_birth" value="{{ auth()->user()->date_of_birth }}" class="form-control" />
                       </div>
                   </div>
                   <div class="col-lg-12 col-md-12">
                     <div class="form-group mb-4">
                         <label class="form-label w-100">About Me</label>
-                       <textarea rows="4" placeholder="" class="form-control"></textarea>
+                       <textarea name="about_me" rows="4" class="form-control">{{ auth()->user()->about_me }}</textarea>
                     </div>
                  </div>
                  <div class="col-lg-12 col-md-12">
                     <div class="form-group mb-4">
                         <label class="form-label w-100">Link Your Socials</label>
-                        <input type="text" placeholder="Educate Community Profile Link" class="form-control mb-3" />
-                        <input type="text" placeholder="Instagram Profile Link" class="form-control mb-3" />
-                        <input type="text" placeholder="Twitter Profile Link" class="form-control" />
+                        <input type="text" name="educate_community_profile" value="{{ auth()->user()->educate_community_profile }}" placeholder="Educate Community Profile Link" class="form-control mb-3" />
+                        <input type="text" name="instagram_profile" value="{{ auth()->user()->instagram_profile }}" placeholder="Instagram Profile Link" class="form-control mb-3" />
+                        <input type="text" name="twitter_profile" value="{{ auth()->user()->twitter_profile }}" placeholder="Twitter Profile Link" class="form-control" />
                     </div>
                 </div>
-                </div>
-            </form>
-        </div>
-        <div class="profile-form">
-            <form id="" accept="">
-                <div class="row">
-                     <div class="col-lg-6 col-md-6">
+                <div class="col-lg-6 col-md-6">
                           <div class="form-group mb-4">
                                 <label class="form-label w-100">First Name</label>
-                                <input type="text" placeholder="Liam" class="form-control" value="{{ $user->first_name }}"/>
+                                <input type="text" name="first_name" placeholder="Liam" class="form-control" value="{{ $user->first_name }}"/>
                           </div>
                      </div>
                      <div class="col-lg-6 col-md-6">
                         <div class="form-group mb-4">
                               <label class="form-label w-100">Last Name</label>
-                              <input type="text" placeholder="John" class="form-control" value="{{ $user->last_name }}"/>
+                              <input type="text" name="last_name" placeholder="John" class="form-control" value="{{ $user->last_name }}"/>
                         </div>
                    </div>
                    <div class="col-lg-12 col-md-12">
                       <div class="form-group mb-4">
                           <label class="form-label w-100">Email Address</label>
-                          <input type="text" disabled placeholder="master@magicfp.com" class="form-control" value="{{ $user->email }}"/>
+                          <input type="text" name="email" disabled placeholder="master@magicfp.com" class="form-control" value="{{ $user->email }}"/>
                       </div>
                   </div>
+                   <div class="col-lg-6 col-md-6">
+                        <div class="form-group mb-4">
+                            <label class="form-label w-100">Phone Number</label>
+                            <input type="text" name="phone" placeholder="(+012) 345 6789" class="form-control" value="{{ $user->phone }}" />
+                        </div>
+                    </div>
                  <div class="col-lg-12 col-md-12">
                     <div class="form-group mb-4">
                         <label class="form-label w-100">Time Zone</label>
                         <select class="form-select" aria-label="Default select example">
-                            <option selected>Europe/Madrid</option>
-                            <option value="1">India</option>
-                            <option value="2">England</option>
-                            <option value="3">Spain</option>
+                            <option selected>{{ auth()->user()->time_zone }}</option>
+                            <option value="1">Europe/Madrid</option>
+                            <option value="2">India</option>
+                            <option value="3">England</option>
+                            <option value="4">Spain</option>
                         </select>
                     </div>
-                </div>
-                <div class="col-lg-12 col-md-12">
+                    <div class="col-lg-12 col-md-12">
                     <div class="form-group mb-4">
-                         <button type="button" class="btn btn-outline-primary w-100 py-3">Save</button>
+                         <button type="submit" class="btn btn-outline-primary w-100 py-3">Save</button>
                      </div>
+                </div>
                 </div>
                 </div>
             </form>

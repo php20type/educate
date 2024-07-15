@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/student', [ProfileController::class, 'index'])->name('student.dashboard');
     Route::get('/student/{id}/edit', [ProfileController::class, 'edit'])->name('student.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::resource('/student/programs', StudentProgramController::class)->names('student.programs');
     Route::get('/phases/{id}', [StudentProgramController::class, 'showPhases'])->name('phases.show');
     Route::get('/courses/{courseId}/chapters', [StudentProgramController::class, 'getChapters']);
