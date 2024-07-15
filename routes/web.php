@@ -62,12 +62,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/student/programs', StudentProgramController::class)->names('student.programs');
     Route::get('/phases/{id}', [StudentProgramController::class, 'showPhases'])->name('phases.show');
     Route::get('/courses/{courseId}/chapters', [StudentProgramController::class, 'getChapters']);
-    Route::post('/chapters/{chapterId}/complete', [StudentProgramController::class, 'markChapterCompleted']);
+    Route::post('/chapters/{chapter}/complete', [StudentProgramController::class, 'complete'])->name('chapters.complete');
+    Route::get('/courses/{course}/chapters/{chapter}/next', [StudentProgramController::class, 'next'])->name('chapters.next');
     Route::get('/courses/{courseId}/chapters/{chapterId}/next', [StudentProgramController::class, 'getNextChapter']);
     Route::post('/student/logout', [StudentProgramController::class, 'logout'])->name('student.logout');
     Route::get('/resource', [ResourseController::class, 'index'])->name('student.resource');
     Route::get('/resource/{resourceId}/', [ResourseController::class, 'show'])->name('resource.show');
     Route::get('/student/search', [ResourseController::class, 'search'])->name('student.search');
     Route::get('/phase/{id}', [ResourseController::class, 'showPhase'])->name('phase.show');
+    Route::get('/progress', [ResourseController::class, 'getProgress'])->name('progress.get');
 
 });

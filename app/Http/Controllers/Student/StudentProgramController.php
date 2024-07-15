@@ -17,6 +17,7 @@ class StudentProgramController extends Controller
      */
     public function index()
     {
+
         $user = auth()->user();
         $programs = Program::all(); // $user ? $user->getProgramsForLoggedInUser() : collect();
         return view('student.program.index', compact('programs'));
@@ -74,31 +75,24 @@ class StudentProgramController extends Controller
 
     public function showPhases($id)
     {
-        // Fetch the phase using the provided ID
         $phase = Course::findOrFail($id);
         $courses = Course::all();
         $chapters = Chapter::where('course_id', $phase->id)->get();
-        // Return the view with the phase data
-        return view('student.program.phases', compact('phase', 'chapters', 'courses'));
+
+        // Fetch the progress for the logged-in user
+        $progress = ChapterProgress::where('student_id', auth()->id())
+            ->whereIn('chapter_id', $chapters->pluck('id'))
+            ->get()
+            ->pluck('chapter_id')
+            ->toArray();
+        return view('student.program.phases', compact('phase', 'chapters', 'courses', 'progress'));
     }
+
 
     public function getChapters($courseId)
     {
         $chapters = Chapter::where('course_id', $courseId)->get();
         return response()->json($chapters);
-    }
-
-    public function markChapterCompleted(Request $request, $chapterId)
-    {
-        $user = auth()->user();
-        $chapter = Chapter::findOrFail($chapterId);
-
-        $progress = ChapterProgress::updateOrCreate(
-            ['student_id' => $user->id, 'chapter_id' => $chapter->id],
-            ['completed' => true]
-        );
-
-        return response()->json(['success' => true]);
     }
 
     public function getNextChapter($courseId, $currentChapterId)
@@ -119,5 +113,56 @@ class StudentProgramController extends Controller
         Auth::logout();
         return redirect('/login');
     }
+
+    public function complete(Request $request, Chapter $chapter)
+    {
+        $progress = $chapter->progress()->updateOrCreate(
+            ['student_id' => auth()->id()],
+            ['completed' => true]
+        );
+
+        return response()->json(['success' => true]);
+    }
+    public function next(Course $course, Chapter $chapter)
+    {
+        $nextChapter = $course->chapters()
+            ->where('id', '>', $chapter->id)
+            ->orderBy('id')
+            ->first();
+
+        return response()->json($nextChapter);
+    }
+
+    public function markChapterCompleted(Request $request, $chapterId)
+    {
+        $user = auth()->user();
+        $progress = ChapterProgress::firstOrCreate(
+            ['student_id' => $user->id, 'chapter_id' => $chapterId],
+            ['completed' => true]
+        );
+
+        $progress->completed = true;
+        $progress->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function getChapterProgress($courseId)
+    {
+        $user = auth()->user();
+        $chapters = Chapter::where('course_id', $courseId)->get();
+
+        $progress = ChapterProgress::where('student_id', $user->id)
+            ->whereIn('chapter_id', $chapters->pluck('id'))
+            ->pluck('chapter_id')
+            ->toArray();
+
+        return response()->json([
+            'chapters' => $chapters,
+            'progress' => $progress
+        ]);
+    }
+
+
 }
 
