@@ -77,7 +77,7 @@ class StudentProgramController extends Controller
     {
         $phase = Course::findOrFail($id);
         $courses = Course::all();
-        $chapters = Chapter::where('course_id', $phase->id)->get();
+        $chapters = Chapter::where('course_id', $phase->id)->orderBy('id', 'asc')->get();
 
         // Fetch the progress for the logged-in user
         $progress = ChapterProgress::where('student_id', auth()->id())
