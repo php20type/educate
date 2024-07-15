@@ -3,7 +3,7 @@
 @section('page-style')
 <style>
 /* Add your custom styles here */
-.disabled{
+.disabled {
     pointer-events: none;
 }
 </style>
@@ -57,7 +57,7 @@
                     <div class="details-content">
                         <div class="completed-badge py-3 d-flex justify-content-between">
                             <h4 id="phaseTitle">{{ $phase->title }}</h4>
-                            <a href="#" class="btn btn-outline-primary d-none px-3 py-2">
+                            <a href="#" class="btn btn-outline-primary px-3 py-2 {{ count($progress) === count($chapters) ? '' : 'd-none' }}">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="20" height="20" rx="10" fill="#0384FE" />
                                     <path d="M7.84663 14L4 10.2079L4.96166 9.25988L7.84663 12.104L14.0383 6L15 6.94803L7.84663 14Z" fill="white" />
@@ -85,7 +85,7 @@
                     <div id="chaptersList">
                         @foreach ($chapters as $chapter)
                             @php
-                                $isCompleted = isset($progress[$chapter->id]) && $progress[$chapter->id]['completed'];
+                                $isCompleted = in_array($chapter->id, $progress);
                                 $chapterData = json_encode(['id' => $chapter->id, 'is_completed' => $isCompleted]);
                             @endphp
                             <div class="row mb-4" data-chapter="{{ $chapterData }}">
@@ -122,83 +122,75 @@
 @section('page-script')
 <script>
     const chapters = @json($chapters);
-    var progress = @json($progress).map(p=>p);
+    var progress = @json($progress).map(p => p);
+
     function loadVideo(videoLink, chapterId) {
-            const videoElement = document.getElementById('videoElement');
-            videoElement.src = videoLink;
-            
-            videoElement.onended = function() {
-                console.log('sdfsddsff');
-                markChapterCompleted(chapterId);
-            };
-        }
-        function updateChapters() {
-            var first_video=0;
-            console.log(progress);
-            document.querySelectorAll('.sales-image a').forEach((link, index) => {
-                const chapter = chapters[index];
-                console.log(chapter);
-                var checkSvg=link.querySelector('.check-svg');
-                if (progress.includes(chapter.id)) {
-                    link.classList.remove('disabled');
-                    checkSvg.classList.remove('d-none');
+        const videoElement = document.getElementById('videoElement');
+        videoElement.src = videoLink;
 
-                } else if(first_video===0){
-                    first_video++;
-                    link.classList.remove('disabled');
-                    loadVideo(`/storage/${chapter.video_link}`, chapter.id);
-                } else {
-                    link.classList.add('disabled');
-                }
-            });
+        videoElement.onended = function() {
+            markChapterCompleted(chapterId);
+        };
+    }
 
-            if (progress.length === chapters.length) {
-                $('.completed-badge a').removeClass('d-none');
+    function updateChapters() {
+        var first_video = 0;
+
+        document.querySelectorAll('.sales-image a').forEach((link, index) => {
+            const chapter = chapters[index];
+            var checkSvg = link.querySelector('.check-svg');
+            if (progress.includes(chapter.id)) {
+                link.classList.remove('disabled');
+                checkSvg.classList.remove('d-none');
+            } else if (first_video === 0) {
+                first_video++;
+                link.classList.remove('disabled');
+                loadVideo(`/storage/${chapter.video_link}`, chapter.id);
+            } else {
+                link.classList.add('disabled');
             }
-        }
+        });
 
-        
-        function markChapterCompleted(chapterId) {
-            fetch(`/chapters/${chapterId}/complete`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            })
+        if (progress.length === chapters.length) {
+            document.querySelector('.completed-badge a').classList.remove('d-none');
+        }
+    }
+
+    function markChapterCompleted(chapterId) {
+        fetch(`/chapters/${chapterId}/complete`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                progress.push(chapterId);
+                updateChapters();
+                loadNextChapter(chapterId);
+            }
+        });
+    }
+
+    function loadNextChapter(currentChapterId) {
+        const courseId = document.getElementById('phaseDropdown').value;
+        fetch(`/courses/${courseId}/chapters/${currentChapterId}/next`)
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    progress.push(chapterId);
-                    updateChapters();
-                    loadNextChapter(chapterId);
+                if (data) {
+                    loadVideo(`/storage/${data.video_link}`, data.id);
+                } else {
+                    alert('All chapters completed!');
                 }
             });
-        }
-
-        function loadNextChapter(currentChapterId) {
-            const courseId = document.getElementById('phaseDropdown').value;
-            fetch(`/courses/${courseId}/chapters/${currentChapterId}/next`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data) {
-                        loadVideo(`/storage/${data.video_link}`, data.id);
-                    } else {
-                        alert('All chapters completed!');
-                    }
-                });
-        }
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Load the first video by default
-        if (chapters.length > 0) {   
+        if (chapters.length > 0) {
+            updateChapters();
         }
-
-        // Initialize the chapters and progress
-        updateChapters();
-
-        // Make the functions accessible globally
-        // window.loadVideo = loadVideo;
     });
 </script>
 @endsection
