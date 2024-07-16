@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+
+<style>
+    .profile-info .profile-image {
+        margin-top: 0px;
+        margin-left: 0px;
+    }
+</style>
+
 @include('admin.aside-menu')
 <div class="main-content app-content">
     <!-- header start -->

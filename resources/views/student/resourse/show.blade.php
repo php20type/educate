@@ -52,7 +52,7 @@
             @foreach ($course as $cs)
             <div class="col-lg-6 col-md-6">
                 <div class="downloads-box rs-phase-box">
-                    <a href="{{ route('phase.show', $cs->id) }}">
+                    <a class="rs-phase-inner-box" href="{{ route('phase.show', $cs->id) }}">
                         <div class="rs-phase-left-sec">
                             <h2>{{ $cs->title }}</h2>
                             <p>Phase {{ $loop->iteration }}</p>

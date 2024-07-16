@@ -72,7 +72,10 @@
 
                      <div class="profile-image">
                         <img src="" alt="" />
-                        <input type="file" name="profile_image" accept="image/*">
+                        <div class="form-group mb-4">
+                           <label class="form-label w-100">Upload Images</label>
+                           <input class="form-control" type="file" name="profile_image" accept="image/*">
+                        </div>
                     </div>
                      <div class="col-lg-4 col-md-6">
                           <div class="form-group mb-4">

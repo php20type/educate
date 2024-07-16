@@ -780,7 +780,7 @@ title {
     border-radius: 20px;
 }
 .resources-programs .downloads-box {
-    padding: 35px;
+    padding: 30px;
 }
 .resources-programs .downloads-box h5 {
     font-size: 24px;
@@ -1294,6 +1294,45 @@ video:-webkit-full-page-media {
     height: 600px;
 }
 
+/* Developer CSS */
+
+.resources-programs .downloads-box {
+    margin-bottom: 40px;
+}
+
+.downloads-box.rs-phase-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.downloads-box.rs-phase-box .rs-phase-left-sec h2 {
+    font-size: 24px;
+    line-height: 36px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.downloads-box.rs-phase-box .rs-phase-left-sec p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 18px;
+    line-height: 28px;
+    padding-bottom: 10px;
+}
+
+.downloads-box.rs-phase-box .rs-phase-right-sec h1 {
+    color: #ffffff;
+    font-size: 80px;
+    line-height: 80px;
+    font-weight: 500;
+}
+
+.downloads-box.rs-phase-box .rs-phase-inner-box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
 /* == Responsive CSS start == */
 
@@ -1317,6 +1356,9 @@ video:-webkit-full-page-media {
     .sales-ecosystem .sales-content h5 {
         font-size: 14px;
         line-height: 18px;
+    }
+    .program-edit .image-list .image-box {
+        width: 25%;
     }
 }
 @media screen and (max-width: 1440px) {
@@ -1433,6 +1475,9 @@ video:-webkit-full-page-media {
     }
 }
 @media screen and (max-width: 1280px) {
+    .program-edit .image-list .image-box {
+        width: 33.33%;
+    }
     .programs-videos .program-image img {
         width: 100%;
         height: 360px;
@@ -1573,8 +1618,38 @@ video:-webkit-full-page-media {
     .sales-ecosystem .row .col-6 {
         width: 100%;
     }
+    .program-edit .image-list .image-box {
+        width: 50%;
+        margin-bottom: 20px;
+    }
 }
 @media screen and (max-width: 576px) {
+    .profile-section .profile-form .save-btn .btn {
+       
+        width: 100%;
+        margin-top: 15px;
+    }
+    .programs-section .program-box img {
+        width: 100%;
+        height: 480px;
+    }
+    .profile-info .d-flex {
+        display: flex !important;
+        align-items: center;
+        flex-direction: column;
+    }
+    .profile-info .profile-image {
+        margin-top: 20px;
+        margin-left: 0px;
+    }
+    .profile-section .cover-images img {
+        width: 100%;
+        height: 220px;
+    }
+    .profile-info .profile-image img {
+        width: 180px;
+        height: 180px;
+    }
     .ed-login-box-sec .login img {
         width: 220px;
     }
@@ -1613,7 +1688,7 @@ video:-webkit-full-page-media {
     }
     .header .header-content .top-header-rightmenu .profile-dropdown {
         flex: 1;
-        text-align: right;
+        text-align: inherit;
     }
     .header .header-content .top-header-rightmenu .search-bar {
         flex-basis: 200px;
@@ -1649,9 +1724,25 @@ video:-webkit-full-page-media {
         font-size: 14px;
         line-height: 18px;
     }
-   
+    
+.downloads-box.rs-phase-box .rs-phase-right-sec h1 {
+    font-size: 60px;
+    line-height: 80px;
 }
-@media screen and (max-width: 450px){
+.program-edit .form-group .btn {
+    margin-bottom: 15px;
+}
+.program-edit .edit-btn.add-new {
+    top: 35%;
+}
+.program-edit {
+    padding: 20px;
+}
+}
+@media screen and (max-width: 500px){
+    .program-edit .image-list .image-box {
+        width: 100%;
+    }
 .sales-ecosystem .row {
     float: left;
     width: 100%;
@@ -1661,34 +1752,4 @@ video:-webkit-full-page-media {
     .header .header-content .top-header-rightmenu .search-bar {
         flex-basis: 160px;
     }
-}
-
-.resources-programs .downloads-box {
-    margin-bottom: 40px;
-}
-
-.downloads-box.rs-phase-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.downloads-box.rs-phase-box .rs-phase-left-sec h2 {
-    font-size: 28px;
-    line-height: 36px;
-    color: #ffffff;
-    font-weight: 500;
-}
-
-.downloads-box.rs-phase-box .rs-phase-left-sec p {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 20px;
-    line-height: 28px;
-}
-
-.downloads-box.rs-phase-box .rs-phase-right-sec h1 {
-    color: #ffffff;
-    font-size: 80px;
-    line-height: 80px;
-    font-weight: 500;
 }
