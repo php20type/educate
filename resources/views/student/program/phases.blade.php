@@ -43,7 +43,7 @@
     <!-- programs section start -->
     <div class="programs-videos">
         <div class="back">
-            <a href="#" class="text-white"><i class="fa-solid fa-arrow-left"></i></a>
+            <a href="{{ route('student.programs.index') }}" class="text-white"><i class="fa-solid fa-arrow-left"></i></a>
         </div>
         <div class="row">
             <div class="col-lg-9">
