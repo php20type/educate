@@ -27,7 +27,9 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" defer />
 
-    <link rel="stylesheet" href="{{ URL::asset('css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+    {{-- <link rel="stylesheet" href="{{ URL::asset('css/jquery.dataTables.min.css') }}"> --}}
      <!-- DataTables Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
     
@@ -48,7 +50,7 @@
         </div>
     </body>
 
-    <script src="{{ URL::asset('js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <!-- Popper JS and Bootstrap JS -->
     <script src="{{ URL::asset('js/bootstrap.bundle.js') }}"></script>
@@ -56,9 +58,8 @@
     <script src="{{ URL::asset('js/intlTelInput.min.js') }}"></script>
     <script src="{{ URL::asset('js/Chart.js') }}"></script>
 
-    <script src="{{ URL::asset('js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
      <!-- DataTables Bootstrap JS -->
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Toastr JS -->
@@ -67,7 +68,6 @@
     <script src="{{ URL::asset('js/custom.js') }}"></script>
 
     <!-- Add before the closing </body> tag -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
     @yield('page-script')
