@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@include('admin.aside-menu')
+@include('student.aside-menu')
 <div class="main-content app-content">
     <!-- header start -->
     <div class="header">
@@ -24,7 +24,7 @@
                 <input type="text" name="" id="" placeholder="Type Here..." class="form-control">
                 <i class="fa-regular fa-magnifying-glass"></i>
             </form>
-            @include('admin.header')
+            @include('student.header')
            </div>
             
         </div>
