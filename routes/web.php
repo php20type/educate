@@ -72,5 +72,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/student/search', [ResourseController::class, 'search'])->name('student.search');
     Route::get('/phase/{id}', [ResourseController::class, 'showPhase'])->name('phase.show');
     Route::get('/progress', [ResourseController::class, 'getProgress'])->name('progress.get');
+    Route::get('/course/{courseId}/chapter', [StudentProgramController::class, 'getChaptersNew'])->name('courses.chapters');
 
 });

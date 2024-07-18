@@ -121,8 +121,63 @@
 
 @section('page-script')
 <script>
-    const chapters = @json($chapters);
     var progress = @json($progress).map(p => p);
+
+    function loadPhase(courseId) {
+    fetch(`/course/${courseId}/chapter`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                document.getElementById('phaseTitle').textContent = data.title;
+                document.getElementById('phaseDescription').textContent = data.description;
+                const chaptersList = document.getElementById('chaptersList');
+                chaptersList.innerHTML = '';
+
+                data.chapters.forEach(chapter => {
+                    const chapterData = JSON.stringify({
+                        id: chapter.id,
+                        is_completed: progress.includes(chapter.id)
+                    });
+
+                    const chapterElement = document.createElement('div');
+                    chapterElement.classList.add('row', 'mb-4');
+                    chapterElement.setAttribute('data-chapter', chapterData);
+
+                    chapterElement.innerHTML = `
+                        <div class="col-6">
+                            <div class="sales-image position-relative">
+                                <a href="javascript:void(0)" onclick="loadVideo('/storage/${chapter.video_link}', ${chapter.id})"
+                                    class="${progress.includes(chapter.id) ? '' : 'disabled'}">
+                                    <img src="/storage/${chapter.image}" alt="${chapter.title}" />
+                                    <div class="check-svg ${progress.includes(chapter.id) ? '' : 'd-none'}">
+                                        <img src="/img/home/check.svg" alt="" />
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="sales-content">
+                                <h5>${chapter.title}</h5>
+                                ${!progress.includes(chapter.id) ? '<p>This chapter is locked. Complete previous chapters to unlock.</p>' : ''}
+                            </div>
+                        </div>
+                    `;
+                    chaptersList.appendChild(chapterElement);
+                });
+
+                updateChapters();
+            } else {
+                console.error('Error loading phase:', data.message);
+            }
+        })
+        .catch(error => console.error('Error loading phase:', error));
+}
+
 
     function loadVideo(videoLink, chapterId) {
         const videoElement = document.getElementById('videoElement');
@@ -131,29 +186,6 @@
         videoElement.onended = function() {
             markChapterCompleted(chapterId);
         };
-    }
-
-    function updateChapters() {
-        var first_video = 0;
-
-        document.querySelectorAll('.sales-image a').forEach((link, index) => {
-            const chapter = chapters[index];
-            var checkSvg = link.querySelector('.check-svg');
-            if (progress.includes(chapter.id)) {
-                link.classList.remove('disabled');
-                checkSvg.classList.remove('d-none');
-            } else if (first_video === 0) {
-                first_video++;
-                link.classList.remove('disabled');
-                loadVideo(`/storage/${chapter.video_link}`, chapter.id);
-            } else {
-                link.classList.add('disabled');
-            }
-        });
-
-        if (progress.length === chapters.length) {
-            document.querySelector('.completed-badge a').classList.remove('d-none');
-        }
     }
 
     function markChapterCompleted(chapterId) {
@@ -187,9 +219,27 @@
             });
     }
 
+    function updateChapters() {
+        document.querySelectorAll('.sales-image a').forEach((link, index) => {
+            const chapter = JSON.parse(link.closest('[data-chapter]').dataset.chapter);
+            const checkSvg = link.querySelector('.check-svg');
+            if (progress.includes(chapter.id)) {
+                link.classList.remove('disabled');
+                checkSvg.classList.remove('d-none');
+            } else {
+                link.classList.add('disabled');
+                checkSvg.classList.add('d-none');
+            }
+        });
+
+        if (progress.length === chapters.length) {
+            document.querySelector('.completed-badge a').classList.remove('d-none');
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
-        if (chapters.length > 0) {
-            updateChapters();
+        if (document.getElementById('phaseDropdown').value) {
+            loadPhase(document.getElementById('phaseDropdown').value);
         }
     });
 </script>

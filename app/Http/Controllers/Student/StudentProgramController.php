@@ -163,6 +163,22 @@ class StudentProgramController extends Controller
         ]);
     }
 
+    public function getChaptersNew($courseId)
+    {
+        try {
+            $course = Course::findOrFail($courseId);
+            $chapters = $course->chapters; // Assuming a relationship is defined
+            return response()->json([
+                'success' => true,
+                'chapters' => $chapters,
+                'title' => $course->title,
+                'description' => $course->description,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
 
 }
 
