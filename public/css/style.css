@@ -245,6 +245,9 @@ title {
     width: 10%;
     background-color: #ffffff;
     color: #000000;
+    padding: 0px;
+    text-align: center;
+    height: 50px;
 }
 
 /* Dashboard page CSS start  */

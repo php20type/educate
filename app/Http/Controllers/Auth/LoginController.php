@@ -48,7 +48,7 @@ class LoginController extends Controller
         // ]);
 
         $otp = $request->digit1 . $request->digit2 . $request->digit3 . $request->digit4 . $request->digit5 . $request->digit6;
-        $otpData = 123456; //Session::get('otp');
+        $otpData = Session::get('otp');
         if ($otpData != $otp) {
             return redirect()->back()->withInput()->withErrors(['email' => 'Invalid OTP']);
         }
@@ -57,7 +57,7 @@ class LoginController extends Controller
         if ($user) {
             $remember = $request->has('remember');
             Auth::login($user, $remember);
-            
+
             // Redirect based on user role
             if ($user->is_admin) {
                 return redirect()->route('admin.dashboard');

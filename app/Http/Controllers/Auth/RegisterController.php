@@ -135,7 +135,7 @@ class RegisterController extends Controller
         Session::forget('otp');
         $otp = mt_rand(100000, 999999);
         // Send OTP via email
-        // Mail::to($request->email)->send(new OtpEmail($otp));
+        Mail::to($request->email)->send(new OtpEmail($otp));
 
         // Store the OTP in session for verification in the next step
         Session::put('otp', $otp);
@@ -174,7 +174,7 @@ class RegisterController extends Controller
         Session::forget('otp');
 
         // Log the user in or redirect to login page
-        auth()->login($user);
+        // auth()->login($user);
 
         return redirect()->route('login');
     }
