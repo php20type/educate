@@ -107,7 +107,8 @@ class RegisterController extends Controller
         $request->validate([
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'confirm_email' => ['required', 'string', 'email', 'max:255', 'same:email'],
-            'phone' => ['required'],
+            'phone' => ['required', 'regex:/^\+?[1-9]\d{1,14}$/'], // Example regex for international phone numbers
+
         ]);
 
         // Store the data in session
@@ -150,13 +151,13 @@ class RegisterController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'instagram' => 'required',
+            // 'instagram' => 'required',
         ]);
 
         $otp = $request->digit1 . $request->digit2 . $request->digit3 . $request->digit4 . $request->digit5 . $request->digit6;
         $otpData = Session::get('otp');
         if ($otpData != $otp) {
-            return redirect()->back()->withInput()->withErrors(['otp' => 'Invalid OTP']);
+            return redirect()->back()->withInput()->withErrors(['otp' => 'Invalid OTP. Please try again.']);
         }
 
         // Complete registration process
@@ -174,12 +175,15 @@ class RegisterController extends Controller
         Session::forget('otp');
 
         // Log the user in or redirect to login page
-        // auth()->login($user);
+        auth()->login($user);
+
+        if ($user->is_admin) {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect()->route('student.dashboard');
+        }
 
         return redirect()->route('login');
     }
-
-
-
 
 }

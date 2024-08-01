@@ -310,7 +310,7 @@ title {
     position: relative;
     margin-top: 40px;
     overflow-y: auto;
-    height: calc(100vh + -250px);
+    height: calc(100vh + -500px);
 }
 .app-sidebar nav.sidebar-nav.bottom-nav {
     border-top: 1px solid #4c5a743d;
@@ -1363,6 +1363,40 @@ video:-webkit-full-page-media {
     .program-edit .image-list .image-box {
         width: 25%;
     }
+    .app-sidebar .logo-sec.mb-5 {
+        margin-bottom: 0.2rem !important;
+    }
+    .app-sidebar .profile-header img {
+        width: 60px;
+        height: 60px;
+    }
+        .app-sidebar .sidebar-nav {
+            margin-top: 10px;
+        }
+                .app-sidebar .profile-header p {
+                    font-size: 12px;
+                    line-height: 18px;
+                }
+                .app-sidebar .profile-header h4 {
+                    font-size: 16px;
+                    line-height: 24px;
+                }
+        .sidebar-nav .list-inline li.active {
+            margin-bottom: 10px !important;
+        }
+        .sidebar-nav .list-inline li {
+            padding: 14px;
+        }
+    .sidebar-nav .list-inline li {
+        padding: 16px;
+        margin-bottom: 0px !important;
+    }
+    .app-sidebar {
+    padding: 20px 20px;
+        }
+    .app-sidebar .logo-sec img {
+        width: 160px;
+    }
 }
 @media screen and (max-width: 1440px) {
     .header .header-content .sidemenu-toggle h4 {
@@ -1445,7 +1479,7 @@ video:-webkit-full-page-media {
     .resources-programs .downloads-box {
         padding: 25px;
     }
-   
+ 
     .resources-list .resources-image img {
         width: 100%;
         height: 300px;
@@ -1500,6 +1534,9 @@ video:-webkit-full-page-media {
 }
 }
 @media screen and (max-width: 991px) {
+    .app-sidebar .sidebar-nav {
+            height: calc(100vh + -440px);
+        }
     .ed-login-section::before {
         display: none;
     }
@@ -1553,12 +1590,17 @@ video:-webkit-full-page-media {
         border-radius: 100%;
         font-size: 12px;
     }
+        /* .app-sidebar,
+        .app-sidebar nav.sidebar-nav.bottom-nav {
+            position: absolute;
+        } */
     .app-sidebar.hidden {
         margin-left: 0;
         background: #0c1018;
         z-index: 11;
         border-radius: 20px;
         border: none;
+                padding: 20px 12px;
     }
     .main-content.app-content {
         max-width: 100%;
@@ -1568,8 +1610,16 @@ video:-webkit-full-page-media {
     .app-sidebar {
         width: 300px;
     }
+        .app-sidebar .logo-sec img {
+            width: 140px;
+        }
+    .app-sidebar .profile-header img {
+        width: 40px;
+        height: 40px;
+    }
     .app-sidebar .logo-sec {
-        padding-top: 20px;
+                margin-bottom: 0px !important;
+        padding-top: 0px;
     }
     .app-sidebar {
         margin-left: -320px;
@@ -1755,4 +1805,11 @@ video:-webkit-full-page-media {
     .header .header-content .top-header-rightmenu .search-bar {
         flex-basis: 160px;
     }
+}
+.invalid-feedback {
+    display: block;
+}    
+
+.iti.iti--allow-dropdown .form-control {
+    padding-left: 50px;
 }

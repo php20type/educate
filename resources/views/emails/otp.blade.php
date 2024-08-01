@@ -14,7 +14,7 @@
 <table align="center" width="100%" height="100vh" cellspacing="0" cellpadding="0" style="max-width: 800px; margin: 160px auto; text-align: center;">
     <tr>
         <td style="padding: 20px 0;">
-            <img src="https://educate.finitycodes.com/img/logo/logo.svg" alt="">
+            <img src="{{ url('img/logo/logo-png.png') }}" alt="">
         </td>
     </tr>
     <tr>

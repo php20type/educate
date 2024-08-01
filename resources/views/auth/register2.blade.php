@@ -52,7 +52,7 @@
                 <form class="ed-login-form mb-4" id="" method="POST" action="{{ route('register.postStep2') }}">
                   @csrf
                   <div class="form-group mb-4">
-                    <label class="form-label">First Name</label>
+                    <label for="first_name" class="form-label">First Name</label>
                     <input type="text" name="first_name" placeholder="Liam" class="form-control"/>
                   </div>
                   @error('first_name')
@@ -91,12 +91,13 @@
                             <input type="text" name="digit6" class="form-control otp-input" maxlength="1" />
                         </div>
                       </div>
-                      @error('text1')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                      @enderror
+                      <button type="button" id="resendOTP" class="btn btn-outline-primary w-100 mt-3" style="display: none;">Resend OTP</button>
                   </div> 
+                  @error('otp')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
                   <div class="form-group">
                     <button type="button" id="sendOTP" value="" class="btn btn-outline-primary w-100">
                       Sign Up
@@ -131,7 +132,7 @@
 <script>
     $(document).ready(function() {
         $('#sendOTP').click(function() {
-           $('#loader').show();
+            $('#loader').show();
             $.ajax({
                 url: "{{ route('send.otp') }}", // Define the route to send OTP
                 type: 'POST',
@@ -152,6 +153,28 @@
                     toastr.error('Failed to send OTP. Please try again.');
                     console.log(xhr.responseText);
                     $('#sendOTP').prop('disabled', false); // Re-enable the Send OTP button
+                }
+            });
+        });
+        $('#resendOTP').click(function() {
+            $('#loader').show();
+            $.ajax({
+                url: "{{ route('send.otp') }}", // Define the route to resend OTP
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    email: '{{ Session::get("registration.email") }}'
+                },
+                success: function(response) {
+                    $('#loader').hide();
+                    toastr.success('OTP has been resent to your email.');
+                    $('#resendOTP').hide();
+                    $('.otp-input').val(''); // Clear OTP input fields
+                },
+                error: function(xhr) {
+                    toastr.error('Failed to resend OTP. Please try again.');
+                    console.log(xhr.responseText);
+                    $('#resendOTP').prop('disabled', false); // Re-enable the Resend OTP button
                 }
             });
         });

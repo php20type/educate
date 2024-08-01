@@ -167,7 +167,9 @@ class StudentProgramController extends Controller
     {
         try {
             $course = Course::findOrFail($courseId);
-            $chapters = $course->chapters; // Assuming a relationship is defined
+            // $chapters = $course->chapters; // Assuming a relationship is defined
+            $chapters = $course->chapters()->orderBy('id', 'asc')->get();
+
             return response()->json([
                 'success' => true,
                 'chapters' => $chapters,

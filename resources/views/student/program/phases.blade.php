@@ -90,7 +90,7 @@
                             @endphp
                             <div class="row mb-4" data-chapter="{{ $chapterData }}">
                                 <div class="col-6">
-                                    <div class="sales-image position-relative">
+                                    <div class="sales-image position-relative" data-chapter-count="{{$chapters->count()}}">
                                         <a href="javascript:void(0)" onclick="loadVideo('{{ '/storage/' . $chapter->video_link }}', {{ $chapter->id }})"
                                             class="{{ $loop->first || $isCompleted ? '' : 'disabled' }}">
                                             <img src="{{ asset('/storage/' . $chapter->image) }}" alt="{{ $chapter->title }}" />
@@ -122,61 +122,69 @@
 @section('page-script')
 <script>
     var progress = @json($progress).map(p => p);
-
+    var chapters = 0;
     function loadPhase(courseId) {
-    fetch(`/course/${courseId}/chapter`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                document.getElementById('phaseTitle').textContent = data.title;
-                document.getElementById('phaseDescription').textContent = data.description;
-                const chaptersList = document.getElementById('chaptersList');
-                chaptersList.innerHTML = '';
+        fetch(`/course/${courseId}/chapter`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // get the count of total chapters
+                    chapters = data.chapters.length;
 
-                data.chapters.forEach(chapter => {
-                    const chapterData = JSON.stringify({
-                        id: chapter.id,
-                        is_completed: progress.includes(chapter.id)
+                    document.getElementById('phaseTitle').textContent = data.title;
+                    document.getElementById('phaseDescription').textContent = data.description;
+                    const chaptersList = document.getElementById('chaptersList');
+                    chaptersList.innerHTML = '';
+
+                    data.chapters.forEach((chapter, index) => {
+                        const chapterData = JSON.stringify({
+                            id: chapter.id,
+                            is_completed: progress.includes(chapter.id)
+                        });
+
+                        const chapterElement = document.createElement('div');
+                        chapterElement.classList.add('row', 'mb-4');
+                        chapterElement.setAttribute('data-chapter', chapterData);
+
+                        chapterElement.innerHTML = `
+                            <div class="col-6">
+                                <div class="sales-image position-relative">
+                                    <a href="javascript:void(0)" onclick="loadVideo('/storage/${chapter.video_link}', ${chapter.id})"
+                                        class="${progress.includes(chapter.id) ? '' : 'disabled'}">
+                                        <img src="/storage/${chapter.image}" alt="${chapter.title}" />
+                                        <div class="check-svg ${progress.includes(chapter.id) ? '' : 'd-none'}">
+                                            <img src="/img/home/check.svg" alt="" />
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="sales-content">
+                                    <h5>${chapter.title}</h5>
+                                    ${!progress.includes(chapter.id) ? '<p>This chapter is locked. Complete previous chapters to unlock.</p>' : ''}
+                                </div>
+                            </div>
+                        `;
+                        chaptersList.appendChild(chapterElement);
+
+                        // Automatically load the first video of the new phase
+                        if (index === 0) {
+                            loadVideo(`/storage/${chapter.video_link}`, chapter.id);
+                        }
                     });
 
-                    const chapterElement = document.createElement('div');
-                    chapterElement.classList.add('row', 'mb-4');
-                    chapterElement.setAttribute('data-chapter', chapterData);
-
-                    chapterElement.innerHTML = `
-                        <div class="col-6">
-                            <div class="sales-image position-relative">
-                                <a href="javascript:void(0)" onclick="loadVideo('/storage/${chapter.video_link}', ${chapter.id})"
-                                    class="${progress.includes(chapter.id) ? '' : 'disabled'}">
-                                    <img src="/storage/${chapter.image}" alt="${chapter.title}" />
-                                    <div class="check-svg ${progress.includes(chapter.id) ? '' : 'd-none'}">
-                                        <img src="/img/home/check.svg" alt="" />
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="sales-content">
-                                <h5>${chapter.title}</h5>
-                                ${!progress.includes(chapter.id) ? '<p>This chapter is locked. Complete previous chapters to unlock.</p>' : ''}
-                            </div>
-                        </div>
-                    `;
-                    chaptersList.appendChild(chapterElement);
-                });
-
-                updateChapters();
-            } else {
-                console.error('Error loading phase:', data.message);
-            }
-        })
-        .catch(error => console.error('Error loading phase:', error));
-}
+                    updateChapters();
+                } else {
+                    console.error('Error loading phase:', data.message);
+                }
+            })
+            .catch(error => console.error('Error loading phase:', error));
+    }
 
 
     function loadVideo(videoLink, chapterId) {
@@ -207,6 +215,7 @@
     }
 
     function loadNextChapter(currentChapterId) {
+        
         const courseId = document.getElementById('phaseDropdown').value;
         fetch(`/courses/${courseId}/chapters/${currentChapterId}/next`)
             .then(response => response.json())
@@ -221,8 +230,11 @@
 
     function updateChapters() {
         document.querySelectorAll('.sales-image a').forEach((link, index) => {
+            
             const chapter = JSON.parse(link.closest('[data-chapter]').dataset.chapter);
             const checkSvg = link.querySelector('.check-svg');
+            
+            
             if (progress.includes(chapter.id)) {
                 link.classList.remove('disabled');
                 checkSvg.classList.remove('d-none');
@@ -237,10 +249,18 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+   document.addEventListener('DOMContentLoaded', function() {
         if (document.getElementById('phaseDropdown').value) {
             loadPhase(document.getElementById('phaseDropdown').value);
+        } else {
+            // Load the first phase by default if no value is selected
+            const firstOption = document.getElementById('phaseDropdown').options[1];
+            if (firstOption) {
+                firstOption.selected = true;
+                loadPhase(firstOption.value);
+            }
         }
     });
+
 </script>
 @endsection

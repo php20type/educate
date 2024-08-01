@@ -87,11 +87,16 @@ class ProfileController extends Controller
 
         // Handle profile image upload if provided
         if ($request->hasFile('profile_image')) {
+
             // Delete old image if exists
             $oldImagePath = storage_path('app/public/' . $user->image);
-            if (file_exists($oldImagePath)) {
+            if (file_exists($oldImagePath) && !is_dir($oldImagePath)) {
                 unlink($oldImagePath);
             }
+
+            // if (file_exists($oldImagePath)) {
+            //     unlink($oldImagePath);
+            // }
 
             // Store new image
             $imagePath = $request->file('profile_image')->store('public/profile_images');

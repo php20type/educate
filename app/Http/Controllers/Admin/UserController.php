@@ -31,7 +31,7 @@ class UserController extends Controller
             'phone_number' => $request->phone_number,
             'is_active' => $request->status,
             // 'plan' => $request->plan,
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Add validation for the image
+            // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Add validation for the image
         ]);
 
         // Handle profile image upload
@@ -39,6 +39,7 @@ class UserController extends Controller
             // Delete old profile image if exists
             if ($user->image) {
                 Storage::delete($user->image); // Ensure to import `Storage` facade at the top
+                Storage::disk('public')->delete($user->image);
             }
 
             // Store new profile image
