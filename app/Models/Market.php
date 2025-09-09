@@ -16,4 +16,9 @@ class Market extends Model
     {
         return $this->belongsTo(Currency::class,'currency_id');
     }
+
+    public function lead()
+    {
+        return $this->hasMany(Lead::class, 'market_id');
+    }
 }

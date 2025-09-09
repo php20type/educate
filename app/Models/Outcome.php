@@ -11,5 +11,9 @@ class Outcome extends Model
         'name'
     ];
 
+    public function lead()
+    {
+        return $this->hasMany(Lead::class, 'outcome_id');
+    }
 
 }

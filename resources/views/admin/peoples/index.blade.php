@@ -140,7 +140,7 @@
                                                                     <div class="person-name">
                                                                         <a href="{{ route('admin.peoples.show', $people->id) }}"
                                                                             class="text-decoration-none text-dark">
-                                                                            {{ $people->contact_name ?? 'N/A' }}
+                                                                            {{ $people->name ?? 'N/A' }}
                                                                         </a>
                                                                     </div>
                                                                     <div class="company-name">

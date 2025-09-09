@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('new_leads', function (Blueprint $table) {
+        Schema::create('leads', function (Blueprint $table) {
 
             $table->id();
             $table->unsignedBigInteger('lead_number')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration {
 
             $table->decimal('confidence', 5, 2)->nullable();
 
-            $table->integer('unknown_field');
+            $table->integer('unknown_field')->nullable();
 
             $table->unsignedBigInteger('creator_id')->nullable();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');

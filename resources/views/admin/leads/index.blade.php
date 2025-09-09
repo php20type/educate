@@ -58,7 +58,7 @@
                                                     aria-label="Assigned to select">
                                                     <option value="">Assigned to</option>
                                                     @foreach ($peoples as $people)
-                                                        <option value="{{ $people->id }}">{{ $people->contact_name }}
+                                                        <option value="{{ $people->id }}">{{ $people->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>

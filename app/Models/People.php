@@ -40,10 +40,12 @@ class People extends Model
     {
         return $this->belongsTo(City::class, 'city_id');
     }
+
     public function territory()
     {
         return $this->belongsTo(Territory::class, 'territory_id');
     }
+
     public function tag()
     {
         return $this->belongsTo(Tag::class, 'tag_id');
@@ -54,6 +56,7 @@ class People extends Model
     {
         return $this->hasMany(PeopleEmail::class, 'people_id');
     }
+
     public function peopleAddress()
     {
         return $this->hasMany(PeopleAddress::class, 'people_id');
@@ -63,14 +66,17 @@ class People extends Model
     {
         return $this->hasMany(PeoplePhone::class, 'people_id');
     }
+
     public function peopleTask()
     {
         return $this->hasMany(PeopleTask::class, 'people_id');
     }
+
     public function peopleUrl()
     {
         return $this->hasMany(PeopleUrl::class, 'people_id');
     }
+
     public function peopleCompany()
     {
         return $this->hasMany(PeopleCompany::class, 'people_id');
@@ -83,7 +89,6 @@ class People extends Model
             ->withTimestamps();
     }
 
-
     // Has many relations
     public function activities()
     {
@@ -95,6 +100,7 @@ class People extends Model
     {
         return $this->hasMany(LeadPeople::class, 'people_id');
     }
+    
     public function leads()
     {
         return $this->belongsToMany(Lead::class, 'lead_peoples')

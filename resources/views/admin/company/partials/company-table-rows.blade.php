@@ -10,10 +10,10 @@
                  </a>
              </div>
              <div class="company-name">
-                 {{ $company->person?->contact_name ?? 'N/A' }}</div>
+                 {{ $company->person?->name ?? 'N/A' }}</div>
              {{-- Assuming relation --}}
          </td>
-         <td>{{ $company->person?->contact_name ?? 'N/A' }}</td>
+         <td>{{ $company->person?->name ?? 'N/A' }}</td>
          {{-- peoples of that company info --}}
          <td>{{ \Carbon\Carbon::parse($company->created_at)->format('d F Y') }}</td>
          <td>

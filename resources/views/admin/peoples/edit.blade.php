@@ -26,7 +26,7 @@
                                     <img src="{{ asset('img/home/profile-image.png') }}" alt="Company"
                                         class="company-logo me-3">
                                     <div>
-                                        <h4 class="mb-2 text-transform-uppercase">{{ $peoples->contact_name ?? 'N/A' }}</h4>
+                                        <h4 class="mb-2 text-transform-uppercase">{{ $peoples->name ?? 'N/A' }}</h4>
                                         <h6 class="mb-2">{{ $peoples->bio ?? 'N/A' }}</h6>
                                         <div class="star-rating">
                                             <i class="fas fa-star"></i>
@@ -749,7 +749,7 @@
                                         <select id="person_select" name="person_id[]" class="form-select" multiple>
                                             <option value="">-- Select Person --</option>
                                             @foreach ($allpeoples as $allpeople)
-                                                <option value="{{ $allpeople->id }}">{{ $allpeople->contact_name }}
+                                                <option value="{{ $allpeople->id }}">{{ $allpeople->name }}
                                                     ({{ $allpeople->email }})
                                                 </option>
                                             @endforeach
@@ -938,7 +938,7 @@
                                                     <div>
                                                         <input type="hidden" name="participant_id[]"
                                                             value="{{ $allpeople->id }}">
-                                                        <h6 class="mb-0">{{ $allpeople->contact_name }}</h6>
+                                                        <h6 class="mb-0">{{ $allpeople->name }}</h6>
                                                         <small class="text-warning">{{ $allpeople->email }}</small>
                                                     </div>
                                                 </div>

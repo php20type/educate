@@ -59,7 +59,7 @@
                             <div class="mt-4">
                                 <select class="form-select d-inline-block w-100" aria-label="Default select example">
                                     <option value="">Add tags...</option>
-                                    @foreach ($companytags as $companytag   )
+                                    @foreach ($companytags as $companytag)
                                         <option value="{{ $companytag->id }}">{{ $companytag->name }}</option>
                                     @endforeach
                                 </select>
@@ -82,7 +82,7 @@
                                             <div class="mb-2">
                                                 <input type="hidden" name="company_id" value="{{ $company->id }}">
                                                 <input type="text" class="form-control" placeholder="Contact Name"
-                                                    name="contact_name"required>
+                                                    name="name"required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -123,7 +123,7 @@
                                         <img src="{{ asset('img/home/profile.png') }}" alt="Paul Blake"
                                             class="person-avatar me-3">
                                         <div>
-                                            <h6 class="mb-0">{{ $people->contact_name }}</h6>
+                                            <h6 class="mb-0">{{ $people->name }}</h6>
                                             <small class="text-warning">{{ $people->job_title }}</small>
                                         </div>
                                     </div>
@@ -603,7 +603,7 @@
                                     <option value="">Select company type</option>
                                     @foreach ($company_types as $company_type)
                                         <option value="{{ $company_type->id }}"
-                                             {{ $company->company_type_id == $company_type->id ? 'selected' : '' }}>
+                                            {{ $company->company_type_id == $company_type->id ? 'selected' : '' }}>
                                             {{ $company_type->type }}</option>
                                     @endforeach
                                 </select>
@@ -651,7 +651,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mt-2">
+                                {{-- <div class="mt-2">
                                     <div class="text-warning small toggle-inline-detail" style="cursor: pointer;">
                                         Add email, phone, url, or address
                                     </div>
@@ -660,7 +660,103 @@
                                 <div class="col-12 mt-2 inline-detail-input" style="display: none;">
                                     <input type="text" name="inline_detail" class="form-control"
                                         placeholder="Enter an email, phone number, address, etc">
+                                </div> --}}
+                                <div class="mt-2">
+                                    <div class="text-warning small toggle-inline-detail" style="cursor: pointer;">
+                                        Add Email, Phone, URL, or Address
+                                    </div>
                                 </div>
+
+                                <div class="col-12 mt-2 inline-detail-input" style="display: none;">
+                                    <div class="row g-2">
+
+                                        <!-- Type Selector -->
+                                        <div class="col-md-4">
+                                            <select name="detail_type" class="form-control">
+                                                <option value="email">Email</option>
+                                                <option value="personal_email">Personal Email</option>
+                                                <option value="support_email">Support Email</option>
+                                                <option value="work_email">Work Email</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Value Input -->
+                                        <div class="col-md-8">
+                                            <input type="text" name="detail_value" class="form-control"
+                                                placeholder="Enter email">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-2 inline-detail-input" style="display: none;">
+                                    <div class="row g-2">
+
+                                        <!-- Type Selector -->
+                                        <div class="col-md-4">
+                                            <select name="detail_type" class="form-control">
+                                                <option value="phone">Phone</option>
+                                                <option value="home_phone">Home Phone</option>
+                                                <option value="mobile_phone">Mobile Phone</option>
+                                                <option value="work_phone">Work Phone</option>
+                                                <option value="fax_phone">Fax Phone</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Value Input -->
+                                        <div class="col-md-8">
+                                            <input type="text" name="detail_value" class="form-control"
+                                                placeholder="Enter Phone">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-2 inline-detail-input" style="display: none;">
+                                    <div class="row g-2">
+
+                                        <!-- Type Selector -->
+                                        <div class="col-md-4">
+                                            <select name="detail_type" class="form-control">
+                                                <option value="url">URL</option>
+                                                <option value="blog_url">Blog URL</option>
+                                                <option value="twitter_url">Twitter URL</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Value Input -->
+                                        <div class="col-md-8">
+                                            <input type="text" name="detail_value" class="form-control"
+                                                placeholder="Enter url">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                 <div class="col-12 mt-2 inline-detail-input" style="display: none;">
+                                    <div class="row g-2">
+
+                                        <!-- Type Selector -->
+                                        <div class="col-md-4">
+                                            <select name="detail_type" class="form-control">
+                                                <option value="address">Address</option>
+                                                <option value="main_address">Main Address</option>
+                                                <option value="work_address">Work Address</option>
+                                                <option value="home_address">Home Address</option>
+                                                <option value="billing_address">Billing Address</option>
+                                                <option value="mailing_address">Mailing Address</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Value Input -->
+                                        <div class="col-md-8">
+                                            <input type="text" name="detail_value" class="form-control"
+                                                placeholder="Enter address">
+                                        </div>
+
+                                    </div>
+                                </div>
+
 
 
                             </div>
@@ -851,7 +947,7 @@
                                     <select id="person_select" name="person_id[]" class="form-select" multiple>
                                         <option value="">-- Select Person --</option>
                                         @foreach ($allpeoples as $allpeople)
-                                            <option value="{{ $allpeople->id }}">{{ $allpeople->contact_name }}
+                                            <option value="{{ $allpeople->id }}">{{ $allpeople->name }}
                                                 ({{ $allpeople->email }})
                                             </option>
                                         @endforeach
@@ -1038,7 +1134,7 @@
                                                 <div>
                                                     <input type="hidden" name="participant_id[]"
                                                         value="{{ $allpeople->id }}">
-                                                    <h6 class="mb-0">{{ $allpeople->contact_name }}</h6>
+                                                    <h6 class="mb-0">{{ $allpeople->name }}</h6>
                                                     <small class="text-warning">{{ $allpeople->email }}</small>
                                                 </div>
                                             </div>
@@ -1477,7 +1573,7 @@
         $("#addPeopleAjaxForm").validate({
             ignore: [],
             rules: {
-                contact_name: {
+                name: {
                     required: true
                 },
                 job_title: {
@@ -1495,7 +1591,7 @@
 
             },
             messages: {
-                contact_name: {
+                name: {
                     required: "Please enter the Contact name."
                 },
                 job_title: {

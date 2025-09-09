@@ -7,16 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Lead extends Model
 {
     protected $fillable = [
-        // 'name',
-        // 'assignee_id',
-        // 'close_date',
-        // 'confidence',
-        // 'company_id',
-        // 'tag_id',
-        // 'lead_status',
-        // 'lead_flags',
-        // 'stage_id',
-        // 'created_at',
         'lead_number',
         'name',
         'description',
@@ -32,10 +22,10 @@ class Lead extends Model
         'last_modified',
         'market_id',
         'outcome_id',
+        'created_at'
     ];
 
     protected $casts = [
-        'competitors' => 'array',
         'close_date' => 'datetime',
         'lead_flags' => 'array',
     ];
@@ -74,7 +64,6 @@ class Lead extends Model
             ->withTimestamps();
     }
 
-
     // Sources pivot table
     public function leadSources()
     {
@@ -109,7 +98,6 @@ class Lead extends Model
     }
 
     // Other foreign key fields relations
-
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');

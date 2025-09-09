@@ -371,7 +371,7 @@
                                                         class="organization">{{ $leads->companies->pluck('company.name')->filter()->join(', ') ?? 'N/A' }},
                                                         {{-- <a href="#" class="author-link">Paul Blake</a>Heath Herrington --}}
                                                         <a href="#"
-                                                            class="author-link"></a>{{ $leads->peoples->pluck('contact_name')->join(', ') ?: 'N/A' }}
+                                                            class="author-link"></a>{{ $leads->peoples->pluck('name')->join(', ') ?: 'N/A' }}
                                                         <a href="#"
                                                             class="author-link">{{ $leads->name ?? 'N/A' }}</a> </span>
                                                 </p>
@@ -460,7 +460,7 @@
                                                 </span>,
                                                 {{-- Barbra Moore, <a href="#" class="author-link">Brennan Baxter</a>. --}}
                                                 <a href="#"
-                                                    class="author-link">{{ $leads->peoples->pluck('contact_name')->join(', ') ?: 'N/A' }}
+                                                    class="author-link">{{ $leads->peoples->pluck('name')->join(', ') ?: 'N/A' }}
                                                 </a>
                                                 <div class="activity-title">{{ $leads->name ?? 'N/A' }}</div>
                                             </div>
@@ -524,7 +524,7 @@
                                     <option selected>Select assignee</option>
                                     @foreach ($allpeoples as $allpeople)
                                         <option value="{{ $allpeople->id }}">
-                                            {{ $allpeople->contact_name }}
+                                            {{ $allpeople->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -565,7 +565,7 @@
                                         </div>
                                         <div class="col-10">
                                             <div class="company-name">
-                                                <p><strong>{{ $person->contact_name }}</strong></p>
+                                                <p><strong>{{ $person->name }}</strong></p>
                                                 <p>{{ $person->job_title ?? 'N/A' }}</p>
                                                 <p>{{ $person->phone ?? 'N/A' }}</p>
                                                 <p>{{ $person->email ?? 'N/A' }}</p>
@@ -799,7 +799,7 @@
                                                     <div>
                                                         <input type="hidden" name="participant_id[]"
                                                             value="{{ $allpeople->id }}">
-                                                        <h6 class="mb-0">{{ $allpeople->contact_name }}</h6>
+                                                        <h6 class="mb-0">{{ $allpeople->name }}</h6>
                                                         <small class="text-warning">{{ $allpeople->email }}</small>
                                                     </div>
                                                 </div>

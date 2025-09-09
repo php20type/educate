@@ -138,7 +138,7 @@
                                     <select name="people_id" class="form-select">
                                         <option value="">Select Person</option>
                                         @foreach ($peoples as $people)
-                                            <option value="{{ $people->id }}">{{ $people->contact_name }}</option>
+                                            <option value="{{ $people->id }}">{{ $people->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -349,7 +349,6 @@
                         method="POST">
                         @csrf
 
-
                         <div class="row mx-0">
                             <div class="col-lg-12">
                                 <div class="form-group">
@@ -466,7 +465,7 @@
                                     @enderror
                                     <select id="person_select" name="person_id[]" class="form-select select2" multiple>
                                         @foreach ($peoples as $people)
-                                            <option value="{{ $people->id }}">{{ $people->contact_name }}
+                                            <option value="{{ $people->id }}">{{ $people->name }}
                                                 ({{ $people->email }})
                                             </option>
                                         @endforeach
@@ -493,7 +492,7 @@
                                                 <input type="text" name="inline_phone" class="form-control">
                                             </div>
                                             <div class="col-md-6 mb-2">
-                                                <label>Code</label>
+                                                <label>Postal Code</label>
                                                 <input type="text" name="inline_code" class="form-control">
                                             </div>
                                         </div>
@@ -658,7 +657,7 @@
                                                 <div>
                                                     <input type="hidden" name="participant_id[]"
                                                         value="{{ $people->id }}">
-                                                    <h6 class="mb-0">{{ $people->contact_name }}</h6>
+                                                    <h6 class="mb-0">{{ $people->name }}</h6>
                                                     <small class="text-warning">{{ $people->email }}</small>
                                                 </div>
                                             </div>
@@ -1216,7 +1215,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ route('admin.people.ajax.store') }}',
+                    url: '{{ route('admin.people.store') }}',
                     method: 'POST',
                     data: $(this).serialize(),
 
