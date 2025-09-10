@@ -46,7 +46,7 @@
                                         class="text-warning">{{ $peoples->user->name }}</span>
                                     {{ $peoples->created_at->diffForHumans() }}</small>
                             </div>
-                             <div class="mt-3">
+                            <div class="mt-3">
                                 <span class="badge-customer">
                                     {{ $peoples->tag?->name ?? 'N/A' }}
                                 </span>
@@ -55,7 +55,7 @@
                             <div class="mt-4">
                                 <select class="form-select d-inline-block w-100" aria-label="Default select example">
                                     <option selected>Add tags...</option>
-                                     @foreach ($persontags as $persontag   )
+                                    @foreach ($persontags as $persontag)
                                         <option value="{{ $persontag->id }}">{{ $persontag->name }}</option>
                                     @endforeach
                                 </select>
@@ -202,7 +202,8 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-2">
-                                            <textarea rows="3" placeholder="Include any description you need to help complete this task…" name="description" class="form-control"></textarea>
+                                            <textarea rows="3" placeholder="Include any description you need to help complete this task…"
+                                                name="description" class="form-control"></textarea>
                                         </div>
                                     </div>
 
@@ -531,33 +532,256 @@
                             </div>
                         </form>
                         <hr>
-                        <div class="sidebar-section">
-                            {{-- <div class="mt-2">
-                                <a href="#" class="text-warning small">Add email, phone, url, or address</a>
-                            </div> --}}
-                            <div class="mt-2">
-                                <div class="text-warning small toggle-inline-detail" style="cursor: pointer;">
-                                    Add email, phone, url, or address
-                                </div>
-                            </div>
 
-                            <div class="col-12 mt-2 inline-detail-input" style="display: none;">
-                                <input type="text" name="inline_detail" class="form-control"
-                                    placeholder="Enter an email, phone number, address, etc">
-                            </div>
-                        </div>
-
-                        <div class="sidebar-section">
+                        {{-- Add Email Option --}}
+                        <div class="sidebar-section" id="email">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h6>EMAIL <i class="fa-solid fa-sort"></i></h6>
-                                <div>
-                                    <a href="#"><i class="fas fa-edit text-muted me-2"></i></a>
-                                    <a href="#"><i class="fas fa-times text-muted"></i></a>
+                                <h6 class="form-label">EMAIL</h6>
+                                <div class="text-warning small toggle-inline-email" style="cursor: pointer;">
+                                    Add Email
                                 </div>
                             </div>
-                            {{-- <p class="small">apedroza@chcl.tachc.org</p> --}}
-                            <p class="small">{{ $peoples->email ?? 'N/A' }}</p>
+
+                            <div class="col-12 inline-detail-input">
+                                <div class="row g-2">
+                                    @forelse($emails as $email)
+                                        <div class="col-12 mb-2">
+                                            <div class="row g-2">
+                                                <!-- Type Selector -->
+                                                <div class="col-md-4">
+                                                    <select name="detail_type[]" class="form-control">
+                                                        @foreach ($emailTypes as $field => $label)
+                                                            <option value="{{ $field }}"
+                                                                {{ $email['selected'] === $field ? 'selected' : '' }}>
+                                                                {{ $label }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <!-- Value Input -->
+                                                <div class="col-md-8">
+                                                    <input type="text" name="detail_value[]" class="form-control"
+                                                        value="{{ $email['value'] }}" placeholder="Enter email">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <p class="small">N/A</p>
+                                    @endforelse
+                                </div>
+                            </div>
+                            <div class="col-12 inline-detail-email" style="display: none;">
+                                <div class="row g-2">
+
+                                    <!-- Type Selector -->
+                                    <div class="col-md-4">
+                                        <select name="detail_type" class="form-control">
+                                            <option value="email">Email</option>
+                                            <option value="personal_email">Personal Email</option>
+                                            <option value="support_email">Support Email</option>
+                                            <option value="work_email">Work Email</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Value Input -->
+                                    <div class="col-md-8">
+                                        <input type="text" name="detail_value" class="form-control"
+                                            placeholder="Enter email">
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
+
+                        <hr>
+
+                        {{-- Add Address Option --}}
+                        <div class="sidebar-section" id="address">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="form-label">ADDRESS</h6>
+                                <div class="text-warning small toggle-inline-address" style="cursor: pointer;">
+                                    Add Address
+                                </div>
+                            </div>
+
+                            <div class="col-12 inline-detail-input">
+                                <div class="row g-2">
+                                    @forelse($addresses as $address)
+                                        <div class="col-12 mb-2">
+                                            <div class="row g-2">
+                                                <!-- Type Selector -->
+                                                <div class="col-md-4">
+                                                    <select name="address_type[]" class="form-control">
+                                                        @foreach ($addressTypes as $field => $label)
+                                                            <option value="{{ $field }}"
+                                                                {{ $address['selected'] === $field ? 'selected' : '' }}>
+                                                                {{ $label }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <!-- Value Input -->
+                                                <div class="col-md-8">
+                                                    <input type="text" name="address_value[]" class="form-control"
+                                                        value="{{ $address['value'] }}" placeholder="Enter address">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <p class="small">N/A</p>
+                                    @endforelse
+                                </div>
+                            </div>
+
+                            <div class="col-12 inline-detail-address" style="display: none;">
+                                <div class="row g-2">
+                                    <!-- Type Selector -->
+                                    <div class="col-md-4">
+                                        <select name="address_type" class="form-control">
+                                            <option value="address">Address</option>
+                                            <option value="main_address">Main Address</option>
+                                            <option value="work_address">Work Address</option>
+                                            <option value="home_address">Home Address</option>
+                                            <option value="billing_address">Billing Address</option>
+                                            <option value="mailing_address">Mailing Address</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Value Input -->
+                                    <div class="col-md-8">
+                                        <input type="text" name="address_value" class="form-control"
+                                            placeholder="Enter address">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        {{-- Add Phone Option --}}
+                        <div class="sidebar-section" id="phone">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="form-label">PHONE</h6>
+                                <div class="text-warning small toggle-inline-phone" style="cursor: pointer;">
+                                    Add Phone
+                                </div>
+                            </div>
+
+                            <div class="col-12 inline-detail-input">
+                                <div class="row g-2">
+                                    @forelse($phones as $phone)
+                                        <div class="col-12 mb-2">
+                                            <div class="row g-2">
+                                                <!-- Type Selector -->
+                                                <div class="col-md-4">
+                                                    <select name="phone_type[]" class="form-control">
+                                                        @foreach ($phoneTypes as $field => $label)
+                                                            <option value="{{ $field }}"
+                                                                {{ $phone['selected'] === $field ? 'selected' : '' }}>
+                                                                {{ $label }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <!-- Value Input -->
+                                                <div class="col-md-8">
+                                                    <input type="text" name="phone_value[]" class="form-control"
+                                                        value="{{ $phone['value'] }}" placeholder="Enter phone number">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <p class="small">N/A</p>
+                                    @endforelse
+                                </div>
+                            </div>
+
+                            <div class="col-12 inline-detail-phone" style="display: none;">
+                                <div class="row g-2">
+                                    <!-- Type Selector -->
+                                    <div class="col-md-4">
+                                        <select name="phone_type" class="form-control">
+                                            <option value="phone">Phone</option>
+                                            <option value="home_phones">Home Phone</option>
+                                            <option value="mobile_phones">Mobile Phone</option>
+                                            <option value="work_phones">Work Phone</option>
+                                            <option value="fax_phones">Fax Phone</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Value Input -->
+                                    <div class="col-md-8">
+                                        <input type="text" name="phone_value" class="form-control"
+                                            placeholder="Enter phone number">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        {{-- Add URL Option --}}
+                        <div class="sidebar-section" id="url">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="form-label">URL</h6>
+                                <div class="text-warning small toggle-inline-url" style="cursor: pointer;">
+                                    Add URL
+                                </div>
+                            </div>
+
+                            <div class="col-12 inline-detail-input">
+                                <div class="row g-2">
+                                    @forelse($urls as $url)
+                                        <div class="col-12 mb-2">
+                                            <div class="row g-2">
+                                                <!-- Type Selector -->
+                                                <div class="col-md-4">
+                                                    <select name="url_type[]" class="form-control">
+                                                        @foreach ($urlTypes as $field => $label)
+                                                            <option value="{{ $field }}"
+                                                                {{ $url['selected'] === $field ? 'selected' : '' }}>
+                                                                {{ $label }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <!-- Value Input -->
+                                                <div class="col-md-8">
+                                                    <input type="text" name="url_value[]" class="form-control"
+                                                        value="{{ $url['value'] }}" placeholder="Enter URL">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <p class="small">N/A</p>
+                                    @endforelse
+                                </div>
+                            </div>
+
+                            <div class="col-12 inline-detail-url" style="display: none;">
+                                <div class="row g-2">
+                                    <!-- Type Selector -->
+                                    <div class="col-md-4">
+                                        <select name="url_type" class="form-control">
+                                            <option value="url">URL</option>
+                                            <option value="blog_url">Blog URL</option>
+                                            <option value="twitter_url">Twitter URL</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Value Input -->
+                                    <div class="col-md-8">
+                                        <input type="text" name="url_value" class="form-control"
+                                            placeholder="Enter URL">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <hr>
                         <div class="sidebar-section">
                             <div class="d-flex justify-content-between align-items-center">
@@ -590,13 +814,13 @@
                             </div>
                         </div>
                         <hr>
-                        <form class="url-form" id="urlForm">
+                        {{-- <form class="url-form" id="urlForm">
                             <div class="form-group mb-3">
                                 <label for="urlInput" class="form-label"><b>URLS</b> </label>
                                 <input type="text" class="form-control" id="urlInput"
                                     placeholder="https://example.com">
                             </div>
-                        </form>
+                        </form> --}}
                         <div class="sidebar-section">
                             <h6 class="form-label">ATTACHED FILES</h6>
                             <button class="btn btn-outline-secondary w-100">
@@ -988,41 +1212,52 @@
             $('#AddLead').modal('show');
         }
 
+        $(document).ready(function() {
+
+            $('.toggle-inline-email').on('click', function() {
+                $('.inline-detail-email').toggle(); // smooth animation
+            });
+
+            $('.toggle-inline-address').on('click', function() {
+                $('.inline-detail-address').toggle(); // smooth animation
+            });
+
+            $('.toggle-inline-phone').on('click', function() {
+                $('.inline-detail-phone').toggle(); // smooth animation
+            });
+
+            $('.toggle-inline-url').on('click', function() {
+                $('.inline-detail-url').toggle(); // smooth animation
+            });
+
+
+        });
 
         document.addEventListener('DOMContentLoaded', function() {
-            const choicesConfig = {
-                removeItemButton: true,
-                placeholder: true,
-                shouldSort: false,
-            };
+            //  Select2 script
+            $('#AddLead').on('shown.bs.modal', function() {
+                $('#companySelect').select2({
+                    dropdownParent: $('#AddLead'),
+                    placeholder: '-- Select a company --',
+                    allowClear: true
+                });
+                $('#person_select').select2({
+                    dropdownParent: $('#AddLead'),
+                    placeholder: '-- Select a person --',
+                    allowClear: true
+                });
+                $('#source_select').select2({
+                    dropdownParent: $('#AddLead'),
+                    placeholder: 'Choose...',
+                    allowClear: true
+                });
+                $('#competitor_select').select2({
+                    dropdownParent: $('#AddLead'),
+                    placeholder: 'Choose...',
+                    allowClear: true
 
-            const selects = [{
-                    id: 'companySelect',
-                    search: 'Search Companies...'
-                },
-                {
-                    id: 'person_select',
-                    search: 'Search Person...'
-                },
-                {
-                    id: 'source_select',
-                    search: 'Search Source...'
-                },
-                {
-                    id: 'competitor_select',
-                    search: 'Search Competitor...'
-                },
-            ];
+                });
 
-            selects.forEach(select => {
-                const element = document.getElementById(select.id);
-                if (element) {
-                    new Choices(element, {
-                        ...choicesConfig,
-                        // placeholderValue: select.placeholder,
-                        searchPlaceholderValue: select.search
-                    });
-                }
             });
         });
 
@@ -1403,7 +1638,7 @@
 
                 },
                 error: function(xhr) {
-                     alert('Error: ' + xhr.responseText);
+                    alert('Error: ' + xhr.responseText);
                     toastr.error('Something went wrong while adding the company.');
                 }
             });
@@ -1509,8 +1744,8 @@
         $("#loginActivity").validate({
             ignore: [],
             rules: {
-                title:{
-                    required:true
+                title: {
+                    required: true
                 },
                 activity_type: {
                     required: true
@@ -1597,6 +1832,5 @@
             // Trigger default duration on load (optional)
             durationSelect.dispatchEvent(new Event('change'));
         });
-
     </script>
 @endpush

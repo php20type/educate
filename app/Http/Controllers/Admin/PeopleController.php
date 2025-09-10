@@ -9,6 +9,11 @@ use App\Models\User;
 use App\Models\ActivityType;
 use App\Models\Source;
 use App\Models\Competitor;
+use App\Models\PeopleAddress;
+use App\Models\PeopleEmail;
+use App\Models\PeoplePhone;
+use App\Models\PeopleCompany;
+use App\Models\PeopleUrl;
 use App\Models\Industry;
 use App\Models\Product;
 use App\Models\Company;
@@ -42,7 +47,6 @@ class PeopleController extends Controller
 
         return compact('myPeopleCount', 'totalPeoples', 'formattedTotalPeoples');
     }
-
 
     // public function index(Request $request)
     // {
@@ -342,8 +346,8 @@ class PeopleController extends Controller
             'peopleEmail',
             'peopleAddress',
             'peoplePhone',
-            'peopleTask',
             'peopleUrl',
+            'peopleTask',
             'peopleCompany',
             'companiesAlt',
             'activities',
@@ -374,6 +378,88 @@ class PeopleController extends Controller
             'competitors'
         ])->get();
 
+        $emailTypes = [
+            'email' => 'Email',
+            'personal_email' => 'Personal Email',
+            'support_email' => 'Support Email',
+        ];
+
+        $emails = [];
+
+        foreach ($peoples->peopleEmail as $emailRecord) {
+            foreach ($emailTypes as $field => $label) {
+                if (!empty($emailRecord->$field)) {
+                    $emails[] = [
+                        'selected' => $field,   // which option should be selected
+                        'value' => $emailRecord->$field,
+                    ];
+                }
+            }
+        }
+
+        $addressTypes = [
+            'address' => 'Address',
+            'main_address' => 'Main Address',
+            'work_address' => 'Work Address',
+            'home_address' => 'Home Address',
+            'billing_address' => 'Billing Address',
+            'mailing_address' => 'Mailing Address',
+        ];
+
+        $addresses = [];
+
+        foreach ($peoples->peopleAddress as $addressRecord) {
+            foreach ($addressTypes as $field => $label) {
+                if (!empty($addressRecord->$field)) {
+                    $addresses[] = [
+                        'selected' => $field,   // which option should be selected
+                        'value' => $addressRecord->$field,
+                    ];
+                }
+            }
+        }
+
+        $phoneTypes = [
+            'phone' => 'Phone',
+            'home_phones' => 'Home Phone',
+            'mobile_phones' => 'Mobile Phone',
+            'work_phones' => 'Work Phone',
+            'fax_phones' => 'Fax Phone',
+        ];
+
+        $phones = [];
+
+        foreach ($peoples->peoplePhone as $phoneRecord) {
+            foreach ($phoneTypes as $field => $label) {
+                if (!empty($phoneRecord->$field)) {
+                    $phones[] = [
+                        'selected' => $field,   // which option should be selected
+                        'value' => $phoneRecord->$field,
+                    ];
+                }
+            }
+        }
+
+        $urlTypes = [
+            'url' => 'URL',
+            'blog_url' => 'Blog URL',
+            'twitter_url' => 'Twitter URL',
+        ];
+
+        $urls = [];
+
+        foreach ($peoples->peopleUrl as $urlRecord) {
+            foreach ($urlTypes as $field => $label) {
+                if (!empty($urlRecord->$field)) {
+                    $urls[] = [
+                        'selected' => $field, // which option should be selected
+                        'value' => $urlRecord->$field,
+                    ];
+                }
+            }
+        }
+
+
         return view('admin.peoples.edit', compact(
             'peoples',
             'leads',
@@ -385,41 +471,49 @@ class PeopleController extends Controller
             'industries',
             'allpeoples',
             'products',
-            'companies'
+            'companies',
+            'emails',
+            'emailTypes',
+            'addresses',
+            'addressTypes',
+            'phones',
+            'phoneTypes',
+            'urls',
+            'urlTypes'
         ));
     }
 
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'company_id' => 'required|exists:companies,id',
-            'name' => 'required|string|max:255',
-            'phone' => 'nullable|string',
-            'email' => 'nullable|email',
-            'job_title' => 'nullable|string',
-            'description' => 'nullable|string',
-        ]);
+    // public function store(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'company_id' => 'required|exists:companies,id',
+    //         'name' => 'required|string|max:255',
+    //         'phone' => 'nullable|string',
+    //         'email' => 'nullable|email',
+    //         'job_title' => 'nullable|string',
+    //         'description' => 'nullable|string',
+    //     ]);
 
-        // $people = People::create(
-        //     $validated
-        // );
-        $people = People::create(array_merge($validated, [
-            'user_id' => auth()->id()
-        ]));
+    //     // $people = People::create(
+    //     //     $validated
+    //     // );
+    //     $people = People::create(array_merge($validated, [
+    //         'user_id' => auth()->id()
+    //     ]));
 
 
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'People added successfully.',
-                'people' => $people
-            ]);
-        }
+    //     if ($request->ajax()) {
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'People added successfully.',
+    //             'people' => $people
+    //         ]);
+    //     }
 
-        return redirect()->back()->with('success', 'People added successfully.');
+    //     return redirect()->back()->with('success', 'People added successfully.');
 
-    }
+    // }
 
     // public function ajax_store(Request $request)
     // {
@@ -428,7 +522,7 @@ class PeopleController extends Controller
     //         'name' => 'required|string|max:255',
     //         'email' => 'required|email',
     //         'phone' => 'required|string',
-    //         'code' => 'required|string',       
+    //         'code' => 'required|string',
     //         // 'bio' => 'nullable|string',
     //         // 'tag_id' => 'required',
     //         // 'territory_id' => 'required',
@@ -473,6 +567,63 @@ class PeopleController extends Controller
     // }
 
 
+    public function store(Request $request)
+    {
+        DB::transaction(function () use ($request) {
+
+            // Step 1: Create People record
+            $people = People::create([
+                'user_id' => $request->user_id,
+                'name' => $request->name,
+                'bio' => $request->bio,
+                'territory_id' => $request->territory_id,
+                'tag_id' => $request->tag_id,
+            ]);
+
+            // Step 2: Store Emails
+            if ($request->email) {
+                PeopleEmail::create([
+                    'people_id' => $people->id,
+                    'email' => $request->email,
+                ]);
+            }
+
+            // Step 3: Store Phones
+            if ($request->phone) {
+                PeoplePhone::create([
+                    'people_id' => $people->id,
+                    'phone' => $request->phone,
+                ]);
+            }
+
+            // Step 4: Store Addresses
+            if ($request->address) {
+                PeopleAddress::create([
+                    'people_id' => $people->id,
+                    'address' => $request->address,
+                ]);
+            }
+
+            // Step 5: Store URLs
+            if ($request->url) {
+                PeopleUrl::create([
+                    'people_id' => $people->id,
+                    'url' => $request->url,
+                ]);
+            }
+
+            // Step 6: Store Pivot (People Company)
+            if ($request->company_id) {
+                PeopleCompany::create([
+                    'people_id' => $people->id,
+                    'company_id' => $request->company_id,
+                ]);
+            }
+        });
+
+        return redirect()->back()->with('success', 'Person created successfully!');
+    }
+
     public function ajax_store(Request $request)
     {
         // Validate input
@@ -507,8 +658,6 @@ class PeopleController extends Controller
             'people' => $people,
         ]);
     }
-
-
 
     public function delete(Request $request)
     {

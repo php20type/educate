@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PeopleEmail extends Model
 {
+    protected $table = 'people_emails';
     protected $fillable=[
         'people_id',
         'email',

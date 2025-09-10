@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PeopleUrl extends Model
 {
+    protected $table = 'people_urls';
      protected $fillable=[
         'people_id',
         'url',

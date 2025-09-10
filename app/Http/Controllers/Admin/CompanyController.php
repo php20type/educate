@@ -504,6 +504,91 @@ class CompanyController extends Controller
         $peoples = $company->peoples;
         $allpeoples = People::all();
 
+
+        $emailTypes = [
+            'email' => 'Email',
+            'personal_email' => 'Personal Email',
+            'support_email' => 'Support Email',
+            'work_email' => 'Work Email',
+        ];
+
+        $emails = [];
+
+        foreach ($company->companyEmail as $emailRecord) {
+            foreach ($emailTypes as $field => $label) {
+                if (!empty($emailRecord->$field)) {
+                    $emails[] = [
+                        'selected' => $field,   // which option should be selected
+                        'value' => $emailRecord->$field,
+                    ];
+                }
+            }
+        }
+
+        $addressTypes = [
+            'address' => 'Address',
+            'main_address' => 'Main Address',
+            'work_address' => 'Work Address',
+            'home_address' => 'Home Address',
+            'billing_address' => 'Billing Address',
+            'mailing_address' => 'Mailing Address',
+        ];
+
+        $addresses = [];
+
+        foreach ($company->companyAddress as $addressRecord) {
+            foreach ($addressTypes as $field => $label) {
+                if (!empty($addressRecord->$field)) {
+                    $addresses[] = [
+                        'selected' => $field,   // which option should be selected
+                        'value' => $addressRecord->$field,
+                    ];
+                }
+            }
+        }
+
+        $phoneTypes = [
+            'phone' => 'Phone',
+            'home_phones' => 'Home Phone',
+            'mobile_phones' => 'Mobile Phone',
+            'work_phones' => 'Work Phone',
+            'fax_phones' => 'Fax Phone',
+        ];
+
+        $phones = [];
+
+        foreach ($company->companyPhone as $phoneRecord) {
+            foreach ($phoneTypes as $field => $label) {
+                if (!empty($phoneRecord->$field)) {
+                    $phones[] = [
+                        'selected' => $field,   // which option should be selected
+                        'value' => $phoneRecord->$field,
+                    ];
+                }
+            }
+        }
+
+        $urlTypes = [
+            'url' => 'URL',
+            'blog_url' => 'Blog URL',
+            'twitter_url' => 'Twitter URL',
+        ];
+
+        $urls = [];
+
+        foreach ($company->companyUrl as $urlRecord) {
+            foreach ($urlTypes as $field => $label) {
+                if (!empty($urlRecord->$field)) {
+                    $urls[] = [
+                        'selected' => $field, // which option should be selected
+                        'value' => $urlRecord->$field,
+                    ];
+                }
+            }
+        }
+
+
+
         return view('admin.company.edit', compact(
             'company',
             'users',
@@ -516,7 +601,15 @@ class CompanyController extends Controller
             'products',
             'peoples',
             'allpeoples',
-            'industries'
+            'industries',
+            'emails',
+            'emailTypes',
+            'addresses',
+            'addressTypes',
+            'phones',
+            'phoneTypes',
+            'urls',
+            'urlTypes'
         ));
     }
 

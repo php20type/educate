@@ -85,7 +85,7 @@ class People extends Model
     // Belongs to many pivot table relation for people_companies table
     public function companiesAlt()
     {
-        return $this->belongsToMany(Company::class, 'people_company')
+        return $this->belongsToMany(Company::class, 'people_companies')
             ->withTimestamps();
     }
 
@@ -100,7 +100,7 @@ class People extends Model
     {
         return $this->hasMany(LeadPeople::class, 'people_id');
     }
-    
+
     public function leads()
     {
         return $this->belongsToMany(Lead::class, 'lead_peoples')
