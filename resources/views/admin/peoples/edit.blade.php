@@ -571,12 +571,13 @@
                                     @endforelse
                                 </div>
                             </div>
-                            <div class="col-12 inline-detail-email" style="display: none;">
-                                <div class="row g-2">
 
+                            <div class="col-12 inline-detail-email" style="display: none;"
+                                data-people-id="{{ $peoples->id }}">
+                                <div class="row g-2">
                                     <!-- Type Selector -->
                                     <div class="col-md-4">
-                                        <select name="detail_type" class="form-control">
+                                        <select name="detail_type" class="form-control" id="new-email-type">
                                             <option value="email">Email</option>
                                             <option value="personal_email">Personal Email</option>
                                             <option value="support_email">Support Email</option>
@@ -587,11 +588,27 @@
                                     <!-- Value Input -->
                                     <div class="col-md-8">
                                         <input type="text" name="detail_value" class="form-control"
-                                            placeholder="Enter email">
+                                            id="new-email-value" placeholder="Enter email">
                                     </div>
 
+                                    <!-- Buttons -->
+                                    <div class="d-flex justify-content-end align-items-center mt-2" style="gap: 10px;">
+                                        <span id="email-submit" title="Save Email"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width:28px;height:28px;background-color:#28a745;cursor:pointer;">
+                                            <i class="fa fa-check text-white"></i>
+                                        </span>
+                                        <span id="email-cancel" title="Cancel"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width:28px;height:28px;background-color:#dc3545;cursor:pointer;">
+                                            <i class="fa fa-times text-white"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+
+
+
                         </div>
 
                         <hr>
@@ -635,11 +652,12 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 inline-detail-address" style="display: none;">
+                            <div class="col-12 inline-detail-address" style="display: none;"
+                                data-people-id="{{ $peoples->id }}">
                                 <div class="row g-2">
                                     <!-- Type Selector -->
                                     <div class="col-md-4">
-                                        <select name="address_type" class="form-control">
+                                        <select name="address_type" class="form-control" id="new-address-type">
                                             <option value="address">Address</option>
                                             <option value="main_address">Main Address</option>
                                             <option value="work_address">Work Address</option>
@@ -652,10 +670,25 @@
                                     <!-- Value Input -->
                                     <div class="col-md-8">
                                         <input type="text" name="address_value" class="form-control"
-                                            placeholder="Enter address">
+                                            id="new-address-value" placeholder="Enter address">
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="d-flex justify-content-end align-items-center mt-2" style="gap: 10px;">
+                                        <span id="address-submit" title="Save Address"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width:28px;height:28px;background-color:#28a745;cursor:pointer;">
+                                            <i class="fa fa-check text-white"></i>
+                                        </span>
+                                        <span id="address-cancel" title="Cancel"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width:28px;height:28px;background-color:#dc3545;cursor:pointer;">
+                                            <i class="fa fa-times text-white"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <hr>
@@ -699,7 +732,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 inline-detail-phone" style="display: none;">
+                            {{-- <div class="col-12 inline-detail-phone" style="display: none;">
                                 <div class="row g-2">
                                     <!-- Type Selector -->
                                     <div class="col-md-4">
@@ -717,8 +750,63 @@
                                         <input type="text" name="phone_value" class="form-control"
                                             placeholder="Enter phone number">
                                     </div>
+
+                                    {{-- Phone Buttons --}
+                                    <div class="d-flex justify-content-end align-items-center mt-2"
+                                        style="gap: 10px; display: none;" id="email-action-btns">
+                                        <!-- Submit -->
+                                        <span id="phone-submit" title="Save Phone"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width: 28px; height: 28px; background-color: #28a745; cursor: pointer;">
+                                            <i class="fa fa-check text-white"></i>
+                                        </span>
+
+                                        <!-- Cancel / Reset -->
+                                        <span id="phone-cancel" title="Cancel"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width: 28px; height: 28px; background-color: #dc3545; cursor: pointer;">
+                                            <i class="fa fa-times text-white"></i>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div> --}}
+                            <div class="col-12 inline-detail-phone" style="display: none;"
+                                data-people-id="{{ $peoples->id }}">
+                                <div class="row g-2">
+                                    <!-- Type Selector -->
+                                    <div class="col-md-4">
+                                        <select name="phone_type" class="form-control" id="new-phone-type">
+                                            <option value="phone">Phone</option>
+                                            <option value="home_phones">Home Phone</option>
+                                            <option value="mobile_phones">Mobile Phone</option>
+                                            <option value="work_phones">Work Phone</option>
+                                            <option value="fax_phones">Fax Phone</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Value Input -->
+                                    <div class="col-md-8">
+                                        <input type="text" name="phone_value" class="form-control"
+                                            id="new-phone-value" placeholder="Enter phone number">
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="d-flex justify-content-end align-items-center mt-2" style="gap: 10px;">
+                                        <span id="phone-submit" title="Save Phone"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width:28px;height:28px;background-color:#28a745;cursor:pointer;">
+                                            <i class="fa fa-check text-white"></i>
+                                        </span>
+                                        <span id="phone-cancel" title="Cancel"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width:28px;height:28px;background-color:#dc3545;cursor:pointer;">
+                                            <i class="fa fa-times text-white"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <hr>
@@ -762,7 +850,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 inline-detail-url" style="display: none;">
+                            {{-- <div class="col-12 inline-detail-url" style="display: none;">
                                 <div class="row g-2">
                                     <!-- Type Selector -->
                                     <div class="col-md-4">
@@ -778,11 +866,65 @@
                                         <input type="text" name="url_value" class="form-control"
                                             placeholder="Enter URL">
                                     </div>
+
+                                    {{-- Url Buttons --}
+                                    <div class="d-flex justify-content-end align-items-center mt-2"
+                                        style="gap: 10px; display: none;" id="email-action-btns">
+                                        <!-- Submit -->
+                                        <span id="url-submit" title="Save Url"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width: 28px; height: 28px; background-color: #28a745; cursor: pointer;">
+                                            <i class="fa fa-check text-white"></i>
+                                        </span>
+
+                                        <!-- Cancel / Reset -->
+                                        <span id="url-cancel" title="Cancel"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width: 28px; height: 28px; background-color: #dc3545; cursor: pointer;">
+                                            <i class="fa fa-times text-white"></i>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div> --}}
+                            <div class="col-12 inline-detail-url" style="display: none;"
+                                data-people-id="{{ $peoples->id }}">
+                                <div class="row g-2">
+                                    <!-- Type Selector -->
+                                    <div class="col-md-4">
+                                        <select name="url_type" class="form-control" id="new-url-type">
+                                            <option value="url">URL</option>
+                                            <option value="blog_url">Blog URL</option>
+                                            <option value="twitter_url">Twitter URL</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Value Input -->
+                                    <div class="col-md-8">
+                                        <input type="text" name="url_value" class="form-control" id="new-url-value"
+                                            placeholder="Enter URL">
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="d-flex justify-content-end align-items-center mt-2" style="gap: 10px;">
+                                        <span id="url-submit" title="Save URL"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width:28px;height:28px;background-color:#28a745;cursor:pointer;">
+                                            <i class="fa fa-check text-white"></i>
+                                        </span>
+                                        <span id="url-cancel" title="Cancel"
+                                            class="rounded-circle d-flex justify-content-center align-items-center"
+                                            style="width:28px;height:28px;background-color:#dc3545;cursor:pointer;">
+                                            <i class="fa fa-times text-white"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <hr>
+
                         <div class="sidebar-section">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6>AUDIENCES</h6>
@@ -1231,7 +1373,192 @@
             });
 
 
+            // Email Cancel Buttons
+            $('#email-cancel').on('click', function() {
+                // Hide input section
+                $('.inline-detail-email').hide();
+
+                // Reset fields
+                $('.inline-detail-email select[name="detail_type"]').prop('selectedIndex', 0);
+                $('.inline-detail-email input[name="detail_value"]').val('');
+
+            });
+
+            // Address Cancel Buttons
+            $('#address-cancel').on('click', function() {
+                // Hide input section
+                $('.inline-detail-address').hide();
+
+                // Reset fields
+                $('.inline-detail-address select[name="address_type"]').prop('selectedIndex', 0);
+                $('.inline-detail-address input[name="address_value"]').val('');
+
+            });
+
+            // Phone Cancel Buttons
+            $('#phone-cancel').on('click', function() {
+                // Hide input section
+                $('.inline-detail-phone').hide();
+
+                // Reset fields
+                $('.inline-detail-phone select[name="phone_type"]').prop('selectedIndex', 0);
+                $('.inline-detail-phone input[name="phone_value"]').val('');
+
+            });
+
+            // Url Cancel Buttons
+            $('#url-cancel').on('click', function() {
+                // Hide input section
+                $('.inline-detail-url').hide();
+
+                // Reset fields
+                $('.inline-detail-url select[name="url_type"]').prop('selectedIndex', 0);
+                $('.inline-detail-url input[name="url_value"]').val('');
+
+            });
+
+
         });
+
+
+        $('#email-submit').on('click', function() {
+            let container = $(this).closest('.inline-detail-email');
+            let peopleId = container.data('people-id');
+            let type = container.find('#new-email-type').val();
+            let value = container.find('#new-email-value').val();
+
+            $.ajax({
+                url: "{{ route('admin.update.person.email') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    people_id: peopleId,
+                    type: type,
+                    value: value
+                },
+                success: function(res) {
+                    console.log('Email updated successfully:', res);
+                    alert(res.message); // or update UI dynamically
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Detailed logging
+                    console.error('AJAX Error:');
+                    console.error('Status:', status);
+                    console.error('Error:', error);
+                    console.error('Response Text:', xhr.responseText);
+
+                    // Optionally, parse JSON error from Laravel
+                    try {
+                        let response = JSON.parse(xhr.responseText);
+                        alert('Error: ' + (response.message || 'Failed to save email.'));
+                    } catch (e) {
+                        alert('Failed to save email. Check console for details.');
+                    }
+                }
+            });
+        });
+
+        $('#address-submit').on('click', function() {
+            let container = $(this).closest('.inline-detail-address');
+            let peopleId = container.data('people-id');
+            let type = container.find('#new-address-type').val();
+            let value = container.find('#new-address-value').val();
+
+            $.ajax({
+                url: "{{ route('admin.update.person.address') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    people_id: peopleId,
+                    type: type,
+                    value: value
+                },
+                success: function(res) {
+                    console.log('Address updated successfully:', res);
+                    alert(res.message);
+                    location.reload(); // simple page reload
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    console.error('Response Text:', xhr.responseText);
+                    try {
+                        let response = JSON.parse(xhr.responseText);
+                        alert('Error: ' + (response.message || 'Failed to save address.'));
+                    } catch (e) {
+                        alert('Failed to save address. Check console for details.');
+                    }
+                }
+            });
+        });
+
+        $('#phone-submit').on('click', function() {
+            let container = $(this).closest('.inline-detail-phone');
+            let peopleId = container.data('people-id');
+            let type = container.find('#new-phone-type').val();
+            let value = container.find('#new-phone-value').val();
+
+            $.ajax({
+                url: "{{ route('admin.update.person.phone') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    people_id: peopleId,
+                    type: type,
+                    value: value
+                },
+                success: function(res) {
+                    console.log('Phone updated successfully:', res);
+                    alert(res.message);
+                    location.reload(); // simple page reload
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    console.error('Response Text:', xhr.responseText);
+                    try {
+                        let response = JSON.parse(xhr.responseText);
+                        alert('Error: ' + (response.message || 'Failed to save phone.'));
+                    } catch (e) {
+                        alert('Failed to save phone. Check console for details.');
+                    }
+                }
+            });
+        });
+
+        $('#url-submit').on('click', function() {
+            let container = $(this).closest('.inline-detail-url');
+            let peopleId = container.data('people-id');
+            let type = container.find('#new-url-type').val();
+            let value = container.find('#new-url-value').val();
+
+            $.ajax({
+                url: "{{ route('admin.update.person.url') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    people_id: peopleId,
+                    type: type,
+                    value: value
+                },
+                success: function(res) {
+                    console.log('URL updated successfully:', res);
+                    alert(res.message);
+                    location.reload(); // simple reload after update
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    console.error('Response Text:', xhr.responseText);
+                    try {
+                        let response = JSON.parse(xhr.responseText);
+                        alert('Error: ' + (response.message || 'Failed to save URL.'));
+                    } catch (e) {
+                        alert('Failed to save URL. Check console for details.');
+                    }
+                }
+            });
+        });
+
+
 
         document.addEventListener('DOMContentLoaded', function() {
             //  Select2 script

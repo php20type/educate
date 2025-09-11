@@ -117,7 +117,7 @@
                             </div>
 
                             <!-- Example Existing people -->
-                            @foreach ($peoples as $people)
+                            {{-- @foreach ($peoples as $people)
                                 <div class="people-card">
                                     <div class="d-flex align-items-center">
                                         <img src="{{ asset('img/home/profile.png') }}" alt="Paul Blake"
@@ -138,7 +138,30 @@
                                         </button>
                                     </div>
                                 </div>
+                            @endforeach --}}
+                            @foreach ($company->peoples as $people)
+                                <div class="people-card">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ asset('img/home/profile.png') }}" alt="{{ $people->name }}"
+                                            class="person-avatar me-3">
+                                        <div>
+                                            <h6 class="mb-0">{{ $people->name }}</h6>
+                                            <small class="text-warning">{{ $people->job_title }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-3 align-items-center">
+                                        <div class="text-end">
+                                            <div>{{ $people->phone }}</div>
+                                            <div class="text-muted">{{ $people->email }}</div>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-secondary"
+                                            onclick="deletePerson({{ $people->id }})">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             @endforeach
+
                         </div>
 
                         <!-- Tasks Section -->
@@ -159,48 +182,6 @@
                             </div>
                         </div>
 
-                        {{-- <div id="addTaskForm" class="my-3" style="display: none;">
-
-                            <form id="addTaskAjaxForm" action="{{ route('admin.tasks.store') }}" post="POST">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-2">
-                                            <input type="hidden" name="company_id" value="{{ $company->id }}">
-                                            <input type="text" name="title" class="form-control"
-                                                placeholder="Add a Task">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="mb-2">
-                                            <input type="datetime-local" name="due_date" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="mb-2">
-                                            <select class="form-select" name="user_id" required>
-                                                <option value="">-- Select User --</option>
-                                                @foreach ($users as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="mb-2">
-                                            <textarea rows="3" placeholder="" name="description" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-warning btn-sm">Add
-                                            Task</button>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div> --}}
                         {{-- Task form --}}
                         <div id="addTaskForm" class="my-3" style="display: none;">
 
@@ -592,323 +573,390 @@
                                 You've Never Contacted This Company</p>
                         </div>
                         {{-- Company section form --}}
-                        <form class="sidebar-section">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6>COMPANY DETAILS</h6>
-                                <button class="btn btn-outline-secondary btn-sm">Edit</button>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="form-label"><b>COMPANY Type</b></label>
-                                <select class="form-select">
-                                    <option value="">Select company type</option>
-                                    @foreach ($company_types as $company_type)
-                                        <option value="{{ $company_type->id }}"
-                                            {{ $company->company_type_id == $company_type->id ? 'selected' : '' }}>
-                                            {{ $company_type->type }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="form-label"><b>INDUSTRY</b></label>
-                                <select class="form-select">
-                                    <option selected>Select industry</option>
-                                    @foreach ($industries as $industry)
-                                        <option value="{{ $industry->id }}"
-                                            {{ $company->industry_id == $industry->id ? 'selected' : '' }}>
-                                            {{ $industry->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="form-label"><b>ASSIGNEE</b></label>
-                                <select class="form-select">
-                                    <option selected>Select an assignee</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}"
-                                            {{ $company->user_id == $user->id ? 'selected' : '' }}>
-                                            {{ $user->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="form-label"><b>TERRITORY</b></label>
-                                <select class="form-select">
-                                    <option selected>Select territory</option>
-                                </select>
+                        {{-- <form class="sidebar-section"> --}}
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6>COMPANY DETAILS</h6>
+                            <button class="btn btn-outline-secondary btn-sm">Edit</button>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label"><b>COMPANY Type</b></label>
+                            <select class="form-select">
+                                <option value="">Select company type</option>
+                                @foreach ($company_types as $company_type)
+                                    <option value="{{ $company_type->id }}"
+                                        {{ $company->company_type_id == $company_type->id ? 'selected' : '' }}>
+                                        {{ $company_type->type }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label"><b>INDUSTRY</b></label>
+                            <select class="form-select">
+                                <option selected>Select industry</option>
+                                @foreach ($industries as $industry)
+                                    <option value="{{ $industry->id }}"
+                                        {{ $company->industry_id == $industry->id ? 'selected' : '' }}>
+                                        {{ $industry->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label"><b>ASSIGNEE</b></label>
+                            <select class="form-select">
+                                <option selected>Select an assignee</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}"
+                                        {{ $company->user_id == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label"><b>TERRITORY</b></label>
+                            <select class="form-select">
+                                <option selected>Select territory</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="form-label"><b>ANNUAL RE.</b></label>
+                                    <input type="text" class="form-control" placeholder="Enter annual revenue">
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label"><b>NU. OF EMPLOYEE</b></label>
+                                    <input type="text" class="form-control" placeholder="Enter number of employees">
+                                </div>
                             </div>
 
-                            <div class="form-group mb-3">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="form-label"><b>ANNUAL RE.</b></label>
-                                        <input type="text" class="form-control" placeholder="Enter annual revenue">
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label"><b>NU. OF EMPLOYEE</b></label>
-                                        <input type="text" class="form-control"
-                                            placeholder="Enter number of employees">
+                            <hr>
+
+                            {{-- Add Email Option --}}
+                            <div class="sidebar-section" id="email">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="form-label">EMAIL</h6>
+                                    <div class="text-warning small toggle-inline-email" style="cursor: pointer;">
+                                        Add Email
                                     </div>
                                 </div>
 
-                                <hr>
+                                <div class="col-12 inline-detail-input">
+                                    <div class="row g-2">
+                                        @forelse($emails as $email)
+                                            <div class="col-12 mb-2">
+                                                <div class="row g-2">
+                                                    <!-- Type Selector -->
+                                                    <div class="col-md-4">
+                                                        <select name="detail_type[]" class="form-control">
+                                                            @foreach ($emailTypes as $field => $label)
+                                                                <option value="{{ $field }}"
+                                                                    {{ $email['selected'] === $field ? 'selected' : '' }}>
+                                                                    {{ $label }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
 
-                                {{-- Add Email Option --}}
-                                <div class="sidebar-section" id="email">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h6 class="form-label">EMAIL</h6>
-                                        <div class="text-warning small toggle-inline-email" style="cursor: pointer;">
-                                            Add Email
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 inline-detail-input">
-                                        <div class="row g-2">
-                                            @forelse($emails as $email)
-                                                <div class="col-12 mb-2">
-                                                    <div class="row g-2">
-                                                        <!-- Type Selector -->
-                                                        <div class="col-md-4">
-                                                            <select name="detail_type[]" class="form-control">
-                                                                @foreach ($emailTypes as $field => $label)
-                                                                    <option value="{{ $field }}"
-                                                                        {{ $email['selected'] === $field ? 'selected' : '' }}>
-                                                                        {{ $label }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                        <!-- Value Input -->
-                                                        <div class="col-md-8">
-                                                            <input type="text" name="detail_value[]"
-                                                                class="form-control" value="{{ $email['value'] }}"
-                                                                placeholder="Enter email">
-                                                        </div>
+                                                    <!-- Value Input -->
+                                                    <div class="col-md-8">
+                                                        <input type="text" name="detail_value[]" class="form-control"
+                                                            value="{{ $email['value'] }}" placeholder="Enter email">
                                                     </div>
                                                 </div>
-                                            @empty
-                                                <p class="small">N/A</p>
-                                            @endforelse
-                                        </div>
+                                            </div>
+                                        @empty
+                                            <p class="small">N/A</p>
+                                        @endforelse
                                     </div>
-                                    <div class="col-12 inline-detail-email" style="display: none;">
-                                        <div class="row g-2">
+                                </div>
 
-                                            <!-- Type Selector -->
-                                            <div class="col-md-4">
-                                                <select name="detail_type" class="form-control">
-                                                    <option value="email">Email</option>
-                                                    <option value="personal_email">Personal Email</option>
-                                                    <option value="support_email">Support Email</option>
-                                                    <option value="work_email">Work Email</option>
-                                                </select>
-                                            </div>
+                                <div class="col-12 inline-detail-email" style="display: none;"
+                                    data-company-id="{{ $company->id }}">
+                                    <div class="row g-2">
+                                        <!-- Type Selector -->
+                                        <div class="col-md-4">
+                                            <select name="detail_type" class="form-control" id="new-email-type">
+                                                <option value="email">Email</option>
+                                                <option value="personal_email">Personal Email</option>
+                                                <option value="support_email">Support Email</option>
+                                                <option value="work_email">Work Email</option>
+                                            </select>
+                                        </div>
 
-                                            <!-- Value Input -->
-                                            <div class="col-md-8">
-                                                <input type="text" name="detail_value" class="form-control"
-                                                    placeholder="Enter email">
-                                            </div>
+                                        <!-- Value Input -->
+                                        <div class="col-md-8">
+                                            <input type="text" name="detail_value" class="form-control"
+                                                id="new-email-value" placeholder="Enter email">
+                                        </div>
 
+                                        <!-- Buttons -->
+                                        <div class="d-flex justify-content-end align-items-center mt-2"
+                                            style="gap: 10px;">
+                                            <span id="email-submit" title="Save Email"
+                                                class="rounded-circle d-flex justify-content-center align-items-center"
+                                                style="width:28px;height:28px;background-color:#28a745;cursor:pointer;">
+                                                <i class="fa fa-check text-white"></i>
+                                            </span>
+                                            <span id="email-cancel" title="Cancel"
+                                                class="rounded-circle d-flex justify-content-center align-items-center"
+                                                style="width:28px;height:28px;background-color:#dc3545;cursor:pointer;">
+                                                <i class="fa fa-times text-white"></i>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <hr>
 
-                                {{-- Add Address Option --}}
-                                <div class="sidebar-section" id="address">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h6 class="form-label">ADDRESS</h6>
-                                        <div class="text-warning small toggle-inline-address" style="cursor: pointer;">
-                                            Add Address
-                                        </div>
-                                    </div>
 
-                                    <div class="col-12 inline-detail-input">
-                                        <div class="row g-2">
-                                            @forelse($addresses as $address)
-                                                <div class="col-12 mb-2">
-                                                    <div class="row g-2">
-                                                        <!-- Type Selector -->
-                                                        <div class="col-md-4">
-                                                            <select name="address_type[]" class="form-control">
-                                                                @foreach ($addressTypes as $field => $label)
-                                                                    <option value="{{ $field }}"
-                                                                        {{ $address['selected'] === $field ? 'selected' : '' }}>
-                                                                        {{ $label }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
+                            </div>
 
-                                                        <!-- Value Input -->
-                                                        <div class="col-md-8">
-                                                            <input type="text" name="address_value[]"
-                                                                class="form-control" value="{{ $address['value'] }}"
-                                                                placeholder="Enter address">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @empty
-                                                <p class="small">N/A</p>
-                                            @endforelse
-                                        </div>
-                                    </div>
+                            <hr>
 
-                                    <div class="col-12 inline-detail-address" style="display: none;">
-                                        <div class="row g-2">
-                                            <!-- Type Selector -->
-                                            <div class="col-md-4">
-                                                <select name="address_type" class="form-control">
-                                                    <option value="address">Address</option>
-                                                    <option value="main_address">Main Address</option>
-                                                    <option value="work_address">Work Address</option>
-                                                    <option value="home_address">Home Address</option>
-                                                    <option value="billing_address">Billing Address</option>
-                                                    <option value="mailing_address">Mailing Address</option>
-                                                </select>
-                                            </div>
-
-                                            <!-- Value Input -->
-                                            <div class="col-md-8">
-                                                <input type="text" name="address_value" class="form-control"
-                                                    placeholder="Enter address">
-                                            </div>
-                                        </div>
+                            {{-- Add Address Option --}}
+                            <div class="sidebar-section" id="address">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="form-label">ADDRESS</h6>
+                                    <div class="text-warning small toggle-inline-address" style="cursor: pointer;">
+                                        Add Address
                                     </div>
                                 </div>
 
-                                <hr>
+                                <div class="col-12 inline-detail-input">
+                                    <div class="row g-2">
+                                        @forelse($addresses as $address)
+                                            <div class="col-12 mb-2">
+                                                <div class="row g-2">
+                                                    <!-- Type Selector -->
+                                                    <div class="col-md-4">
+                                                        <select name="address_type[]" class="form-control">
+                                                            @foreach ($addressTypes as $field => $label)
+                                                                <option value="{{ $field }}"
+                                                                    {{ $address['selected'] === $field ? 'selected' : '' }}>
+                                                                    {{ $label }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
 
-                                {{-- Add Phone Option --}}
-                                <div class="sidebar-section" id="phone">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h6 class="form-label">PHONE</h6>
-                                        <div class="text-warning small toggle-inline-phone" style="cursor: pointer;">
-                                            Add Phone
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 inline-detail-input">
-                                        <div class="row g-2">
-                                            @forelse($phones as $phone)
-                                                <div class="col-12 mb-2">
-                                                    <div class="row g-2">
-                                                        <!-- Type Selector -->
-                                                        <div class="col-md-4">
-                                                            <select name="phone_type[]" class="form-control">
-                                                                @foreach ($phoneTypes as $field => $label)
-                                                                    <option value="{{ $field }}"
-                                                                        {{ $phone['selected'] === $field ? 'selected' : '' }}>
-                                                                        {{ $label }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                        <!-- Value Input -->
-                                                        <div class="col-md-8">
-                                                            <input type="text" name="phone_value[]"
-                                                                class="form-control" value="{{ $phone['value'] }}"
-                                                                placeholder="Enter phone number">
-                                                        </div>
+                                                    <!-- Value Input -->
+                                                    <div class="col-md-8">
+                                                        <input type="text" name="address_value[]" class="form-control"
+                                                            value="{{ $address['value'] }}" placeholder="Enter address">
                                                     </div>
                                                 </div>
-                                            @empty
-                                                <p class="small">N/A</p>
-                                            @endforelse
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 inline-detail-phone" style="display: none;">
-                                        <div class="row g-2">
-                                            <!-- Type Selector -->
-                                            <div class="col-md-4">
-                                                <select name="phone_type" class="form-control">
-                                                    <option value="phone">Phone</option>
-                                                    <option value="home_phones">Home Phone</option>
-                                                    <option value="mobile_phones">Mobile Phone</option>
-                                                    <option value="work_phones">Work Phone</option>
-                                                    <option value="fax_phones">Fax Phone</option>
-                                                </select>
                                             </div>
-
-                                            <!-- Value Input -->
-                                            <div class="col-md-8">
-                                                <input type="text" name="phone_value" class="form-control"
-                                                    placeholder="Enter phone number">
-                                            </div>
-                                        </div>
+                                        @empty
+                                            <p class="small">N/A</p>
+                                        @endforelse
                                     </div>
                                 </div>
 
-                                <hr>
-
-                                {{-- Add URL Option --}}
-                                <div class="sidebar-section" id="url">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h6 class="form-label">URL</h6>
-                                        <div class="text-warning small toggle-inline-url" style="cursor: pointer;">
-                                            Add URL
+                                <div class="col-12 inline-detail-address" style="display: none;"
+                                    data-company-id="{{ $company->id }}">
+                                    <div class="row g-2">
+                                        <!-- Type Selector -->
+                                        <div class="col-md-4">
+                                            <select name="address_type" class="form-control" id="new-address-type">
+                                                <option value="address">Address</option>
+                                                <option value="main_address">Main Address</option>
+                                                <option value="work_address">Work Address</option>
+                                                <option value="home_address">Home Address</option>
+                                                <option value="billing_address">Billing Address</option>
+                                                <option value="mailing_address">Mailing Address</option>
+                                            </select>
                                         </div>
-                                    </div>
 
-                                    <div class="col-12 inline-detail-input">
-                                        <div class="row g-2">
-                                            @forelse($urls as $url)
-                                                <div class="col-12 mb-2">
-                                                    <div class="row g-2">
-                                                        <!-- Type Selector -->
-                                                        <div class="col-md-4">
-                                                            <select name="url_type[]" class="form-control">
-                                                                @foreach ($urlTypes as $field => $label)
-                                                                    <option value="{{ $field }}"
-                                                                        {{ $url['selected'] === $field ? 'selected' : '' }}>
-                                                                        {{ $label }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                        <!-- Value Input -->
-                                                        <div class="col-md-8">
-                                                            <input type="text" name="url_value[]" class="form-control"
-                                                                value="{{ $url['value'] }}" placeholder="Enter URL">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @empty
-                                                <p class="small">N/A</p>
-                                            @endforelse
+                                        <!-- Value Input -->
+                                        <div class="col-md-8">
+                                            <input type="text" name="address_value" class="form-control"
+                                                id="new-address-value" placeholder="Enter address">
                                         </div>
-                                    </div>
 
-                                    <div class="col-12 inline-detail-url" style="display: none;">
-                                        <div class="row g-2">
-                                            <!-- Type Selector -->
-                                            <div class="col-md-4">
-                                                <select name="url_type" class="form-control">
-                                                    <option value="url">URL</option>
-                                                    <option value="blog_url">Blog URL</option>
-                                                    <option value="twitter_url">Twitter URL</option>
-                                                </select>
-                                            </div>
-
-                                            <!-- Value Input -->
-                                            <div class="col-md-8">
-                                                <input type="text" name="url_value" class="form-control"
-                                                    placeholder="Enter URL">
-                                            </div>
+                                        <!-- Buttons -->
+                                        <div class="d-flex justify-content-end align-items-center mt-2"
+                                            style="gap: 10px;">
+                                            <span id="address-submit" title="Save Address"
+                                                class="rounded-circle d-flex justify-content-center align-items-center"
+                                                style="width:28px;height:28px;background-color:#28a745;cursor:pointer;">
+                                                <i class="fa fa-check text-white"></i>
+                                            </span>
+                                            <span id="address-cancel" title="Cancel"
+                                                class="rounded-circle d-flex justify-content-center align-items-center"
+                                                style="width:28px;height:28px;background-color:#dc3545;cursor:pointer;">
+                                                <i class="fa fa-times text-white"></i>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
 
-                        </form>
+                            <hr>
+
+                            {{-- Add Phone Option --}}
+                            <div class="sidebar-section" id="phone">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="form-label">PHONE</h6>
+                                    <div class="text-warning small toggle-inline-phone" style="cursor: pointer;">
+                                        Add Phone
+                                    </div>
+                                </div>
+
+                                <div class="col-12 inline-detail-input">
+                                    <div class="row g-2">
+                                        @forelse($phones as $phone)
+                                            <div class="col-12 mb-2">
+                                                <div class="row g-2">
+                                                    <!-- Type Selector -->
+                                                    <div class="col-md-4">
+                                                        <select name="phone_type[]" class="form-control">
+                                                            @foreach ($phoneTypes as $field => $label)
+                                                                <option value="{{ $field }}"
+                                                                    {{ $phone['selected'] === $field ? 'selected' : '' }}>
+                                                                    {{ $label }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Value Input -->
+                                                    <div class="col-md-8">
+                                                        <input type="text" name="phone_value[]" class="form-control"
+                                                            value="{{ $phone['value'] }}"
+                                                            placeholder="Enter phone number">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <p class="small">N/A</p>
+                                        @endforelse
+                                    </div>
+                                </div>
+
+                                <div class="col-12 inline-detail-phone" style="display: none;"
+                                    data-company-id="{{ $company->id }}">
+                                    <div class="row g-2">
+                                        <!-- Type Selector -->
+                                        <div class="col-md-4">
+                                            <select name="phone_type" class="form-control" id="new-phone-type">
+                                                <option value="phone">Phone</option>
+                                                <option value="home_phones">Home Phone</option>
+                                                <option value="mobile_phones">Mobile Phone</option>
+                                                <option value="work_phones">Work Phone</option>
+                                                <option value="fax_phones">Fax Phone</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Value Input -->
+                                        <div class="col-md-8">
+                                            <input type="text" name="phone_value" class="form-control"
+                                                id="new-phone-value" placeholder="Enter phone number">
+                                        </div>
+
+                                        <!-- Buttons -->
+                                        <div class="d-flex justify-content-end align-items-center mt-2"
+                                            style="gap: 10px;">
+                                            <span id="phone-submit" title="Save Phone"
+                                                class="rounded-circle d-flex justify-content-center align-items-center"
+                                                style="width:28px;height:28px;background-color:#28a745;cursor:pointer;">
+                                                <i class="fa fa-check text-white"></i>
+                                            </span>
+                                            <span id="phone-cancel" title="Cancel"
+                                                class="rounded-circle d-flex justify-content-center align-items-center"
+                                                style="width:28px;height:28px;background-color:#dc3545;cursor:pointer;">
+                                                <i class="fa fa-times text-white"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <hr>
+
+                            {{-- Add URL Option --}}
+                            <div class="sidebar-section" id="url">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="form-label">URL</h6>
+                                    <div class="text-warning small toggle-inline-url" style="cursor: pointer;">
+                                        Add URL
+                                    </div>
+                                </div>
+
+                                <div class="col-12 inline-detail-input">
+                                    <div class="row g-2">
+                                        @forelse($urls as $url)
+                                            <div class="col-12 mb-2">
+                                                <div class="row g-2">
+                                                    <!-- Type Selector -->
+                                                    <div class="col-md-4">
+                                                        <select name="url_type[]" class="form-control">
+                                                            @foreach ($urlTypes as $field => $label)
+                                                                <option value="{{ $field }}"
+                                                                    {{ $url['selected'] === $field ? 'selected' : '' }}>
+                                                                    {{ $label }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Value Input -->
+                                                    <div class="col-md-8">
+                                                        <input type="text" name="url_value[]" class="form-control"
+                                                            value="{{ $url['value'] }}" placeholder="Enter URL">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <p class="small">N/A</p>
+                                        @endforelse
+                                    </div>
+                                </div>
+
+                                <div class="col-12 inline-detail-url" style="display: none;"
+                                    data-company-id="{{ $company->id }}">
+                                    <div class="row g-2">
+                                        <!-- Type Selector -->
+                                        <div class="col-md-4">
+                                            <select name="url_type" class="form-control" id="new-url-type">
+                                                <option value="url">URL</option>
+                                                <option value="blog_url">Blog URL</option>
+                                                <option value="twitter_url">Twitter URL</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Value Input -->
+                                        <div class="col-md-8">
+                                            <input type="text" name="url_value" class="form-control"
+                                                id="new-url-value" placeholder="Enter URL">
+                                        </div>
+
+                                        <!-- Buttons -->
+                                        <div class="d-flex justify-content-end align-items-center mt-2"
+                                            style="gap: 10px;">
+                                            <span id="url-submit" title="Save URL"
+                                                class="rounded-circle d-flex justify-content-center align-items-center"
+                                                style="width:28px;height:28px;background-color:#28a745;cursor:pointer;">
+                                                <i class="fa fa-check text-white"></i>
+                                            </span>
+                                            <span id="url-cancel" title="Cancel"
+                                                class="rounded-circle d-flex justify-content-center align-items-center"
+                                                style="width:28px;height:28px;background-color:#dc3545;cursor:pointer;">
+                                                <i class="fa fa-times text-white"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        {{-- </form> --}}
                         {{-- Company section form end --}}
 
 
@@ -1384,6 +1432,144 @@
 
                 });
 
+            });
+        });
+
+
+        $('#email-submit').on('click', function() {
+            let container = $(this).closest('.inline-detail-email');
+            let companyId = container.data('company-id');
+            let type = container.find('#new-email-type').val();
+            let value = container.find('#new-email-value').val();
+
+            $.ajax({
+                url: "{{ route('admin.update.company.email') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    company_id: companyId,
+                    type: type,
+                    value: value
+                },
+                success: function(res) {
+                    console.log('Email updated successfully:', res);
+                    alert(res.message); // or update UI dynamically
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Detailed logging
+                    console.error('AJAX Error:');
+                    console.error('Status:', status);
+                    console.error('Error:', error);
+                    console.error('Response Text:', xhr.responseText);
+
+                    // Optionally, parse JSON error from Laravel
+                    try {
+                        let response = JSON.parse(xhr.responseText);
+                        alert('Error: ' + (response.message || 'Failed to save email.'));
+                    } catch (e) {
+                        alert('Failed to save email. Check console for details.');
+                    }
+                }
+            });
+        });
+
+        $('#address-submit').on('click', function() {
+            let container = $(this).closest('.inline-detail-address');
+            let companyId = container.data('company-id');
+            let type = container.find('#new-address-type').val();
+            let value = container.find('#new-address-value').val();
+
+            $.ajax({
+                url: "{{ route('admin.update.company.address') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    company_id: companyId,
+                    type: type,
+                    value: value
+                },
+                success: function(res) {
+                    console.log('Address updated successfully:', res);
+                    alert(res.message);
+                    location.reload(); // simple page reload
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    console.error('Response Text:', xhr.responseText);
+                    try {
+                        let response = JSON.parse(xhr.responseText);
+                        alert('Error: ' + (response.message || 'Failed to save address.'));
+                    } catch (e) {
+                        alert('Failed to save address. Check console for details.');
+                    }
+                }
+            });
+        });
+
+        $('#phone-submit').on('click', function() {
+            let container = $(this).closest('.inline-detail-phone');
+            let companyId = container.data('company-id');
+            let type = container.find('#new-phone-type').val();
+            let value = container.find('#new-phone-value').val();
+
+            $.ajax({
+                url: "{{ route('admin.update.company.phone') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    company_id: companyId,
+                    type: type,
+                    value: value
+                },
+                success: function(res) {
+                    console.log('Phone updated successfully:', res);
+                    alert(res.message);
+                    location.reload(); // simple page reload
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    console.error('Response Text:', xhr.responseText);
+                    try {
+                        let response = JSON.parse(xhr.responseText);
+                        alert('Error: ' + (response.message || 'Failed to save phone.'));
+                    } catch (e) {
+                        alert('Failed to save phone. Check console for details.');
+                    }
+                }
+            });
+        });
+
+        $('#url-submit').on('click', function() {
+            let container = $(this).closest('.inline-detail-url');
+            let companyId = container.data('company-id');
+            let type = container.find('#new-url-type').val();
+            let value = container.find('#new-url-value').val();
+
+            $.ajax({
+                url: "{{ route('admin.update.company.url') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    company_id: companyId,
+                    type: type,
+                    value: value
+                },
+                success: function(res) {
+                    console.log('URL updated successfully:', res);
+                    alert(res.message);
+                    location.reload(); // simple reload after update
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    console.error('Response Text:', xhr.responseText);
+                    try {
+                        let response = JSON.parse(xhr.responseText);
+                        alert('Error: ' + (response.message || 'Failed to save URL.'));
+                    } catch (e) {
+                        alert('Failed to save URL. Check console for details.');
+                    }
+                }
             });
         });
 
@@ -1912,6 +2098,50 @@
                 $('.inline-detail-url').toggle(); // smooth animation
             });
 
+
+            // Email Cancel Buttons
+            $('#email-cancel').on('click', function() {
+                // Hide input section
+                $('.inline-detail-email').hide();
+
+                // Reset fields
+                $('.inline-detail-email select[name="detail_type"]').prop('selectedIndex', 0);
+                $('.inline-detail-email input[name="detail_value"]').val('');
+
+            });
+
+            // Address Cancel Buttons
+            $('#address-cancel').on('click', function() {
+                // Hide input section
+                $('.inline-detail-address').hide();
+
+                // Reset fields
+                $('.inline-detail-address select[name="address_type"]').prop('selectedIndex', 0);
+                $('.inline-detail-address input[name="address_value"]').val('');
+
+            });
+
+            // Phone Cancel Buttons
+            $('#phone-cancel').on('click', function() {
+                // Hide input section
+                $('.inline-detail-phone').hide();
+
+                // Reset fields
+                $('.inline-detail-phone select[name="phone_type"]').prop('selectedIndex', 0);
+                $('.inline-detail-phone input[name="phone_value"]').val('');
+
+            });
+
+            // Url Cancel Buttons
+            $('#url-cancel').on('click', function() {
+                // Hide input section
+                $('.inline-detail-url').hide();
+
+                // Reset fields
+                $('.inline-detail-url select[name="url_type"]').prop('selectedIndex', 0);
+                $('.inline-detail-url input[name="url_value"]').val('');
+
+            });
 
         });
 

@@ -20,6 +20,7 @@ use App\Models\Company;
 use App\Models\Lead;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class PeopleController extends Controller
@@ -390,6 +391,7 @@ class PeopleController extends Controller
             foreach ($emailTypes as $field => $label) {
                 if (!empty($emailRecord->$field)) {
                     $emails[] = [
+                        'id' => $emailRecord->id,
                         'selected' => $field,   // which option should be selected
                         'value' => $emailRecord->$field,
                     ];
@@ -664,4 +666,125 @@ class PeopleController extends Controller
         People::where('id', $request->people_id)->delete();
         return redirect()->back();
     }
+
+    public function updatePersonEmail(Request $request)
+    {
+        // Validate request
+        $request->validate([
+            'people_id' => 'required|exists:people,id',
+            'type' => 'required|in:email,personal_email,support_email,work_email',
+            'value' => 'required|email'
+        ]);
+
+        // Find the people_emails row for this person
+        $emailRecord = PeopleEmail::where('people_id', $request->people_id)->first();
+
+        if (!$emailRecord) {
+            // If row doesn't exist, create new
+            $emailRecord = new PeopleEmail();
+            $emailRecord->people_id = $request->people_id;
+        }
+
+        // Update only the selected type column
+        $emailRecord->{$request->type} = $request->value;
+        $emailRecord->save();
+
+        // Return JSON response
+        return response()->json([
+            'status' => 'success',
+            'message' => ucfirst(str_replace('_', ' ', $request->type)) . ' updated successfully',
+            'data' => $emailRecord
+        ]);
+    }
+
+    public function updatePersonAddress(Request $request)
+    {
+        // Validate request
+        $request->validate([
+            'people_id' => 'required|exists:people,id',
+            'type' => 'required|in:address,main_address,work_address,home_address,billing_address,mailing_address',
+            'value' => 'required|string'
+        ]);
+
+        // Find the people_addresses row for this person
+        $addressRecord = PeopleAddress::where('people_id', $request->people_id)->first();
+
+        if (!$addressRecord) {
+            // If row doesn't exist, create new
+            $addressRecord = new PeopleAddress();
+            $addressRecord->people_id = $request->people_id;
+        }
+
+        // Update only the selected type column
+        $addressRecord->{$request->type} = $request->value;
+        $addressRecord->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => ucfirst(str_replace('_', ' ', $request->type)) . ' updated successfully',
+            'data' => $addressRecord
+        ]);
+    }
+
+    public function updatePersonPhone(Request $request)
+    {
+        // Validate request
+        $request->validate([
+            'people_id' => 'required|exists:people,id',
+            'type' => 'required|in:phone,home_phones,mobile_phones,work_phones,fax_phones',
+            'value' => 'required|string'
+        ]);
+
+        // Find the people_phones row for this person
+        $phoneRecord = PeoplePhone::where('people_id', $request->people_id)->first();
+
+        if (!$phoneRecord) {
+            // If row doesn't exist, create new
+            $phoneRecord = new PeoplePhone();
+            $phoneRecord->people_id = $request->people_id;
+        }
+
+        // Update only the selected type column
+        $phoneRecord->{$request->type} = $request->value;
+        $phoneRecord->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => ucfirst(str_replace('_', ' ', $request->type)) . ' updated successfully',
+            'data' => $phoneRecord
+        ]);
+    }
+
+
+    public function updatePersonUrl(Request $request)
+    {
+        // Validate request
+        $request->validate([
+            'people_id' => 'required|exists:people,id',
+            'type' => 'required|in:url,blog_url,twitter_url',
+            'value' => 'required|url'
+        ]);
+
+        // Find the people_urls row for this person
+        $urlRecord = PeopleUrl::where('people_id', $request->people_id)->first();
+
+        if (!$urlRecord) {
+            // If row doesn't exist, create new
+            $urlRecord = new PeopleUrl();
+            $urlRecord->people_id = $request->people_id;
+        }
+
+        // Update only the selected type column
+        $urlRecord->{$request->type} = $request->value;
+        $urlRecord->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => ucfirst(str_replace('_', ' ', $request->type)) . ' updated successfully',
+            'data' => $urlRecord
+        ]);
+    }
+
+
+
 }

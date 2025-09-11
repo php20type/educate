@@ -80,6 +80,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/companies/store', [CompanyController::class, 'store'])->name('companies.store');
     Route::get('companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
     Route::post('/company/ajax', [CompanyController::class, 'ajax_store'])->name('company.ajax.store');
+    Route::post('/update-company-email', [CompanyController::class, 'updateCompanyEmail'])->name('update.company.email');
+    Route::post('/update-company-address', [CompanyController::class, 'updateCompanyAddress'])->name('update.company.address');
+    Route::post('/update-company-phone', [CompanyController::class, 'updateCompanyPhone'])->name('update.company.phone');
+    Route::post('/update-company-url', [CompanyController::class, 'updateCompanyUrl'])->name('update.company.url');
 
     // peoples section
     Route::post('/people/store', [PeopleController::class, 'store'])->name('people.store');
@@ -91,6 +95,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/people/marketing-contacts', [PeopleController::class, 'marketing_contacts'])->name('peoples.marketing_contacts');
     Route::get('/people/sequence-healthcare', [PeopleController::class, 'sequence_healthcare'])->name('peoples.sequence_healthcare');
     Route::get('peoples/{people}', [PeopleController::class, 'show'])->name('peoples.show');
+    Route::post('/update-person-email', [PeopleController::class, 'updatePersonEmail'])->name('update.person.email');
+    Route::post('/update-person-address', [PeopleController::class, 'updatePersonAddress'])->name('update.person.address');
+    Route::post('/update-person-phone', [PeopleController::class, 'updatePersonPhone'])->name('update.person.phone');
+    Route::post('/update-person-url', [PeopleController::class, 'updatePersonUrl'])->name('update.person.url');
 
     // tasks sections
     Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
