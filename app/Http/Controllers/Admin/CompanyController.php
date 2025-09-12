@@ -505,6 +505,7 @@ class CompanyController extends Controller
         $peoples = $company->peoples;
         $allpeoples = People::all();
 
+        $emails = [];
 
         $emailTypes = [
             'email' => 'Email',
@@ -513,14 +514,12 @@ class CompanyController extends Controller
             'work_email' => 'Work Email',
         ];
 
-        $emails = [];
-
-        foreach ($company->companyEmail as $emailRecord) {
+        if ($company->companyEmail) {
             foreach ($emailTypes as $field => $label) {
-                if (!empty($emailRecord->$field)) {
+                if (!empty($company->companyEmail->$field)) {
                     $emails[] = [
-                        'selected' => $field,   // which option should be selected
-                        'value' => $emailRecord->$field,
+                        'selected' => $field,
+                        'value' => $company->companyEmail->$field,
                     ];
                 }
             }
@@ -537,11 +536,13 @@ class CompanyController extends Controller
 
         $addresses = [];
 
-        foreach ($company->companyAddress as $addressRecord) {
+        // Check if record exists
+        $addressRecord = $company->companyAddress;
+        if ($addressRecord) {
             foreach ($addressTypes as $field => $label) {
                 if (!empty($addressRecord->$field)) {
                     $addresses[] = [
-                        'selected' => $field,   // which option should be selected
+                        'selected' => $field, // which option should be selected
                         'value' => $addressRecord->$field,
                     ];
                 }
@@ -558,7 +559,8 @@ class CompanyController extends Controller
 
         $phones = [];
 
-        foreach ($company->companyPhone as $phoneRecord) {
+        $phoneRecord = $company->companyPhone;
+        if ($phoneRecord) {
             foreach ($phoneTypes as $field => $label) {
                 if (!empty($phoneRecord->$field)) {
                     $phones[] = [
@@ -577,7 +579,8 @@ class CompanyController extends Controller
 
         $urls = [];
 
-        foreach ($company->companyUrl as $urlRecord) {
+        $urlRecord = $company->companyUrl;
+        if ($urlRecord) {
             foreach ($urlTypes as $field => $label) {
                 if (!empty($urlRecord->$field)) {
                     $urls[] = [
@@ -587,8 +590,6 @@ class CompanyController extends Controller
                 }
             }
         }
-
-
 
         return view('admin.company.edit', compact(
             'company',
@@ -673,7 +674,7 @@ class CompanyController extends Controller
 
     }
 
-      public function updateCompanyEmail(Request $request)
+    public function updateCompanyEmail(Request $request)
     {
         // Validate request
         $request->validate([

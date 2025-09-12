@@ -379,6 +379,7 @@ class PeopleController extends Controller
             'competitors'
         ])->get();
 
+
         $emailTypes = [
             'email' => 'Email',
             'personal_email' => 'Personal Email',
@@ -387,7 +388,8 @@ class PeopleController extends Controller
 
         $emails = [];
 
-        foreach ($peoples->peopleEmail as $emailRecord) {
+        $emailRecord = $peoples->peopleEmail; // hasOne → single record
+        if ($emailRecord) {
             foreach ($emailTypes as $field => $label) {
                 if (!empty($emailRecord->$field)) {
                     $emails[] = [
@@ -410,10 +412,12 @@ class PeopleController extends Controller
 
         $addresses = [];
 
-        foreach ($peoples->peopleAddress as $addressRecord) {
+        $addressRecord = $peoples->peopleAddress; // hasOne → single record
+        if ($addressRecord) {
             foreach ($addressTypes as $field => $label) {
                 if (!empty($addressRecord->$field)) {
                     $addresses[] = [
+                        'id' => $addressRecord->id,
                         'selected' => $field,   // which option should be selected
                         'value' => $addressRecord->$field,
                     ];
@@ -431,10 +435,12 @@ class PeopleController extends Controller
 
         $phones = [];
 
-        foreach ($peoples->peoplePhone as $phoneRecord) {
+        $phoneRecord = $peoples->peoplePhone; // hasOne → single record
+        if ($phoneRecord) {
             foreach ($phoneTypes as $field => $label) {
                 if (!empty($phoneRecord->$field)) {
                     $phones[] = [
+                        'id' => $phoneRecord->id,
                         'selected' => $field,   // which option should be selected
                         'value' => $phoneRecord->$field,
                     ];
@@ -450,17 +456,18 @@ class PeopleController extends Controller
 
         $urls = [];
 
-        foreach ($peoples->peopleUrl as $urlRecord) {
+        $urlRecord = $peoples->peopleUrl; // hasOne → single record
+        if ($urlRecord) {
             foreach ($urlTypes as $field => $label) {
                 if (!empty($urlRecord->$field)) {
                     $urls[] = [
+                        'id' => $urlRecord->id,
                         'selected' => $field, // which option should be selected
                         'value' => $urlRecord->$field,
                     ];
                 }
             }
         }
-
 
         return view('admin.peoples.edit', compact(
             'peoples',

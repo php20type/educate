@@ -21,6 +21,8 @@ class People extends Model
         'tag_id'
     ];
 
+     protected $with = ['peopleEmail', 'peoplePhone', 'peopleAddress', 'peopleUrl', 'peopleTask', 'peopleCompany'];
+
     // Belongs to relations
     public function user()
     {
@@ -52,30 +54,31 @@ class People extends Model
         return $this->belongsTo(Tag::class, 'tag_id');
     }
 
-    // New database hasmany relations
+    // New database hasOne relations
     public function peopleEmail()
     {
-        return $this->hasMany(PeopleEmail::class, 'people_id');
+        return $this->hasOne(PeopleEmail::class, 'people_id');
     }
 
     public function peopleAddress()
     {
-        return $this->hasMany(PeopleAddress::class, 'people_id');
+        return $this->hasOne(PeopleAddress::class, 'people_id');
     }
 
     public function peoplePhone()
     {
-        return $this->hasMany(PeoplePhone::class, 'people_id');
-    }
-
-    public function peopleTask()
-    {
-        return $this->hasMany(PeopleTask::class, 'people_id');
+        return $this->hasOne(PeoplePhone::class, 'people_id');
     }
 
     public function peopleUrl()
     {
-        return $this->hasMany(PeopleUrl::class, 'people_id');
+        return $this->hasOne(PeopleUrl::class, 'people_id');
+    }
+
+    // New database hasMany relations
+    public function peopleTask()
+    {
+        return $this->hasMany(PeopleTask::class, 'people_id');
     }
 
     public function peopleCompany()

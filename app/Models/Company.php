@@ -21,6 +21,7 @@ class Company extends Model
         'city_id',
     ];
 
+    protected $with = ['companyEmail', 'companyPhone', 'companyAddress', 'companyUrl', 'companyPeople', 'companyTask'];
 
     // public function people()
     // {
@@ -80,31 +81,30 @@ class Company extends Model
     }
 
     /**
-     * Has Many relationships
+     * Has One relationships
      */
     public function companyAddress()
     {
-        return $this->hasMany(CompanyAddress::class, 'company_id');
+        return $this->hasOne(CompanyAddress::class, 'company_id');
     }
 
     public function companyEmail()
     {
-        return $this->hasMany(CompanyEmail::class, 'company_id');
+        return $this->hasOne(CompanyEmail::class, 'company_id');
     }
 
     public function companyPhone()
     {
-        return $this->hasMany(CompanyPhone::class, 'company_id');
-    }
-
-    public function companyTask()
-    {
-        return $this->hasMany(CompanyTask::class, 'company_id');
+        return $this->hasOne(CompanyPhone::class, 'company_id');
     }
 
     public function companyUrl()
     {
-        return $this->hasMany(CompanyUrl::class, 'company_id');
+        return $this->hasOne(CompanyUrl::class, 'company_id');
+    }
+    public function companyTask()
+    {
+        return $this->hasMany(CompanyTask::class, 'company_id');
     }
 
     // Company People pivot table

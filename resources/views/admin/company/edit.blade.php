@@ -73,8 +73,34 @@
                                 <a href="javascript:void(0);" class="text-warning" id="toggleAddPeople">Add A Person</a>
                             </div>
 
+
+                            @foreach ($company->peoples as $people)
+                                <div class="people-card">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ asset('img/home/profile.png') }}" alt="{{ $people->name }}"
+                                            class="person-avatar me-3">
+                                        <div>
+                                            <h6 class="mb-0">{{ $people->name ?? 'N/A' }}</h6>
+                                            <small class="text-warning">{{ $people->bio ?? 'N/A' }}</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex gap-3 align-items-center">
+                                        <div class="text-end">
+                                            <div>{{ $people->peoplePhone->phone ?? 'N/A' }}</div>
+                                            <div class="text-muted">{{ $people->peopleEmail->email ?? 'N/A' }}</div>
+                                        </div>
+
+                                        <button class="btn btn-sm btn-outline-secondary"
+                                            onclick="deletePerson({{ $people->id }})">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+
                             <!-- Slide Toggle Form -->
-                            <div id="addPeopleForm" class="mb-3" style="display: none;">
+                            <div id="addPeopleForm" class="mt-3" style="display: none;">
                                 <form id="addPeopleAjaxForm" method="POST">
                                     @csrf
                                     <div class="row">
@@ -115,53 +141,6 @@
                                     </div>
                                 </form>
                             </div>
-
-                            <!-- Example Existing people -->
-                            {{-- @foreach ($peoples as $people)
-                                <div class="people-card">
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ asset('img/home/profile.png') }}" alt="Paul Blake"
-                                            class="person-avatar me-3">
-                                        <div>
-                                            <h6 class="mb-0">{{ $people->name }}</h6>
-                                            <small class="text-warning">{{ $people->job_title }}</small>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex gap-3 align-items-center">
-                                        <div class="text-end">
-                                            <div>{{ $people->phone }}</div>
-                                            <div class="text-muted">{{ $people->email }}</div>
-                                        </div>
-                                        <button class="btn btn-sm btn-outline-secondary"
-                                            onclick="deletePerson({{ $people->id }})">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            @endforeach --}}
-                            @foreach ($company->peoples as $people)
-                                <div class="people-card">
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ asset('img/home/profile.png') }}" alt="{{ $people->name }}"
-                                            class="person-avatar me-3">
-                                        <div>
-                                            <h6 class="mb-0">{{ $people->name }}</h6>
-                                            <small class="text-warning">{{ $people->job_title }}</small>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex gap-3 align-items-center">
-                                        <div class="text-end">
-                                            <div>{{ $people->phone }}</div>
-                                            <div class="text-muted">{{ $people->email }}</div>
-                                        </div>
-                                        <button class="btn btn-sm btn-outline-secondary"
-                                            onclick="deletePerson({{ $people->id }})">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            @endforeach
-
                         </div>
 
                         <!-- Tasks Section -->
@@ -576,7 +555,8 @@
                         {{-- <form class="sidebar-section"> --}}
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h6>COMPANY DETAILS</h6>
-                            <button class="btn btn-outline-secondary btn-sm">Edit</button>
+                            {{-- <button class="btn btn-outline-secondary btn-sm">Edit</button> --}}
+                            <button class="btn btn-outline-secondary btn-sm">Update</button>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label"><b>COMPANY Type</b></label>
@@ -636,10 +616,10 @@
 
                             {{-- Add Email Option --}}
                             <div class="sidebar-section" id="email">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h6 class="form-label">EMAIL</h6>
                                     <div class="text-warning small toggle-inline-email" style="cursor: pointer;">
-                                        Add Email
+                                        Add/Update Email
                                     </div>
                                 </div>
 
@@ -650,7 +630,7 @@
                                                 <div class="row g-2">
                                                     <!-- Type Selector -->
                                                     <div class="col-md-4">
-                                                        <select name="detail_type[]" class="form-control">
+                                                        <select name="detail_type[]" class="form-control" disabled>
                                                             @foreach ($emailTypes as $field => $label)
                                                                 <option value="{{ $field }}"
                                                                     {{ $email['selected'] === $field ? 'selected' : '' }}>
@@ -661,10 +641,17 @@
                                                     </div>
 
                                                     <!-- Value Input -->
-                                                    <div class="col-md-8">
+
+                                                    <div class="col-md-8 d-flex gap-3 align-items-center">
                                                         <input type="text" name="detail_value[]" class="form-control"
-                                                            value="{{ $email['value'] }}" placeholder="Enter email">
+                                                            value="{{ $email['value'] }}" placeholder="Enter email"
+                                                            disabled>
+                                                        <button class="btn btn-sm btn-outline-secondary"
+                                                            onclick="deleteEmail()">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         @empty
@@ -678,7 +665,7 @@
                                     <div class="row g-2">
                                         <!-- Type Selector -->
                                         <div class="col-md-4">
-                                            <select name="detail_type" class="form-control" id="new-email-type">
+                                            <select name="detail_type" class="form-select" id="new-email-type">
                                                 <option value="email">Email</option>
                                                 <option value="personal_email">Personal Email</option>
                                                 <option value="support_email">Support Email</option>
@@ -717,10 +704,10 @@
 
                             {{-- Add Address Option --}}
                             <div class="sidebar-section" id="address">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h6 class="form-label">ADDRESS</h6>
                                     <div class="text-warning small toggle-inline-address" style="cursor: pointer;">
-                                        Add Address
+                                        Add/Update Address
                                     </div>
                                 </div>
 
@@ -731,7 +718,7 @@
                                                 <div class="row g-2">
                                                     <!-- Type Selector -->
                                                     <div class="col-md-4">
-                                                        <select name="address_type[]" class="form-control">
+                                                        <select name="address_type[]" class="form-control" disabled>
                                                             @foreach ($addressTypes as $field => $label)
                                                                 <option value="{{ $field }}"
                                                                     {{ $address['selected'] === $field ? 'selected' : '' }}>
@@ -742,9 +729,13 @@
                                                     </div>
 
                                                     <!-- Value Input -->
-                                                    <div class="col-md-8">
+                                                    <div class="col-md-8 d-flex gap-3 align-items-center">
                                                         <input type="text" name="address_value[]" class="form-control"
-                                                            value="{{ $address['value'] }}" placeholder="Enter address">
+                                                            value="{{ $address['value'] }}" placeholder="Enter address"
+                                                            disabled>
+                                                         <button class="btn btn-sm btn-outline-secondary"
+                                                            onclick="deleteAddress()">
+                                                            <i class="fas fa-times"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -759,7 +750,7 @@
                                     <div class="row g-2">
                                         <!-- Type Selector -->
                                         <div class="col-md-4">
-                                            <select name="address_type" class="form-control" id="new-address-type">
+                                            <select name="address_type" class="form-select" id="new-address-type">
                                                 <option value="address">Address</option>
                                                 <option value="main_address">Main Address</option>
                                                 <option value="work_address">Work Address</option>
@@ -798,10 +789,10 @@
 
                             {{-- Add Phone Option --}}
                             <div class="sidebar-section" id="phone">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h6 class="form-label">PHONE</h6>
                                     <div class="text-warning small toggle-inline-phone" style="cursor: pointer;">
-                                        Add Phone
+                                        Add/Update Phone
                                     </div>
                                 </div>
 
@@ -812,7 +803,7 @@
                                                 <div class="row g-2">
                                                     <!-- Type Selector -->
                                                     <div class="col-md-4">
-                                                        <select name="phone_type[]" class="form-control">
+                                                        <select name="phone_type[]" class="form-control" disabled>
                                                             @foreach ($phoneTypes as $field => $label)
                                                                 <option value="{{ $field }}"
                                                                     {{ $phone['selected'] === $field ? 'selected' : '' }}>
@@ -823,10 +814,14 @@
                                                     </div>
 
                                                     <!-- Value Input -->
-                                                    <div class="col-md-8">
+                                                    <div class="col-md-8 d-flex gap-3 align-items-center">
                                                         <input type="text" name="phone_value[]" class="form-control"
                                                             value="{{ $phone['value'] }}"
-                                                            placeholder="Enter phone number">
+                                                            placeholder="Enter phone number" disabled>
+                                                         <button class="btn btn-sm btn-outline-secondary"
+                                                            onclick="deletePhone()">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -841,7 +836,7 @@
                                     <div class="row g-2">
                                         <!-- Type Selector -->
                                         <div class="col-md-4">
-                                            <select name="phone_type" class="form-control" id="new-phone-type">
+                                            <select name="phone_type" class="form-select" id="new-phone-type">
                                                 <option value="phone">Phone</option>
                                                 <option value="home_phones">Home Phone</option>
                                                 <option value="mobile_phones">Mobile Phone</option>
@@ -879,10 +874,10 @@
 
                             {{-- Add URL Option --}}
                             <div class="sidebar-section" id="url">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h6 class="form-label">URL</h6>
                                     <div class="text-warning small toggle-inline-url" style="cursor: pointer;">
-                                        Add URL
+                                        Add/Update URL
                                     </div>
                                 </div>
 
@@ -893,7 +888,7 @@
                                                 <div class="row g-2">
                                                     <!-- Type Selector -->
                                                     <div class="col-md-4">
-                                                        <select name="url_type[]" class="form-control">
+                                                        <select name="url_type[]" class="form-control" disabled>
                                                             @foreach ($urlTypes as $field => $label)
                                                                 <option value="{{ $field }}"
                                                                     {{ $url['selected'] === $field ? 'selected' : '' }}>
@@ -904,9 +899,13 @@
                                                     </div>
 
                                                     <!-- Value Input -->
-                                                    <div class="col-md-8">
+                                                    <div class="col-md-8 d-flex gap-3 align-items-center">
                                                         <input type="text" name="url_value[]" class="form-control"
-                                                            value="{{ $url['value'] }}" placeholder="Enter URL">
+                                                            value="{{ $url['value'] }}" placeholder="Enter URL" disabled>
+                                                        <button class="btn btn-sm btn-outline-secondary"
+                                                            onclick="deleteUrl()">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -921,7 +920,7 @@
                                     <div class="row g-2">
                                         <!-- Type Selector -->
                                         <div class="col-md-4">
-                                            <select name="url_type" class="form-control" id="new-url-type">
+                                            <select name="url_type" class="form-select" id="new-url-type">
                                                 <option value="url">URL</option>
                                                 <option value="blog_url">Blog URL</option>
                                                 <option value="twitter_url">Twitter URL</option>
