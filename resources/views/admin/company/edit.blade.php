@@ -25,10 +25,12 @@
                                 <div class="d-flex">
                                     <img src="{{ asset('img/home/image25.png') }}" alt="Company" class="company-logo me-3">
                                     <div>
-                                        <h4 class="mb-1">{{ $company->name }}</h4>
-                                        <div class="d-flex align-items-center mb-2">
-                                            <span class="text-warning me-2">MATRIX ID:</span>
-                                            <span>1976</span>
+                                        <h4 class="mb-1" contenteditable="true" id="company-name">{{ $company->name }}
+                                        </h4>
+
+                                        <div class="d-flex align-items-center mb-2" id="company-description"
+                                            contenteditable="true">
+                                            {{ $company->description }}
                                         </div>
                                         <div class="star-rating">
                                             <i class="fas fa-star"></i>
@@ -64,6 +66,7 @@
                                     @endforeach
                                 </select>
                             </div>
+
                         </div>
 
                         <!-- People Section -->
@@ -552,68 +555,80 @@
                                 You've Never Contacted This Company</p>
                         </div>
                         {{-- Company section form --}}
-                        {{-- <form class="sidebar-section"> --}}
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h6>COMPANY DETAILS</h6>
-                            {{-- <button class="btn btn-outline-secondary btn-sm">Edit</button> --}}
-                            <button class="btn btn-outline-secondary btn-sm">Update</button>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label"><b>COMPANY Type</b></label>
-                            <select class="form-select">
-                                <option value="">Select company type</option>
-                                @foreach ($company_types as $company_type)
-                                    <option value="{{ $company_type->id }}"
-                                        {{ $company->company_type_id == $company_type->id ? 'selected' : '' }}>
-                                        {{ $company_type->type }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label"><b>INDUSTRY</b></label>
-                            <select class="form-select">
-                                <option selected>Select industry</option>
-                                @foreach ($industries as $industry)
-                                    <option value="{{ $industry->id }}"
-                                        {{ $company->industry_id == $industry->id ? 'selected' : '' }}>
-                                        {{ $industry->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label"><b>ASSIGNEE</b></label>
-                            <select class="form-select">
-                                <option selected>Select an assignee</option>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}"
-                                        {{ $company->user_id == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label"><b>TERRITORY</b></label>
-                            <select class="form-select">
-                                <option selected>Select territory</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label class="form-label"><b>ANNUAL RE.</b></label>
-                                    <input type="text" class="form-control" placeholder="Enter annual revenue">
-                                </div>
-                                <div class="col-6">
-                                    <label class="form-label"><b>NU. OF EMPLOYEE</b></label>
-                                    <input type="text" class="form-control" placeholder="Enter number of employees">
-                                </div>
+                        <div id="company-details-container" data-company-id="{{ $company->id }}">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6>COMPANY DETAILS</h6>
+                                {{-- <button class="btn btn-outline-secondary btn-sm">Update</button> --}}
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label"><b>COMPANY Type</b></label>
+                                <select class="form-select company-update" data-field="company_type_id">
+                                    <option value="">Select company type</option>
+                                    @foreach ($company_types as $company_type)
+                                        <option value="{{ $company_type->id }}"
+                                            {{ $company->company_type_id == $company_type->id ? 'selected' : '' }}>
+                                            {{ $company_type->type }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label"><b>INDUSTRY</b></label>
+                                <select class="form-select company-update" data-field="industry_id">
+                                    <option selected>Select industry</option>
+                                    @foreach ($industries as $industry)
+                                        <option value="{{ $industry->id }}"
+                                            {{ $company->industry_id == $industry->id ? 'selected' : '' }}>
+                                            {{ $industry->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label"><b>ASSIGNEE</b></label>
+                                <select class="form-select company-update" data-field="user_id">
+                                    <option selected>Select an assignee</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"
+                                            {{ $company->user_id == $user->id ? 'selected' : '' }}>
+                                            {{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label"><b>TERRITORY</b></label>
+                                <select class="form-select company-update" data-field="territory_id">
+                                    <option selected>Select territory</option>
+                                    @foreach ($territories as $territory)
+                                        <option value="{{ $territory->id }}"
+                                            {{ $company->territory_id == $territory->id ? 'selected' : '' }}>
+                                            {{ $territory->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
 
-                            <hr>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="form-label"><b>ANNUAL RE.</b></label>
+                                        <input type="text" class="form-control company-update only-numbers"
+                                            placeholder="00.00" value="{{ $company->annual_revenue }}"
+                                            data-field="annual_revenue">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label"><b>NU. OF EMPLOYEE</b></label>
+                                        <input type="text" class="form-control company-update only-integers"
+                                            data-field="employees_count" placeholder="Enter number of employees"
+                                            value="{{ $company->employees_count }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <hr>
+
+                        <div class="form-group mb-3">
                             {{-- Add Email Option --}}
                             <div class="sidebar-section" id="email">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -647,9 +662,11 @@
                                                             value="{{ $email['value'] }}" placeholder="Enter email"
                                                             disabled>
                                                         <button class="btn btn-sm btn-outline-secondary"
-                                                            onclick="deleteEmail()">
+                                                            onclick="deleteField('{{ $company->id }}', '{{ $email['selected'] }}', 'email')">
                                                             <i class="fas fa-times"></i>
                                                         </button>
+
+
                                                     </div>
 
                                                 </div>
@@ -696,8 +713,6 @@
                                     </div>
                                 </div>
 
-
-
                             </div>
 
                             <hr>
@@ -733,9 +748,12 @@
                                                         <input type="text" name="address_value[]" class="form-control"
                                                             value="{{ $address['value'] }}" placeholder="Enter address"
                                                             disabled>
-                                                         <button class="btn btn-sm btn-outline-secondary"
-                                                            onclick="deleteAddress()">
+                                                        <button class="btn btn-sm btn-outline-secondary"
+                                                            onclick="deleteField('{{ $company->id }}', '{{ $address['selected'] }}', 'address')">
                                                             <i class="fas fa-times"></i>
+                                                        </button>
+
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -818,10 +836,11 @@
                                                         <input type="text" name="phone_value[]" class="form-control"
                                                             value="{{ $phone['value'] }}"
                                                             placeholder="Enter phone number" disabled>
-                                                         <button class="btn btn-sm btn-outline-secondary"
-                                                            onclick="deletePhone()">
+                                                        <button class="btn btn-sm btn-outline-secondary"
+                                                            onclick="deleteField('{{ $company->id }}', '{{ $phone['selected'] }}', 'phone')">
                                                             <i class="fas fa-times"></i>
                                                         </button>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -903,9 +922,11 @@
                                                         <input type="text" name="url_value[]" class="form-control"
                                                             value="{{ $url['value'] }}" placeholder="Enter URL" disabled>
                                                         <button class="btn btn-sm btn-outline-secondary"
-                                                            onclick="deleteUrl()">
+                                                            onclick="deleteField('{{ $company->id }}', '{{ $url['selected'] }}', 'url')">
                                                             <i class="fas fa-times"></i>
                                                         </button>
+
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -952,12 +973,8 @@
 
                             </div>
 
-
                         </div>
-
-                        {{-- </form> --}}
                         {{-- Company section form end --}}
-
 
                         <hr>
 
@@ -1435,6 +1452,109 @@
         });
 
 
+        // Allow only numbers & decimal
+        document.querySelectorAll('.only-numbers').forEach(el => {
+            el.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9.]/g, '');
+            });
+        });
+
+        // Allow only whole numbers
+        document.querySelectorAll('.only-integers').forEach(el => {
+            el.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+            });
+        });
+
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+
+            // Store previous value when element gains focus
+            $(document).on('focus', '.company-update', function() {
+                $(this).data('prev', $(this).val());
+            });
+
+            // Handle selects (only on change)
+            $(document).on('change', 'select.company-update', function() {
+                let prev = $(this).data('prev');
+                let current = $(this).val();
+                if (prev === current) return;
+
+                updateCompanyField($(this));
+            });
+
+            // Handle text inputs (only on blur)
+            $(document).on('blur', 'input.company-update', function() {
+                let prev = $(this).data('prev');
+                let current = $(this).val();
+                if (prev === current) return;
+
+                updateCompanyField($(this));
+            });
+
+            // AJAX function
+            function updateCompanyField($el) {
+                let companyId = $('#company-details-container').data('company-id');
+                let field = $el.data('field');
+                let value = $el.val();
+
+                $.ajax({
+                    url: `/admin/companies/${companyId}/update-field`,
+                    type: 'POST',
+                    data: {
+                        field: field,
+                        value: value
+                    },
+                    success: function(response) {
+                        console.log('Updated:', response);
+                        toastr.success("Successfully Updated");
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        toastr.error("Update failed");
+                    }
+                });
+            }
+        });
+
+        function deleteField(company_id, type, fieldName) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `This ${fieldName} will be removed from the company record!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('admin.companies.delete-field') }}",
+                        type: 'POST',
+                        data: {
+                            company_id: company_id,
+                            type: type,
+                            field_name: fieldName,
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            toastr.success(response.message);
+                            location.reload(); // or remove row dynamically
+                        },
+                        error: function(xhr) {
+                            toastr.error(`Failed to delete ${fieldName}.`);
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }
+            });
+        }
+
+
         $('#email-submit').on('click', function() {
             let container = $(this).closest('.inline-detail-email');
             let companyId = container.data('company-id');
@@ -1452,8 +1572,17 @@
                 },
                 success: function(res) {
                     console.log('Email updated successfully:', res);
-                    alert(res.message); // or update UI dynamically
-                    location.reload();
+                    // alert(res.message); // or update UI dynamically
+                    // location.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload(); // reload after popup closes
+                    });
                 },
                 error: function(xhr, status, error) {
                     // Detailed logging
@@ -1490,8 +1619,17 @@
                 },
                 success: function(res) {
                     console.log('Address updated successfully:', res);
-                    alert(res.message);
-                    location.reload(); // simple page reload
+                    // alert(res.message);
+                    // location.reload(); // simple page reload
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload(); // reload after popup closes
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX Error:', status, error);
@@ -1523,8 +1661,17 @@
                 },
                 success: function(res) {
                     console.log('Phone updated successfully:', res);
-                    alert(res.message);
-                    location.reload(); // simple page reload
+                    // alert(res.message);
+                    // location.reload(); // simple page reload
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload(); // reload after popup closes
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX Error:', status, error);
@@ -1556,8 +1703,17 @@
                 },
                 success: function(res) {
                     console.log('URL updated successfully:', res);
-                    alert(res.message);
-                    location.reload(); // simple reload after update
+                    // alert(res.message);
+                    // location.reload(); // simple reload after update
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload(); // reload after popup closes
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX Error:', status, error);
@@ -1598,7 +1754,6 @@
                 alert('At least one product row is required.');
             }
         });
-
 
 
         // Submit Add Person via AJAX
@@ -1764,7 +1919,6 @@
 
 
         // =============== Create a lead related logic ENDS ========================
-
 
         const toggleBtn = document.getElementById('toggleAddPeople');
         const formDiv = document.getElementById('addPeopleForm');

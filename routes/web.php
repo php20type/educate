@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
 
         $activity_types = ActivityType::all();
 
-        return view('admin.dashboard', compact('users', 'company_types', 'industries','leadtags','companytags','persontags', 'activity_types', 'peoples', 'companies', 'sources', 'products', 'competitors'));
+        return view('admin.dashboard', compact('users', 'company_types', 'industries', 'leadtags', 'companytags', 'persontags', 'activity_types', 'peoples', 'companies', 'sources', 'products', 'competitors'));
         // return view('admin.dashboard');
     })->name('admin.dashboard');
 
@@ -80,6 +80,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/companies/store', [CompanyController::class, 'store'])->name('companies.store');
     Route::get('companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
     Route::post('/company/ajax', [CompanyController::class, 'ajax_store'])->name('company.ajax.store');
+    Route::post('/companies/{company}/update-field', [CompanyController::class, 'updateField'])->name('company.update.field');
+    Route::post('companies/delete-field', [CompanyController::class, 'deleteField'])->name('companies.delete-field');
+    // Route::post('companies/delete-email', [CompanyController::class, 'deleteEmail'])->name('companies.delete-email');
+    // Route::post('companies/delete-address', [CompanyController::class, 'deleteAddress'])->name('companies.delete-address');
+    // Route::post('companies/delete-phone', [CompanyController::class, 'deletePhone'])->name('companies.delete-phone');
+    // Route::post('companies/delete-url', [CompanyController::class, 'deleteUrl'])->name('companies.delete-url');
     Route::post('/update-company-email', [CompanyController::class, 'updateCompanyEmail'])->name('update.company.email');
     Route::post('/update-company-address', [CompanyController::class, 'updateCompanyAddress'])->name('update.company.address');
     Route::post('/update-company-phone', [CompanyController::class, 'updateCompanyPhone'])->name('update.company.phone');
@@ -95,6 +101,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/people/marketing-contacts', [PeopleController::class, 'marketing_contacts'])->name('peoples.marketing_contacts');
     Route::get('/people/sequence-healthcare', [PeopleController::class, 'sequence_healthcare'])->name('peoples.sequence_healthcare');
     Route::get('peoples/{people}', [PeopleController::class, 'show'])->name('peoples.show');
+    Route::post('peoples/{people}/update-field', [PeopleController::class, 'updateField'])->name('people.update.field');
+    Route::post('peoples/delete-field', [PeopleController::class, 'deleteField'])->name('peoples.delete-field');
     Route::post('/update-person-email', [PeopleController::class, 'updatePersonEmail'])->name('update.person.email');
     Route::post('/update-person-address', [PeopleController::class, 'updatePersonAddress'])->name('update.person.address');
     Route::post('/update-person-phone', [PeopleController::class, 'updatePersonPhone'])->name('update.person.phone');

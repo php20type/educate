@@ -19,6 +19,8 @@ class Company extends Model
         'country_id',
         'state_id',
         'city_id',
+        'annual_revenue',
+        'employees_count',
     ];
 
     protected $with = ['companyEmail', 'companyPhone', 'companyAddress', 'companyUrl', 'companyPeople', 'companyTask'];

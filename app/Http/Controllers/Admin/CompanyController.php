@@ -19,6 +19,7 @@ use App\Models\Company;
 use App\Models\User;
 use App\Models\ActivityType;
 use App\Models\Industry;
+use App\Models\Territory;
 use App\Models\Tag;
 use Carbon\Carbon;
 use App\Models\Source;
@@ -501,6 +502,7 @@ class CompanyController extends Controller
         $sources = Source::all();
         $company_types = CompanyType::all();
         $industries = Industry::all();
+        $territories = Territory::all();
         // Already coming from pivot relation, so no need for where('company_id', $id)
         $peoples = $company->peoples;
         $allpeoples = People::all();
@@ -604,6 +606,7 @@ class CompanyController extends Controller
             'peoples',
             'allpeoples',
             'industries',
+            'territories',
             'emails',
             'emailTypes',
             'addresses',
@@ -672,6 +675,167 @@ class CompanyController extends Controller
 
         return redirect()->back()->with('success', 'Login Activity Added Successfully.');
 
+    }
+
+    // app/Http/Controllers/CompanyController.php
+
+    public function updateField(Request $request, Company $company)
+    {
+        $request->validate([
+            'field' => 'required|string',
+            'value' => 'nullable|string',
+        ]);
+
+        $allowed = ['company_type_id', 'industry_id', 'territory_id', 'user_id', 'annual_revenue', 'employees_count'];
+
+        if (!in_array($request->field, $allowed)) {
+            return response()->json(['error' => 'Invalid field'], 422);
+        }
+
+        $company->update([
+            $request->field => $request->value
+        ]);
+
+        return response()->json(['success' => true, 'field' => $request->field, 'value' => $request->value]);
+    }
+
+    // public function deleteEmail(Request $request)
+    // {
+    //     $request->validate([
+    //         'company_id' => 'required|exists:companies,id',
+    //         'type' => 'required|in:email,personal_email,support_email,work_email'
+    //     ]);
+
+    //     $emailRecord = CompanyEmail::where('company_id', $request->company_id)->first();
+
+    //     if (!$emailRecord) {
+    //         return response()->json(['status' => 'error', 'message' => 'Email record not found'], 404);
+    //     }
+
+    //     // Clear the selected email type column
+    //     $emailRecord->{$request->type} = null;
+    //     $emailRecord->save();
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => ucfirst(str_replace('_', ' ', $request->type)) . ' deleted successfully',
+    //         'data' => $emailRecord
+    //     ]);
+    // }
+
+    // public function deleteAddress(Request $request)
+    // {
+    //     $request->validate([
+    //         'company_id' => 'required|exists:companies,id',
+    //         'type' => 'required|in:address,main_address,work_address,home_address,billing_address,mailing_address'
+    //     ]);
+
+    //     $addressRecord = CompanyAddress::where('company_id', $request->company_id)->first();
+
+    //     if (!$addressRecord) {
+    //         return response()->json(['status' => 'error', 'message' => 'Address record not found'], 404);
+    //     }
+
+    //     // Clear the selected address type column
+    //     $addressRecord->{$request->type} = null;
+    //     $addressRecord->save();
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => ucfirst(str_replace('_', ' ', $request->type)) . ' deleted successfully',
+    //         'data' => $addressRecord
+    //     ]);
+    // }
+
+    // public function deletePhone(Request $request)
+    // {
+    //     $request->validate([
+    //         'company_id' => 'required|exists:companies,id',
+    //         'type' => 'required|in:phone,home_phones,mobile_phones,work_phones,fax_phones'
+    //     ]);
+
+    //     $phoneRecord = CompanyPhone::where('company_id', $request->company_id)->first();
+
+    //     if (!$phoneRecord) {
+    //         return response()->json(['status' => 'error', 'message' => 'Phone record not found'], 404);
+    //     }
+
+    //     // Clear the selected phone type column
+    //     $phoneRecord->{$request->type} = null;
+    //     $phoneRecord->save();
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => ucfirst(str_replace('_', ' ', $request->type)) . ' deleted successfully',
+    //         'data' => $phoneRecord
+    //     ]);
+    // }
+
+    // public function deleteUrl(Request $request)
+    // {
+    //     $request->validate([
+    //         'company_id' => 'required|exists:companies,id',
+    //         'type' => 'required|in:url,blog_url,twitter_url'
+    //     ]);
+
+    //     $urlRecord = CompanyUrl::where('company_id', $request->company_id)->first();
+
+    //     if (!$urlRecord) {
+    //         return response()->json(['status' => 'error', 'message' => 'URL record not found'], 404);
+    //     }
+
+    //     // Clear the selected URL type column
+    //     $urlRecord->{$request->type} = null;
+    //     $urlRecord->save();
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => ucfirst(str_replace('_', ' ', $request->type)) . ' deleted successfully',
+    //         'data' => $urlRecord
+    //     ]);
+    // }
+
+
+    public function deleteField(Request $request)
+    {
+        $request->validate([
+            'company_id' => 'required|exists:companies,id',
+            'type' => 'required|string',
+            'field_name' => 'required|string' // email, address, phone, url
+        ]);
+
+        // Map field_name to model and allowed types
+        $models = [
+            'email' => [CompanyEmail::class, ['email', 'personal_email', 'support_email', 'work_email']],
+            'address' => [CompanyAddress::class, ['address', 'main_address', 'work_address', 'home_address', 'billing_address', 'mailing_address']],
+            'phone' => [CompanyPhone::class, ['phone', 'home_phones', 'mobile_phones', 'work_phones', 'fax_phones']],
+            'url' => [CompanyUrl::class, ['url', 'blog_url', 'twitter_url']],
+        ];
+
+        if (!isset($models[$request->field_name])) {
+            return response()->json(['status' => 'error', 'message' => 'Invalid field name'], 400);
+        }
+
+        [$modelClass, $allowedTypes] = $models[$request->field_name];
+
+        if (!in_array($request->type, $allowedTypes)) {
+            return response()->json(['status' => 'error', 'message' => 'Invalid type'], 400);
+        }
+
+        $record = $modelClass::where('company_id', $request->company_id)->first();
+
+        if (!$record) {
+            return response()->json(['status' => 'error', 'message' => ucfirst($request->field_name) . ' record not found'], 404);
+        }
+
+        $record->{$request->type} = null;
+        $record->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => ucfirst(str_replace('_', ' ', $request->type)) . ' deleted successfully',
+            'data' => $record
+        ]);
     }
 
     public function updateCompanyEmail(Request $request)

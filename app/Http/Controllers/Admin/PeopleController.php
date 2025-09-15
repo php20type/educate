@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Territory;
 use Illuminate\Http\Request;
 use App\Models\People;
 use App\Models\User;
@@ -364,6 +365,7 @@ class PeopleController extends Controller
         $competitors = Competitor::all();
         $users = User::all();
         $industries = Industry::all();
+        $territories = Territory::all();
         $persontags = Tag::where('tag_id', 3)->get();
         $allpeoples = People::all();
         $products = Product::all();
@@ -478,6 +480,7 @@ class PeopleController extends Controller
             'competitors',
             'users',
             'industries',
+            'territories',
             'allpeoples',
             'products',
             'companies',
@@ -491,7 +494,6 @@ class PeopleController extends Controller
             'urlTypes'
         ));
     }
-
 
     // public function store(Request $request)
     // {
@@ -672,6 +674,68 @@ class PeopleController extends Controller
     {
         People::where('id', $request->people_id)->delete();
         return redirect()->back();
+    }
+
+    public function deleteField(Request $request)
+    {
+        $request->validate([
+            'people_id' => 'required|exists:people,id',
+            'type' => 'required|string',
+            'field_name' => 'required|string' // email, address, phone, url
+        ]);
+
+        // Map field_name to model and allowed types
+        $models = [
+            'email' => [PeopleEmail::class, ['email', 'personal_email', 'support_email']],
+            'address' => [PeopleAddress::class, ['address', 'main_address', 'work_address', 'home_address', 'billing_address', 'mailing_address']],
+            'phone' => [PeoplePhone::class, ['phone', 'home_phones', 'mobile_phones', 'work_phones', 'fax_phones']],
+            'url' => [PeopleUrl::class, ['url', 'blog_url', 'twitter_url']],
+        ];
+
+        if (!isset($models[$request->field_name])) {
+            return response()->json(['status' => 'error', 'message' => 'Invalid field name'], 400);
+        }
+
+        [$modelClass, $allowedTypes] = $models[$request->field_name];
+
+        if (!in_array($request->type, $allowedTypes)) {
+            return response()->json(['status' => 'error', 'message' => 'Invalid type'], 400);
+        }
+
+        $record = $modelClass::where('people_id', $request->people_id)->first();
+
+        if (!$record) {
+            return response()->json(['status' => 'error', 'message' => ucfirst($request->field_name) . ' record not found'], 404);
+        }
+
+        $record->{$request->type} = null;
+        $record->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => ucfirst(str_replace('_', ' ', $request->type)) . ' deleted successfully',
+            'data' => $record
+        ]);
+    }
+
+     public function updateField(Request $request, Company $company)
+    {
+        $request->validate([
+            'field' => 'required|string',
+            'value' => 'nullable|string',
+        ]);
+
+        $allowed = ['territory_id', 'user_id'];
+
+        if (!in_array($request->field, $allowed)) {
+            return response()->json(['error' => 'Invalid field'], 422);
+        }
+
+        $company->update([
+            $request->field => $request->value
+        ]);
+
+        return response()->json(['success' => true, 'field' => $request->field, 'value' => $request->value]);
     }
 
     public function updatePersonEmail(Request $request)

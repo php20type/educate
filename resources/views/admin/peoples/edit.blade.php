@@ -510,10 +510,14 @@
                             <p class="small text-muted">Last Contacted 3 Years Ago<br>
                                 You've Never Contacted This Company</p>
                         </div>
-                        <form class="assignee-form" id="assigneeForm">
+                        <div id="people-details-container" data-people-id="{{ $peoples->id }}">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6>PEOPLE DETAILS</h6>
+                                {{-- <button class="btn btn-outline-secondary btn-sm">Update</button> --}}
+                            </div>
                             <div class="form-group mb-3">
                                 <label for="assigneeSelect" class="form-label"><b>ASSIGNEE</b> </label>
-                                <select class="form-select" id="assigneeSelect">
+                                <select class="form-select people-update" data-field="user_id" id="assigneeSelect">
                                     <option selected>Select assignee</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
@@ -525,14 +529,17 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="territorySelect" class="form-label"><b>TERRITORY</b> </label>
-                                <select class="form-select" id="territorySelect">
+                                <select class="form-select people-update" data-field="territory_id" id="territorySelect">
                                     <option selected>Select territory</option>
-                                    <option value="1">North America</option>
-                                    <option value="2">Europe</option>
-                                    <option value="3">Asia</option>
+                                   @foreach ($territories as $territory)
+                                        <option value="{{ $territory->id }}"
+                                            {{ $peoples->territory_id == $territory->id ? 'selected' : '' }}>
+                                            {{ $territory->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
-                        </form>
+                        </div>
                         <hr>
 
                         {{-- Add Email Option --}}
@@ -565,8 +572,12 @@
                                                 <div class="col-md-8 d-flex gap-3 align-items-center">
                                                     <input type="text" name="detail_value[]" class="form-control"
                                                         value="{{ $email['value'] }}" placeholder="Enter email" disabled>
-                                                    <button class="btn btn-sm btn-outline-secondary"
+                                                    {{-- <button class="btn btn-sm btn-outline-secondary"
                                                         onclick="deleteEmail()">
+                                                        <i class="fas fa-times"></i>
+                                                    </button> --}}
+                                                    <button class="btn btn-sm btn-outline-secondary"
+                                                        onclick="deleteField('{{ $peoples->id }}', '{{ $email['selected'] }}', 'email')">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                 </div>
@@ -587,7 +598,6 @@
                                             <option value="email">Email</option>
                                             <option value="personal_email">Personal Email</option>
                                             <option value="support_email">Support Email</option>
-                                            <option value="work_email">Work Email</option>
                                         </select>
                                     </div>
 
@@ -650,8 +660,12 @@
                                                     <input type="text" name="address_value[]" class="form-control"
                                                         value="{{ $address['value'] }}" placeholder="Enter address"
                                                         disabled>
-                                                    <button class="btn btn-sm btn-outline-secondary"
+                                                    {{-- <button class="btn btn-sm btn-outline-secondary"
                                                         onclick="deleteAddress()">
+                                                        <i class="fas fa-times"></i>
+                                                    </button> --}}
+                                                    <button class="btn btn-sm btn-outline-secondary"
+                                                        onclick="deleteField('{{ $peoples->id }}', '{{ $address['selected'] }}', 'address')">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                 </div>
@@ -735,8 +749,12 @@
                                                     <input type="text" name="phone_value[]" class="form-control"
                                                         value="{{ $phone['value'] }}" placeholder="Enter phone number"
                                                         disabled>
-                                                    <button class="btn btn-sm btn-outline-secondary"
+                                                    {{-- <button class="btn btn-sm btn-outline-secondary"
                                                         onclick="deletePhone()">
+                                                        <i class="fas fa-times"></i>
+                                                    </button> --}}
+                                                    <button class="btn btn-sm btn-outline-secondary"
+                                                        onclick="deleteField('{{ $peoples->id }}', '{{ $phone['selected'] }}', 'phone')">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                 </div>
@@ -818,8 +836,12 @@
                                                 <div class="col-md-8 d-flex gap-3 align-items-center">
                                                     <input type="text" name="url_value[]" class="form-control"
                                                         value="{{ $url['value'] }}" placeholder="Enter URL" disabled>
-                                                    <button class="btn btn-sm btn-outline-secondary"
+                                                    {{-- <button class="btn btn-sm btn-outline-secondary"
                                                         onclick="deleteUrl()">
+                                                        <i class="fas fa-times"></i>
+                                                    </button> --}}
+                                                    <button class="btn btn-sm btn-outline-secondary"
+                                                        onclick="deleteField('{{ $peoples->id }}', '{{ $url['selected'] }}', 'url')">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                 </div>
@@ -938,7 +960,6 @@
                         <form action="{{ route('admin.leads.store') }}" class="company-form" id="add-lead-form"
                             method="POST">
                             @csrf
-
 
                             <div class="row mx-0">
                                 <div class="col-lg-12">
@@ -1365,6 +1386,89 @@
         });
 
 
+
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+
+            // Store previous value when element gains focus
+            $(document).on('focus', '.people-update', function() {
+                $(this).data('prev', $(this).val());
+            });
+
+            // Handle selects (only on change)
+            $(document).on('change', 'select.people-update', function() {
+                let prev = $(this).data('prev');
+                let current = $(this).val();
+                if (prev === current) return;
+
+                updatePeopleField($(this));
+            });
+
+            // AJAX function
+            function updatePeopleField($el) {
+                let peopleId = $('#people-details-container').data('people-id');
+                let field = $el.data('field');
+                let value = $el.val();
+
+                $.ajax({
+                    url: `/admin/peoples/${peopleId}/update-field`,
+                    type: 'POST',
+                    data: {
+                        field: field,
+                        value: value
+                    },
+                    success: function(response) {
+                        console.log('Updated:', response);
+                        toastr.success("Successfully Updated");
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        toastr.error("Update failed");
+                    }
+                });
+            }
+        });
+
+
+         function deleteField(people_id, type, fieldName) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `This ${fieldName} will be removed from the people record!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('admin.peoples.delete-field') }}",
+                        type: 'POST',
+                        data: {
+                            people_id: people_id,
+                            type: type,
+                            field_name: fieldName,
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            toastr.success(response.message);
+                            location.reload(); // or remove row dynamically
+                        },
+                        error: function(xhr) {
+                            toastr.error(`Failed to delete ${fieldName}.`);
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }
+            });
+        }
+
+
+
         $('#email-submit').on('click', function() {
             let container = $(this).closest('.inline-detail-email');
             let peopleId = container.data('people-id');
@@ -1382,8 +1486,17 @@
                 },
                 success: function(res) {
                     console.log('Email updated successfully:', res);
-                    alert(res.message); // or update UI dynamically
-                    location.reload();
+                    // alert(res.message); // or update UI dynamically
+                    // location.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload(); // reload after popup closes
+                    });
                 },
                 error: function(xhr, status, error) {
                     // Detailed logging
@@ -1420,8 +1533,17 @@
                 },
                 success: function(res) {
                     console.log('Address updated successfully:', res);
-                    alert(res.message);
-                    location.reload(); // simple page reload
+                    // alert(res.message);
+                    // location.reload(); // simple page reload
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload(); // reload after popup closes
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX Error:', status, error);
@@ -1453,8 +1575,17 @@
                 },
                 success: function(res) {
                     console.log('Phone updated successfully:', res);
-                    alert(res.message);
-                    location.reload(); // simple page reload
+                    // alert(res.message);
+                    // location.reload(); // simple page reload
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload(); // reload after popup closes
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX Error:', status, error);
@@ -1486,8 +1617,17 @@
                 },
                 success: function(res) {
                     console.log('URL updated successfully:', res);
-                    alert(res.message);
-                    location.reload(); // simple reload after update
+                    // alert(res.message);
+                    // location.reload(); // simple reload after update
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload(); // reload after popup closes
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX Error:', status, error);

@@ -3909,3 +3909,11 @@ title {
 .color-circle.selected {
     border-color: #000;
 }
+
+h4[contenteditable="true"],
+div[contenteditable="true"] {
+    border: none;
+    outline: none;
+    padding: 3px;
+    width: 35vw;
+}
